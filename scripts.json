@@ -1,0 +1,19 @@
+{
+    "allow": [
+        "all"
+    ],
+    "scripts": {
+        "rm": {
+            "cmd": "deno run --no-check src/main.ts",
+            "desc": "start ReMapper"
+        }
+    },
+    "watcher": {
+        "match": [
+            "src/**/*.ts",
+            "bundleinfo.json",
+            "*.rmmodel"
+        ],
+        "legacy": false
+    }
+}
