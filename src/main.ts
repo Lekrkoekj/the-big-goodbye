@@ -1,5 +1,6 @@
 import * as rm from "https://deno.land/x/remapper@4.2.0/src/mod.ts"
 import * as bundleInfo from '../bundleinfo.json' with { type: 'json' }
+import { Material } from "jsr:@3d/three";
 
 const pipeline = await rm.createPipeline({ bundleInfo })
 
@@ -13,6 +14,34 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     const map = await rm.readDifficultyV3(pipeline, file)
 
     map.require("Vivify", true);
+    map.suggest("Chroma", true);
+
+    // FUNCTIONS
+
+    // beat 15, duration 3
+    /**
+     * Transitions a material that has uses the CoverArtShader on/off on the specified beat over the specified duration.
+     * @param material The material that should be changed.
+     * @param beat The start beat on which this transition should start.
+     * @param duration The duration of this transition.
+     * @param direction Transition on or off.
+     */
+    function transitionCoverArt(material: rm.Material, beat: number, duration: number, direction: 'on' | 'off') {
+        const frameAmount = 15;
+    
+        for (let i = 0; i < frameAmount; i++) {
+            const progress = i / (frameAmount - 1);
+            const time = beat + duration * progress;
+    
+            // Determine frame based on direction
+            const frame =
+                direction === 'on'
+                    ? 1 + i
+                    : frameAmount - i;
+    
+            material?.set(map, { _CurrentFrame: frame }, time);
+        }
+    }
 
     // Skybox
     const skybox = prefabs.skybox.instantiate(map, 0);
@@ -30,8 +59,22 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
         }
     })
 
-    // Static Environment Prefabs
+    // Static Environment Prefabs/Materials
     prefabs.floor.instantiate(map, 0); // Floor
+    prefabs.coverart1.instantiate(map, 0); // Cover Art 1
+    materials.coverart1material.set(map, {_CurrentFrame: 1}, 0); // Cover Art 1 material
+
+    // Environment Enhancements
+    rm.environmentRemoval(map, [
+        "Rain",
+        "Water",
+        "LeftRail",
+        "RightRail",
+        "LeftFarRail",
+        "RightFarRail",
+        "RailingFull",
+        "Curve"
+    ])
 
     // Intro: AJR logo
     const ajrLogo = prefabs.ajrlogo.instantiate(map, {
@@ -62,7 +105,10 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
             ]
         }
     });
-    ajrLogo.destroyObject(15)
+    ajrLogo.destroyObject(15);
+
+    transitionCoverArt(materials.coverart1material, 15, 3, "on");
+    transitionCoverArt(materials.coverart1material, 22, 2, "off");
 
     // Intro: The Big Goodbye text
     const tbgText = prefabs.thebiggoodbyetext.instantiate(map, {

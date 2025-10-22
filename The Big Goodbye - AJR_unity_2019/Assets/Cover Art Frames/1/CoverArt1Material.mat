@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CoverArtMaterial
+  m_Name: CoverArt1Material
   m_Shader: {fileID: 4800000, guid: 82d9c1e43e8b0314cacfa988a9c89f00, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
