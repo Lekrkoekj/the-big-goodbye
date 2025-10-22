@@ -12,10 +12,10 @@
   "_previewDuration" : 13,
   "_songFilename" : "song.ogg",
   "_coverImageFilename" : "whatnoonesthinking.jpg",
-  "_environmentName" : "DefaultEnvironment",
+  "_environmentName" : "BillieEnvironment",
   "_allDirectionsEnvironmentName" : "GlassDesertEnvironment",
   "_environmentNames" : [
-    "DefaultEnvironment"
+    "BillieEnvironment"
   ],
   "_colorSchemes" : [
   ],
@@ -30,7 +30,16 @@
           "_noteJumpMovementSpeed" : 16,
           "_noteJumpStartBeatOffset" : 0,
           "_beatmapColorSchemeIdx" : 0,
-          "_environmentNameIdx" : 0
+          "_environmentNameIdx" : 0,
+          "_customData" : {
+            "_colorLeft" : {"r":0.522,"g":0.612,"b":0.169},
+            "_colorRight" : {"r":0.333,"g":0.659,"b":0.82},
+            "_obstacleColor" : {"r":0.925,"g":0.792,"b":0.545},
+            "_envColorLeft" : {"r":0.243,"g":0.627,"b":0.82},
+            "_envColorRight" : {"r":0.957,"g":0.588,"b":0.855},
+            "_envColorLeftBoost" : {"r":0,"g":0.871,"b":1},
+            "_envColorRightBoost" : {"r":0.702,"g":0.867,"b":0.051}
+          }
         }
       ]
     }
