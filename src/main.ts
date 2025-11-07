@@ -46,6 +46,13 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     // Skybox
     const skybox = prefabs.skybox.instantiate(map, 0);
 
+    // Mountains
+    const mountains = rm.environment(map, {
+        id: "]Mountains",
+        lookupMethod: "EndsWith"
+    })
+    mountains.scale = [0.25, 0.25, 0.25]
+
     // Assign all notes to a track
     map.allNotes.forEach(note => {
         note.track.add("myColorNotes")
@@ -60,7 +67,7 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     })
 
     // Static Environment Prefabs/Materials
-    prefabs.floor.instantiate(map, 0); // Floor
+    prefabs.runway.instantiate(map, 0); // Floor
     prefabs.coverart1.instantiate(map, 0); // Cover Art 1
     materials.coverart1material.set(map, {_CurrentFrame: 1}, 0); // Cover Art 1 material
 
@@ -107,8 +114,8 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     });
     ajrLogo.destroyObject(15);
 
-    transitionCoverArt(materials.coverart1material, 15, 3, "on");
-    transitionCoverArt(materials.coverart1material, 22, 2, "off");
+    transitionCoverArt(materials.coverart1material, 8, 1, "on");
+    // transitionCoverArt(materials.coverart1material, 22, 2, "off");
 
     // Intro: The Big Goodbye text
     const tbgText = prefabs.thebiggoodbyetext.instantiate(map, {
