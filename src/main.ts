@@ -16,7 +16,7 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     map.require("Vivify", true);
     map.suggest("Chroma", true);
 
-    // FUNCTIONS
+    /// ---- { FUNCTIONS } -----
 
     // beat 15, duration 3
     /**
@@ -43,6 +43,8 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
         }
     }
 
+    /// ---- { ENVIRONMENT } -----
+
     // Skybox
     const skybox = prefabs.skybox.instantiate(map, 0);
 
@@ -53,26 +55,94 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     })
     mountains.scale = [0.25, 0.5, 0.25]
 
+    // Mountains
+    const clouds = rm.environment(map, {
+        id: "Clouds",
+        lookupMethod: "EndsWith",
+    })
+    clouds.scale = [3, 3, 3]
+
+    // Left UI Panel
+    rm.environment(map, {
+        id: "LeftPanel",
+        lookupMethod: "EndsWith",
+        localPosition: [-3, 1, 5],
+        rotation: [0, -20, 0]
+    })
+
+    // Right UI Panel
+    rm.environment(map, {
+        id: "RightPanel",
+        lookupMethod: "EndsWith",
+        localPosition: [3, 1, 5],
+        rotation: [0, 20, 0]
+    })
+
     // Assign all notes to a track
     map.allNotes.forEach(note => {
-        note.track.add("myColorNotes")
+        note.track.add("allNotes")
     })
 
     // Apply custom note prefab to all notes
     rm.assignObjectPrefab(map, {
         colorNotes: {
-            track: "myColorNotes",
-            asset: prefabs.customnote.path
+            track: "allNotes",
+            asset: prefabs.customnote.path,
+            debrisAsset: prefabs.customnotedebris.path,
+            anyDirectionAsset: prefabs.customnotedot.path
+        },
+        chainHeads: {
+            track: "allNotes",
+            asset: prefabs.customchain.path,
+            debrisAsset: prefabs.customchaindebris.path
+        },
+        chainLinks: {
+            track: "allNotes",
+            asset: prefabs.customchainlink.path,
+            debrisAsset: prefabs.customchainlinkdebris.path
         }
     })
 
     // Static Environment Prefabs/Materials
-    prefabs.runway.instantiate(map, 0); // Floor
-    prefabs.grassplane.instantiate(map, 0); // Grass Plane
-    prefabs.coverart1.instantiate(map, 0); // Cover Art 1
-    materials.coverart1material.set(map, {_CurrentFrame: 1}, 0); // Cover Art 1 material
+    prefabs.runway.instantiate(map, 0);
+    prefabs.grassplane.instantiate(map, 0);
+    prefabs.coverart1.instantiate(map, 0);
+    prefabs.house.instantiate(map, 0);
+    materials.coverart1material.set(map, {_CurrentFrame: 1}, 0); // reset cover art material to invisible first frame
 
-    // Environment Enhancements
+    // Top window light
+    rm.geometry(map, {
+        type: "Cube",
+        material: {
+            shader: "OpaqueLight"
+        },
+        components: {
+            ILightWithId: {
+                type: 0
+            }
+        },
+        position: [-10.419, 6.15, 32.297],
+        rotation: [-90, 0, -120.447],
+        scale: [0.1629212, 3.8, 1.4861]
+    })
+
+    // Bottom window light
+    rm.geometry(map, {
+        type: "Cube",
+        material: {
+            shader: "OpaqueLight"
+        },
+        components: {
+            ILightWithId: {
+                type: 0
+            }
+        },
+        localPosition: [-11.244, 2, 31.84],
+        rotation: [-90, 0, -120.447],
+        scale: [0.1629212, 1.6, 1.4861]
+    })
+
+    // Environment Removals
     rm.environmentRemoval(map, [
         "Rain",
         "Water",

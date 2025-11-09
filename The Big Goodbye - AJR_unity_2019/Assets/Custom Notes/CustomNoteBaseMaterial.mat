@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CustomNoteArrowMaterial
-  m_Shader: {fileID: 4800000, guid: c982a32b4d08f9a4aaf77ac5bde54943, type: 3}
+  m_Name: CustomNoteBaseMaterial
+  m_Shader: {fileID: 4800000, guid: 38c6a3fafd2ea5946b9d65d167113155, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -56,19 +56,21 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture:
-        m_Texture: {fileID: 2800000, guid: d073f0fe22be91445a0f06acb130ac7f, type: 3}
+        m_Texture: {fileID: 2800000, guid: aa0b3194070ea174f8d31b66f9579b10, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _Cutout: 0
-    - _CutoutEdgeWidth: 0.07
+    - _CutoutEdgeWidth: 0
+    - _Debris: 0
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _LightingStrength: 0.742
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -77,10 +79,10 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _TextureOffset: 0.5
-    - _TextureSize: 8.53
+    - _TextureSize: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _ArrowColor: {r: 1, g: 0, b: 0, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 0.08235294, b: 0, a: 1}
+    - _CutPlane: {r: 0, g: 0, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

@@ -45,6 +45,7 @@ Shader "Lekrkoekj/CustomObjects/CustomNote"
             {
                 float4 vertex : POSITION;
                 float3 normal : NORMAL;
+                float2 uv : TEXCOORD0;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -52,6 +53,7 @@ Shader "Lekrkoekj/CustomObjects/CustomNote"
             {
                 float4 vertex : SV_POSITION;
                 float3 localPos : TEXCOORD0;
+                float2 uv : TEXCOORD1;
                 UNITY_VERTEX_INPUT_INSTANCE_ID // Insert for GPU instancing
                 UNITY_VERTEX_OUTPUT_STEREO
             };
@@ -76,7 +78,7 @@ Shader "Lekrkoekj/CustomObjects/CustomNote"
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.localPos = v.vertex;
-
+                o.uv = v.uv;
                 return o;
             }
 
@@ -138,16 +140,15 @@ Shader "Lekrkoekj/CustomObjects/CustomNote"
                     return 1;
                 }
 
-                // Return some basic shading based on the note color
+                // Use mesh UVs (optionally add tiling/offset)
+                float2 uv = i.uv * _TextureSize + _TextureOffset;
+                fixed4 texCol = tex2D(_Texture, uv);
+
                 float lighting = pow(i.localPos.y + 0.8, 4 * _LightingStrength);
 
-                // Sample the texture
-                fixed4 texCol = tex2D(_Texture, textureSize);
-
-                // Apply texture to color
                 float3 texturedCol = Color * texCol;
 
-                return float4(texturedCol * lighting, 0);
+                return float4(texturedCol * lighting, 0); // opaque alpha
             }
             ENDCG
         }
