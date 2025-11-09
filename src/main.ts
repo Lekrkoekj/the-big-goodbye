@@ -51,7 +51,7 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
         id: "]Mountains",
         lookupMethod: "EndsWith"
     })
-    mountains.scale = [0.25, 0.25, 0.25]
+    mountains.scale = [0.25, 0.5, 0.25]
 
     // Assign all notes to a track
     map.allNotes.forEach(note => {
@@ -68,6 +68,7 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
 
     // Static Environment Prefabs/Materials
     prefabs.runway.instantiate(map, 0); // Floor
+    prefabs.grassplane.instantiate(map, 0); // Grass Plane
     prefabs.coverart1.instantiate(map, 0); // Cover Art 1
     materials.coverart1material.set(map, {_CurrentFrame: 1}, 0); // Cover Art 1 material
 
