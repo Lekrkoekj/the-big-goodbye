@@ -32,6 +32,9 @@
           "_beatmapColorSchemeIdx" : 0,
           "_environmentNameIdx" : 0,
           "_customData" : {
+            "_suggestions" : [
+              "Chroma"
+            ],
             "_colorLeft" : {"r":0.522,"g":0.612,"b":0.169},
             "_colorRight" : {"r":0.333,"g":0.659,"b":0.82},
             "_obstacleColor" : {"r":0.925,"g":0.792,"b":0.545},

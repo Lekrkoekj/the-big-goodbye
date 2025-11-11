@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7867246745751432087
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4100657892464607194, guid: b6c15f16dc5ccba4d95148b25c652fb4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4100657892464607194, guid: b6c15f16dc5ccba4d95148b25c652fb4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.810996
+      objectReference: {fileID: 0}
+    - target: {fileID: 4100657892464607194, guid: b6c15f16dc5ccba4d95148b25c652fb4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4100657892464607194, guid: b6c15f16dc5ccba4d95148b25c652fb4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4100657892464607194, guid: b6c15f16dc5ccba4d95148b25c652fb4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -423.765
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641002063291858026, guid: b6c15f16dc5ccba4d95148b25c652fb4,
+        type: 3}
+      propertyPath: m_Name
+      value: LampLeft1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b6c15f16dc5ccba4d95148b25c652fb4, type: 3}

@@ -55,7 +55,16 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     })
     mountains.scale = [0.25, 0.5, 0.25]
 
-    // Mountains
+    // Extra Back Mountains
+    const extraMountains = rm.environment(map, {
+        id: "BackMountains",
+        lookupMethod: "Contains",
+        duplicate: 1,
+        active: true
+    })
+    extraMountains.scale = [10,10,10];
+
+    // Clouds
     const clouds = rm.environment(map, {
         id: "Clouds",
         lookupMethod: "EndsWith",
@@ -108,6 +117,13 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     prefabs.grassplane.instantiate(map, 0);
     prefabs.coverart1.instantiate(map, 0);
     prefabs.house.instantiate(map, 0);
+    prefabs.lampleft1.instantiate(map, 0);
+    prefabs.lampleft2.instantiate(map, 0);
+    prefabs.lampleft3.instantiate(map, 0);
+    prefabs.lampright1.instantiate(map, 0);
+    prefabs.lampright2.instantiate(map, 0);
+    prefabs.lampright3.instantiate(map, 0);
+    prefabs.trees.instantiate(map, 0);
     materials.coverart1material.set(map, {_CurrentFrame: 1}, 0); // reset cover art material to invisible first frame
 
     // Top window light
@@ -134,12 +150,114 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
         },
         components: {
             ILightWithId: {
-                type: 0
+                type: 0,
             }
         },
         localPosition: [-11.244, 2, 31.84],
         rotation: [-90, 0, -120.447],
         scale: [0.1629212, 1.6, 1.4861]
+    })
+
+    // Left lantern light 1
+    rm.geometry(map, {
+        type: "Cylinder",
+        material: {
+            shader: "OpaqueLight"
+        },
+        components: {
+            ILightWithId: {
+                type: 1,
+                lightID: 5
+            }
+        },
+        localPosition: [-3.810996, 4.032, 6.5],
+        rotation: [0, 0, 0],
+        scale: [0.3797671, 0.2093542, 0.3797671]
+    })
+
+    // Left lantern light 2
+    rm.geometry(map, {
+        type: "Cylinder",
+        material: {
+            shader: "OpaqueLight"
+        },
+        components: {
+            ILightWithId: {
+                type: 6,
+                lightID: 5
+            }
+        },
+        localPosition: [-3.810996, 4.032, 13.25],
+        rotation: [0, 0, 0],
+        scale: [0.3797671, 0.2093542, 0.3797671]
+    })
+
+    // Left lantern light 3
+    rm.geometry(map, {
+        type: "Cylinder",
+        material: {
+            shader: "OpaqueLight"
+        },
+        components: {
+            ILightWithId: {
+                type: 7,
+                lightID: 5
+            }
+        },
+        localPosition: [-3.810996, 4.032, 20],
+        rotation: [0, 0, 0],
+        scale: [0.3797671, 0.2093542, 0.3797671]
+    })
+
+    // Right lantern light 1
+    rm.geometry(map, {
+        type: "Cylinder",
+        material: {
+            shader: "OpaqueLight"
+        },
+        components: {
+            ILightWithId: {
+                type: 1,
+                lightID: 6
+            }
+        },
+        localPosition: [3.810996, 4.032, 6.5],
+        rotation: [0, 0, 0],
+        scale: [0.3797671, 0.2093542, 0.3797671]
+    })
+
+    // Right lantern light 2
+    rm.geometry(map, {
+        type: "Cylinder",
+        material: {
+            shader: "OpaqueLight"
+        },
+        components: {
+            ILightWithId: {
+                type: 6,
+                lightID: 6
+            }
+        },
+        localPosition: [3.810996, 4.032, 13.25],
+        rotation: [0, 0, 0],
+        scale: [0.3797671, 0.2093542, 0.3797671]
+    })
+
+    // Right lantern light 3
+    rm.geometry(map, {
+        type: "Cylinder",
+        material: {
+            shader: "OpaqueLight"
+        },
+        components: {
+            ILightWithId: {
+                type: 7,
+                lightID: 6
+            }
+        },
+        localPosition: [3.810996, 4.032, 20],
+        rotation: [0, 0, 0],
+        scale: [0.3797671, 0.2093542, 0.3797671]
     })
 
     // Environment Removals
@@ -151,7 +269,8 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
         "LeftFarRail",
         "RightFarRail",
         "RailingFull",
-        "Curve"
+        "Curve",
+        "LightRailingSegment"
     ])
 
     // Intro: AJR logo
