@@ -124,6 +124,8 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     prefabs.lampright2.instantiate(map, 0);
     prefabs.lampright3.instantiate(map, 0);
     prefabs.trees.instantiate(map, 0);
+    prefabs.rocks.instantiate(map, 0);
+    prefabs.grass.instantiate(map, 0);
     materials.coverart1material.set(map, {_CurrentFrame: 1}, 0); // reset cover art material to invisible first frame
 
     // Top window light
@@ -270,8 +272,9 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
         "RightFarRail",
         "RailingFull",
         "Curve",
-        "LightRailingSegment"
-    ])
+        "LightRailingSegment",
+        "PlayersPlace"
+    ], "Contains")
 
     // Intro: AJR logo
     const ajrLogo = prefabs.ajrlogo.instantiate(map, {
