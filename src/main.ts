@@ -126,6 +126,7 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     prefabs.trees.instantiate(map, 0);
     prefabs.rocks.instantiate(map, 0);
     prefabs.grass.instantiate(map, 0);
+    prefabs.bushes.instantiate(map, 0);
     materials.coverart1material.set(map, {_CurrentFrame: 1}, 0); // reset cover art material to invisible first frame
 
     // Top window light
