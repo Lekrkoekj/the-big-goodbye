@@ -2,8 +2,8 @@ Shader "Lekrkoekj/TransparentTextShader"
 {
     Properties
     {
-        _CurrentTexture ("Current Texture", Range(0,12)) = 0
-        _FifeHundredTwentyFive ("525", 2D) = "white" {}
+        _CurrentTexture ("Current Texture", Range(0,13)) = 0
+        _FiveHundredTwentyFive ("525", 2D) = "white" {}
         _Will ("Will", 2D) = "white" {}
         _You ("You", 2D) = "white" {}
         _Give ("Give", 2D) = "white" {}
@@ -16,6 +16,7 @@ Shader "Lekrkoekj/TransparentTextShader"
         _FortyFive ("45", 2D) = "white" {}
         _Fifty ("50", 2D) = "white" {}
         _FiftyFive ("55", 2D) = "white" {}
+        _Transparent ("Transparent", 2D) = "white" {}
     }
     SubShader
     {
@@ -54,8 +55,8 @@ Shader "Lekrkoekj/TransparentTextShader"
             };
 
             float _CurrentTexture;
-            sampler2D _FifeHundredTwentyFive;
-            float4 _FifeHundredTwentyFive_ST;
+            sampler2D _FiveHundredTwentyFive;
+            float4 _FiveHundredTwentyFive_ST;
             sampler2D _Will;
             sampler2D _You;
             sampler2D _Give;
@@ -68,6 +69,7 @@ Shader "Lekrkoekj/TransparentTextShader"
             sampler2D _FortyFive;
             sampler2D _Fifty;
             sampler2D _FiftyFive;
+            sampler2D _Transparent;
 
             v2f vert (appdata v)
             {
@@ -77,14 +79,14 @@ Shader "Lekrkoekj/TransparentTextShader"
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _FifeHundredTwentyFive);
+                o.uv = TRANSFORM_TEX(v.uv, _FiveHundredTwentyFive);
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
                 float texIndex = floor(_CurrentTexture);
-                fixed4 col = tex2D(_FifeHundredTwentyFive, i.uv);
+                fixed4 col = tex2D(_FiveHundredTwentyFive, i.uv);
                 
                 if(texIndex == 1) col = tex2D(_Will, i.uv);
                 if(texIndex == 2) col = tex2D(_You, i.uv);
@@ -98,6 +100,7 @@ Shader "Lekrkoekj/TransparentTextShader"
                 if(texIndex == 10) col = tex2D(_FortyFive, i.uv);
                 if(texIndex == 11) col = tex2D(_Fifty, i.uv);
                 if(texIndex == 12) col = tex2D(_FiftyFive, i.uv);
+                if(texIndex == 13) col = tex2D(_Transparent, i.uv);
 
                 col.a = 0;
                 return col;

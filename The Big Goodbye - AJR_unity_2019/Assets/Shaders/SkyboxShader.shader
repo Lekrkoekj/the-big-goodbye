@@ -1,12 +1,15 @@
-﻿Shader "Vivify/ExampleSkybox"
+﻿Shader "Vivify/SkyboxShader"
 {
     Properties
     {
         _BaseColor ("Base Color", Color) = (1, 1, 1)
         _HorizonColor ("Horizon Color", Color) = (1, 1, 1)
+        _BaseColorNight ("Base Color", Color) = (1, 1, 1)
+        _HorizonColorNight ("Horizon Color", Color) = (1, 1, 1)
         _HorizonBlend ("Horizon Blend", Float) = 4
         _HorizonHeight ("Horizon Height", Float) = 0
         _Bloom ("Bloom", Range(0, 1)) = 1
+        _DayNightCycle("Day/Night Cycle", Range(0, 1)) = 1
 
         _NormalMap ("Normal Map", 2D) = "bump" {} // 🆕 normal map property
         _NormalStrength ("Normal Strength", Range(0, 1)) = 0.5 // 🆕 normal intensity
@@ -42,9 +45,12 @@
 
             float3 _BaseColor;
             float3 _HorizonColor;
+            float3 _BaseColorNight;
+            float3 _HorizonColorNight;
             float _HorizonBlend;
             float _HorizonHeight;
             float _Bloom;
+            float _DayNightCycle;
 
             sampler2D _NormalMap;
             float _NormalStrength;
@@ -83,7 +89,7 @@
                                          height);
 
                 // Blend between top and bottom colors
-                float3 skyColor = lerp(_BaseColor, _HorizonColor, blend);
+                float3 skyColor = lerp((_BaseColor * _DayNightCycle) + ((_BaseColorNight * (1 - _DayNightCycle))), (_HorizonColor * _DayNightCycle) + (_HorizonColorNight * (1 - _DayNightCycle)), blend);
 
                 return float4(skyColor, _Bloom);
             }

@@ -63,6 +63,7 @@ Material:
     - _Bloom: 0
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DayNightCycle: 0
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
@@ -82,6 +83,8 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.29411766, g: 0.56078434, b: 0.7058824, a: 1}
+    - _BaseColorNight: {r: 0.044544317, g: 0.097979255, b: 0.122641504, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HorizonColor: {r: 0.8352941, g: 0.58431375, b: 0.5529412, a: 1}
+    - _HorizonColorNight: {r: 0, g: 0, b: 0, a: 1}

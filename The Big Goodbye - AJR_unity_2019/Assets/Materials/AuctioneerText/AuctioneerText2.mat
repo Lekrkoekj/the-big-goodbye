@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TrasnsparentTextMaterial
+  m_Name: AuctioneerText2
   m_Shader: {fileID: 4800000, guid: f197c1110be3447429155ed9abf38f1d, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -49,6 +49,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _FiftyFive:
         m_Texture: {fileID: 2800000, guid: ead9c57272f1d5b4da559791a10e840a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FiveHundredTwentyFive:
+        m_Texture: {fileID: 2800000, guid: b34e5c8aa1b89174a895ee4e0b8146e5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Forty:
@@ -97,6 +101,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _ThirtyFive:
         m_Texture: {fileID: 2800000, guid: e7a67a426bee82f40a52f1b479a9b532, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Transparent:
+        m_Texture: {fileID: 2800000, guid: 3212ed65aa26fbe4b92be259728702f5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Will:

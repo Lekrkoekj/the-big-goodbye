@@ -4,13 +4,15 @@ Shader "BeatSaber/Unlit Glow Cutout Dithered Wind"
 {
     Properties
     {
-        _Color ("Color", Color) = (1,1,1,1)
+        _Color ("Color Day", Color) = (1,1,1,1)
+        _ColorNight ("Color Night", Color) = (1,1,1,1)
         _Tex ("Texture", 2D) = "white" {}
         _Bloom ("Glow", Range (0, 1)) = 0
         _DitherMaskScale("Dither Mask Scale", Float) = 40
         _DitherMask("Dither Mask", 2D) = "black" {}
         _Alpha("Alpha", Float) = 1
         _Cutout ("Cutout", Range (0, 1)) = 0.5
+        _DayNightCycle("Day/Night Cycle", Range(0, 1)) = 1
 
         // --- Wind / Bend controls ---
         _WindDir ("Wind Direction (world, xyz)", Vector) = (1,0,0,0)
@@ -58,25 +60,27 @@ Shader "BeatSaber/Unlit Glow Cutout Dithered Wind"
             };
 
             float4 _Color;
-            float  _Bloom;
+            float4 _ColorNight;
+            float _Bloom;
             sampler2D _DitherMask;
-            float  _DitherMaskScale;
-            float  _Alpha;
-            float  _Cutout;
+            float _DitherMaskScale;
+            float _Alpha;
+            float _Cutout;
+            float _DayNightCycle;
 
             sampler2D _Tex;
             float4 _Tex_ST;
 
             // Wind parameters
             float4 _WindDir;
-            float  _WindStrength;
-            float  _WaveSpeed;
-            float  _WaveFreq;
-            float  _GustStrength;
-            float  _GustSpeed;
-            float  _GustScale;
-            float  _TipBendPower;
-            float  _MaxStaticBend;
+            float _WindStrength;
+            float _WaveSpeed;
+            float _WaveFreq;
+            float _GustStrength;
+            float _GustSpeed;
+            float _GustScale;
+            float _TipBendPower;
+            float _MaxStaticBend;
 
             v2f vert (appdata v)
             {
@@ -127,7 +131,7 @@ Shader "BeatSaber/Unlit Glow Cutout Dithered Wind"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = _Color * tex2D(_Tex, i.uv);
+                fixed4 col = ((_Color * _DayNightCycle) + (_ColorNight * (1 - _DayNightCycle))) * tex2D(_Tex, i.uv);
 
                 // Alpha cutout
                 if (col.a < _Cutout) discard;

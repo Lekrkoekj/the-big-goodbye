@@ -12,6 +12,7 @@ Shader "Lekrkoekj/TransparentTextureShader"
         }
         Blend One OneMinusSrcColor
         ZWrite Off
+        ZTest Off
 
         Pass
         {

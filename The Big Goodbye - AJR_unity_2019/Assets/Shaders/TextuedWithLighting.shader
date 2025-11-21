@@ -1,4 +1,6 @@
-Shader "BeatSaber/Lit Glow (Radial Fade Color)"
+﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
+Shader "Vivify/Textured With Lighting"
 {
     Properties
     {
@@ -7,14 +9,9 @@ Shader "BeatSaber/Lit Glow (Radial Fade Color)"
         _Tex ("Texture", 2D) = "white" {}
         _Glow ("Glow", Range (0, 1)) = 0
         _Ambient ("Ambient Lighting", Range (0, 1)) = 0
-        _LightDir ("Light Direction", Vector) = (-1,-1,0,1)
+        _LightDir ("Light Direction Day", Vector) = (-1,-1,0,1)
+        _LightDirNight ("Light Direction Night", Vector) = (-1,-1,0,1)
         _DayNightCycle("Day/Night Cycle", Range(0, 1)) = 1
-
-        // --- Radial fade controls (UV space) ---
-        _RadialCenter ("Radial Center (UV)", Vector) = (0.5, 0.5, 0, 0)
-        _RadialRadius ("Radial Radius", Range(0, 1)) = 0.3
-        _RadialFeather ("Radial Feather", Range(0, 1)) = 0.2
-        _FadeColor ("Fade Color", Color) = (0, 0, 0, 1)
     }
     SubShader
     {
@@ -26,6 +23,7 @@ Shader "BeatSaber/Lit Glow (Radial Fade Color)"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            // make fog work
             #pragma multi_compile_fog
             
             #include "UnityCG.cginc"
@@ -55,16 +53,11 @@ Shader "BeatSaber/Lit Glow (Radial Fade Color)"
             float _Glow;
             float _Ambient;
             float4 _LightDir;
+            float4 _LightDirNight;
             float _DayNightCycle;
 
             sampler2D _Tex;
             float4 _Tex_ST;
-
-            // Radial fade uniforms
-            float4 _RadialCenter;   // xy = center in UV
-            float  _RadialRadius;   // start of fade
-            float  _RadialFeather;  // fade width
-            float4 _FadeColor;      // color to fade to
             
             v2f vert (appdata v)
             {
@@ -84,19 +77,14 @@ Shader "BeatSaber/Lit Glow (Radial Fade Color)"
             
             fixed4 frag (v2f i) : SV_Target
             {
-                float3 lightDir = normalize(_LightDir.xyz) * -1.0;
-                float shadow = max(dot(lightDir, i.normal), 0);
-                
-                // base texture + simple lighting
+                float3 lightDir = normalize((_LightDir.xyz * _DayNightCycle) + (_LightDirNight * (1 - _DayNightCycle))) * -1.0;
+                float shadow = max(dot(lightDir,i.normal),0);
+                // sample the texture
                 fixed4 col = ((_Color * _DayNightCycle) + (_ColorNight * (1 - _DayNightCycle))) * tex2D(_Tex, TRANSFORM_TEX(i.uv, _Tex));
-                col = col * clamp(col * _Ambient + shadow, 0.0, 1.0);
 
-                // --- Radial fade to custom color ---
-                float d = distance(i.uv, _RadialCenter.xy);
-                float t = smoothstep(_RadialRadius, _RadialRadius + _RadialFeather, d);
-                col.rgb = lerp(col.rgb, _FadeColor.rgb, t);
+                col = col * clamp(col * _Ambient + shadow,0.0,1.0);
 
-                return col * float4(1.0, 1.0, 1.0, _Glow);
+                return col * float4(1.0,1.0,1.0,_Glow);
             }
             ENDCG
         }

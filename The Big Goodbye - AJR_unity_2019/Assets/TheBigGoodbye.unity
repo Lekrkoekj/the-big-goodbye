@@ -160,7 +160,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 193447888}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -212,7 +212,7 @@ Transform:
   m_LocalScale: {x: 0.16292119, y: 1.6, z: 1.4860998}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: -120.447}
 --- !u!1 &228625360
 GameObject:
@@ -1052,7 +1052,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1677262867}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1295,15 +1295,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -448.4
       objectReference: {fileID: 0}
-    - target: {fileID: 4327249734329106809, guid: 2682531aafa6dcd4e9541bd451027df6,
+    - target: {fileID: 3095103415916387617, guid: 2682531aafa6dcd4e9541bd451027df6,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 188.49
+      value: 178.478
       objectReference: {fileID: 0}
-    - target: {fileID: 4327249734329106809, guid: 2682531aafa6dcd4e9541bd451027df6,
+    - target: {fileID: 3095103415916387617, guid: 2682531aafa6dcd4e9541bd451027df6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 88.751
+      objectReference: {fileID: 0}
+    - target: {fileID: 3095103415916387617, guid: 2682531aafa6dcd4e9541bd451027df6,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 9.520996
+      value: -97.343994
       objectReference: {fileID: 0}
     - target: {fileID: 4468520883124181747, guid: 2682531aafa6dcd4e9541bd451027df6,
         type: 3}
@@ -1988,6 +1993,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 970739738322538894, guid: 5cf55c87816c04546998432b9be3a84f,
         type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 970739738322538894, guid: 5cf55c87816c04546998432b9be3a84f,
+        type: 3}
       propertyPath: m_Name
       value: AuctioneerText
       objectReference: {fileID: 0}
@@ -2077,7 +2087,7 @@ PrefabInstance:
     - target: {fileID: 4787377368950018601, guid: 5fb9420c1db7e7a458e0458a1f6ffa38,
         type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 4787377368950018601, guid: 5fb9420c1db7e7a458e0458a1f6ffa38,
         type: 3}

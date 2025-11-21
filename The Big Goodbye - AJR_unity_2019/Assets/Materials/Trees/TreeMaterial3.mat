@@ -73,6 +73,7 @@ Material:
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _Cutout: 0.5
+    - _DayNightCycle: 0
     - _DetailNormalMapScale: 1
     - _DitherMaskScale: 40
     - _DstBlend: 0
@@ -98,5 +99,6 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.6132076, g: 0.5255719, b: 0.45990568, a: 1}
+    - _ColorNight: {r: 0.1792453, g: 0.16445994, b: 0.1530349, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _WindDir: {r: 1, g: 0, b: 0, a: 0}
