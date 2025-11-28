@@ -15,6 +15,7 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
 
     map.require("Vivify", true);
     map.suggest("Chroma", true);
+    map.require("Noodle Extensions", true);
 
     /// ---- { FUNCTIONS } -----
 
@@ -181,26 +182,44 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
         }
     }
 
-    function doAuctioneerTextSequence(beat: number) {
+    function doAuctioneerTextSequence(beat: number, cutoff: number = 0) {
         let mat = materials.sideauctioneertext;
         mat.set(map, {_CurrentTexture: 0}, beat); // 525
+        if(cutoff <= 4 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 1}, beat + 4); // will
+        if(cutoff <= 4.5 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 2}, beat + 4.5); // you
+        if(cutoff <= 5 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 3}, beat + 5); // give
+        if(cutoff <= 5.5 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 4}, beat + 5.5); // me
+        if(cutoff <= 6 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 5}, beat + 6); // 30
+        if(cutoff <= 7.125 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 6}, beat + 7.125); // make
+        if(cutoff <= 7.625 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 7}, beat + 7.625); // it
+        if(cutoff <= 8.125 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 5}, beat + 8.125); // 30
+        if(cutoff <= 9.125 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 1}, beat + 9.125); // will
+        if(cutoff <= 9.625 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 2}, beat + 9.625); // you
+        if(cutoff <= 10.125 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 3}, beat + 10.125); // give
+        if(cutoff <= 10.625 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 4}, beat + 10.625); // me
+        if(cutoff <= 11 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 9}, beat + 11); // 40
+        if(cutoff <= 12 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 1}, beat + 12); // will
+        if(cutoff <= 12.5 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 2}, beat + 12.5); // you
+        if(cutoff <= 13 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 3}, beat + 13); // give
+        if(cutoff <= 13.5 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 4}, beat + 13.5); // me
+        if(cutoff <= 14 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 10}, beat + 14); // 45
     }
 
@@ -284,10 +303,95 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
         })
     }
 
+    function setLaserPositions(beat: number, side: "left" | "right") {
+        let sideOffset = 3;
+        let rotationOffset = 2;
+        if(side == "left") {
+            rm.environment(map, {
+                id: "s.[0]PillarL",
+                lookupMethod: "EndsWith",
+                "localRotation": [
+                    60,
+                    -45 - rotationOffset,
+                    0
+                ],
+                "localPosition": [
+                    35 - sideOffset,
+                    0,
+                    5
+                ]
+            })
+            for(let i = 1; i < 9;i++) {
+                rm.environment(map, {
+                    id: `s (${i}).[0]PillarL`,
+                    lookupMethod: "EndsWith",
+                    "localRotation": [
+                        60,
+                        -45 - rotationOffset * (i + 1),
+                        0
+                    ],
+                    "localPosition": [
+                        35 - sideOffset * (i + 1),
+                        0,
+                        5
+                    ]
+                })
+            }
+        }
+        else {
+            rm.environment(map, {
+                id: "s.[1]PillarR",
+                lookupMethod: "EndsWith",
+                "localRotation": [
+                    60,
+                    45 + rotationOffset,
+                    0
+                ],
+                "localPosition": [
+                    -35 + sideOffset,
+                    0,
+                    5
+                ]
+            })
+            for(let i = 1; i < 9;i++) {
+                rm.environment(map, {
+                    id: `s (${i}).[1]PillarR`,
+                    lookupMethod: "EndsWith",
+                    "localRotation": [
+                        60,
+                        45 + rotationOffset * (i + 1),
+                        0
+                    ],
+                    "localPosition": [
+                        -35 + sideOffset * (i + 1),
+                        0,
+                        5
+                    ]
+                })
+            }
+        }
+    }
+
     /// ---- { ENVIRONMENT } -----
 
     // Skybox
     const skybox = prefabs.skybox.instantiate(map, 0);
+
+    // Moon
+    rm.environment(map, {
+        id: `Moon`,
+        lookupMethod: "EndsWith",
+        "localPosition": [
+            0,
+            20,
+            150
+        ],
+        "scale": [
+            10,
+            10,
+            10
+        ]
+    });
 
     // Mountains
     const mountains = rm.environment(map, {
@@ -356,12 +460,12 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     })
 
     // Intro Auctioneer Side objects
-    let leftAuctioneerText = prefabs.sideauctioneertext.instantiate(map, 0)
-    leftAuctioneerText.localPosition = [-2.75, 1.5, 4.5]
-    leftAuctioneerText.localRotation = [-270, -20, 180]
-    let rightAuctioneerText = prefabs.sideauctioneertext.instantiate(map, 0)
-    rightAuctioneerText.localPosition = [2.75, 1.5, 4.5]
-    rightAuctioneerText.localRotation = [-270, 20, 180]
+    let leftAuctioneerTextIntro = prefabs.sideauctioneertext.instantiate(map, 0)
+    leftAuctioneerTextIntro.localPosition = [-2.75, 1.5, 4.5]
+    leftAuctioneerTextIntro.localRotation = [-270, -20, 180]
+    let rightAuctioneerTextIntro = prefabs.sideauctioneertext.instantiate(map, 0)
+    rightAuctioneerTextIntro.localPosition = [2.75, 1.5, 4.5]
+    rightAuctioneerTextIntro.localRotation = [-270, 20, 180]
 
     // Static Environment Prefabs/Materials
     prefabs.runway.instantiate(map, 0);
@@ -408,6 +512,80 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     materials["housematerial main"].set(map, { _DayNightCycle: 0 }, 0);
     materials["housematerial roofline"].set(map, { _DayNightCycle: 0 }, 0);
     materials["housematerial windows"].set(map, { _DayNightCycle: 0 }, 0);
+
+    // Note shadows 
+    const shadowPositions = new Set();
+    map.allNotes.forEach(note => {
+        // Create a unique key for this shadow position
+        const key = `${note.beat}-${note.x}`;
+
+        // If a shadow for this column & beat was already spawned → skip
+        if (shadowPositions.has(key)) return;
+        shadowPositions.add(key);
+        let trackName = "noteShadowsFull";
+        if(note.y == 1) trackName = "noteShadowsHalf"
+        else if(note.y == 2) trackName = "noteShadowsFaint"
+        rm.colorNote(map, {
+            beat: note.beat,
+            x: note.x,
+            y: 0,
+            track: trackName,
+            fake: true,
+            disableNoteLook: true,
+            disableNoteGravity: true,
+            spawnEffect: false,
+            uninteractable: true,
+            animation: {
+                localRotation: [[0, 0, 0, 0]]
+            }
+        })
+    });
+    rm.assignObjectPrefab(map, {
+        colorNotes: {
+            track: "noteShadowsFull",
+            asset: prefabs["custom note shadow full"].path,
+        },
+        chainHeads: {
+            track: "noteShadowsFull",
+            asset: prefabs["custom note shadow full"].path,
+        },
+        chainLinks: {
+            track: "noteShadowsFull",
+            asset: prefabs["custom note shadow full"].path,
+        },
+    })
+    rm.assignObjectPrefab(map, {
+        colorNotes: {
+            track: "noteShadowsHalf",
+            asset: prefabs["custom note shadow half"].path,
+        },
+        chainHeads: {
+            track: "noteShadowsHalf",
+            asset: prefabs["custom note shadow half"].path,
+        },
+        chainLinks: {
+            track: "noteShadowsHalf",
+            asset: prefabs["custom note shadow half"].path,
+        },
+    })
+    rm.assignObjectPrefab(map, {
+        colorNotes: {
+            track: "noteShadowsFaint",
+            asset: prefabs["custom note shadow faint"].path,
+        },
+        chainHeads: {
+            track: "noteShadowsFaint",
+            asset: prefabs["custom note shadow faint"].path,
+        },
+        chainLinks: {
+            track: "noteShadowsFaint",
+            asset: prefabs["custom note shadow faint"].path,
+        },
+    })
+
+    // Laser positions
+    setLaserPositions(0, "left");
+    setLaserPositions(0, "right");
 
     // Top window light
     rm.geometry(map, {
@@ -639,12 +817,18 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     doAuctioneerTextSequence(75);
     doAuctioneerTextSequence(91);
     doAuctioneerTextSequence(107);
-    doAuctioneerTextSequence(123);
+    doAuctioneerTextSequence(123, 9);
+    leftAuctioneerTextIntro.destroyObject(132);
+    rightAuctioneerTextIntro.destroyObject(132);
 
     setDayNightCycle(75, 17, 0, 0.125, 1/50);
     setDayNightCycle(92, 10, 0.125, 0.4, 1/100);
     setDayNightCycle(102, 4, 0.4, 0.8, 1/50);
     setDayNightCycle(106.5, 0.5, 0.8, 1, 1/25);
+
+
+    // Pre-Chorus 1 into quiet Chorus 1 
+    setDayNightCycle(231, 4, 1, 0, 1/50);
 
     for(let i = 34; i < 38; i += 0.25) {
         randomizeAuctioneerTexts(i);

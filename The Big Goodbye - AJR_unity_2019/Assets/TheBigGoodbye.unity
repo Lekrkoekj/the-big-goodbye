@@ -1244,6 +1244,45 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32d7a9b6068f07444b8c9e7af7d3e7c3, type: 3}
+--- !u!1001 &2173745876702068100
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1106855182347571205, guid: 39e3aa2c08832f94aa2a275f5469c031,
+        type: 3}
+      propertyPath: m_Name
+      value: Custom Note Shadow
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916431310635745076, guid: 39e3aa2c08832f94aa2a275f5469c031,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 29
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916431310635745076, guid: 39e3aa2c08832f94aa2a275f5469c031,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916431310635745076, guid: 39e3aa2c08832f94aa2a275f5469c031,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916431310635745076, guid: 39e3aa2c08832f94aa2a275f5469c031,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9180571014638761955, guid: 39e3aa2c08832f94aa2a275f5469c031,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 39e3aa2c08832f94aa2a275f5469c031, type: 3}
 --- !u!1001 &2586517813719799085
 PrefabInstance:
   m_ObjectHideFlags: 0
