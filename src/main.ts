@@ -285,56 +285,43 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     function setDayNightCycle(beat: number, duration: number, from: number, to: number, precision: number) {
         precision *= duration; // make the precision not per 1 beat, but scale over the entire length of the event
         const diff = to - from;
-    
+
+        let materialsList = [
+            materials.skyboxmaterial,
+            materials.lampmaterial,
+            materials.grassplanematerial,
+            materials.grassmaterial3,
+            materials.treematerial1,
+            materials.treematerial2,
+            materials.treematerial3,
+            materials.rockmaterial1,
+            materials.rockmaterial2,
+            materials.rockmaterial3,
+            materials.rockmaterial4,
+            materials.treetrunkmaterial,
+            materials.bushbigmaterial,
+            materials.bushflowermaterial,
+            materials.bushmed2material,
+            materials.bushmedmaterial,
+            materials.runwaymaterial,
+            materials["housematerial awning"],
+            materials["housematerial floor"],
+            materials["housematerial main"],
+            materials["housematerial roofline"],
+            materials["housematerial windows"]
+        ]
+        
         for (let t = 0; t <= duration; t += precision) {
             const progress = t / duration;
             const value = from + diff * progress;
     
-            materials.skyboxmaterial.set(map, { _DayNightCycle: value }, beat + t);
-            materials.lampmaterial.set(map, { _DayNightCycle: value }, beat + t);
-            materials.grassplanematerial.set(map, { _DayNightCycle: value }, beat + t);
-            materials.grassmaterial3.set(map, { _DayNightCycle: value }, beat + t);
-            materials.treematerial1.set(map, { _DayNightCycle: value }, beat + t);
-            materials.treematerial2.set(map, { _DayNightCycle: value }, beat + t);
-            materials.treematerial3.set(map, { _DayNightCycle: value }, beat + t);
-            materials.rockmaterial1.set(map, { _DayNightCycle: value }, beat + t);
-            materials.rockmaterial2.set(map, { _DayNightCycle: value }, beat + t);
-            materials.rockmaterial3.set(map, { _DayNightCycle: value }, beat + t);
-            materials.rockmaterial4.set(map, { _DayNightCycle: value }, beat + t);
-            materials.treetrunkmaterial.set(map, { _DayNightCycle: value }, beat + t);
-            materials.bushbigmaterial.set(map, { _DayNightCycle: value }, beat + t);
-            materials.bushflowermaterial.set(map, { _DayNightCycle: value }, beat + t);
-            materials.bushmed2material.set(map, { _DayNightCycle: value }, beat + t);
-            materials.bushmedmaterial.set(map, { _DayNightCycle: value }, beat + t); 
-            materials.runwaymaterial.set(map, { _DayNightCycle: value }, beat + t); 
-            materials["housematerial awning"].set(map, { _DayNightCycle: value }, beat + t); 
-            materials["housematerial floor"].set(map, { _DayNightCycle: value }, beat + t); 
-            materials["housematerial main"].set(map, { _DayNightCycle: value }, beat + t); 
-            materials["housematerial roofline"].set(map, { _DayNightCycle: value }, beat + t); 
-            materials["housematerial windows"].set(map, { _DayNightCycle: value }, beat + t); 
+            materialsList.forEach(material => {
+                material.set(map, { _DayNightCycle: value }, beat + t);
+            })
         }
-        materials.skyboxmaterial.set(map, { _DayNightCycle: to }, beat + duration);
-        materials.lampmaterial.set(map, { _DayNightCycle: to }, beat + duration);
-        materials.grassplanematerial.set(map, { _DayNightCycle: to }, beat + duration);
-        materials.grassmaterial3.set(map, { _DayNightCycle: to }, beat + duration);
-        materials.treematerial1.set(map, { _DayNightCycle: to }, beat + duration);
-        materials.treematerial2.set(map, { _DayNightCycle: to }, beat + duration);
-        materials.treematerial3.set(map, { _DayNightCycle: to }, beat + duration);
-        materials.rockmaterial1.set(map, { _DayNightCycle: to }, beat + duration);
-        materials.rockmaterial2.set(map, { _DayNightCycle: to }, beat + duration);
-        materials.rockmaterial3.set(map, { _DayNightCycle: to }, beat + duration);
-        materials.rockmaterial4.set(map, { _DayNightCycle: to }, beat + duration);
-        materials.treetrunkmaterial.set(map, { _DayNightCycle: to }, beat + duration);
-        materials.bushbigmaterial.set(map, { _DayNightCycle: to }, beat + duration);
-        materials.bushflowermaterial.set(map, { _DayNightCycle: to }, beat + duration);
-        materials.bushmed2material.set(map, { _DayNightCycle: to }, beat + duration);
-        materials.bushmedmaterial.set(map, { _DayNightCycle: to }, beat + duration);
-        materials.runwaymaterial.set(map, { _DayNightCycle: to }, beat + duration);
-        materials["housematerial awning"].set(map, { _DayNightCycle: to }, beat + duration);
-        materials["housematerial floor"].set(map, { _DayNightCycle: to }, beat + duration);
-        materials["housematerial main"].set(map, { _DayNightCycle: to }, beat + duration);
-        materials["housematerial roofline"].set(map, { _DayNightCycle: to }, beat + duration);
-        materials["housematerial windows"].set(map, { _DayNightCycle: to }, beat + duration);
+        materialsList.forEach(material => {
+            material.set(map, { _DayNightCycle: to }, beat + duration);
+        });
     }
 
     function toggleUiPanels(beat: number, value: "on" | "off") {
@@ -540,6 +527,12 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     prefabs.grass.instantiate(map, 0);
     prefabs.bushes.instantiate(map, 0);
     materials.coverart1material.set(map, {_CurrentFrame: 1}, 0); // reset cover art material to invisible first frame
+    materials.coverart2material.set(map, {_CurrentFrame: 1}, 0);
+    materials.coverart3material.set(map, {_CurrentFrame: 1}, 0);
+    materials.coverart4material.set(map, {_CurrentFrame: 1}, 0);
+    materials.coverart5material.set(map, {_CurrentFrame: 1}, 0);
+    materials.coverart6material.set(map, {_CurrentFrame: 1}, 0);
+    materials.coverart7material.set(map, {_CurrentFrame: 1}, 0);
     materials.auctioneertext1.set(map , {_CurrentTexture: 13}, 0); 
     materials.auctioneertext2.set(map , {_CurrentTexture: 13}, 0);
     materials.auctioneertext3.set(map , {_CurrentTexture: 13}, 0);
@@ -878,7 +871,7 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     transitionCoverArt(materials.coverart7material, 106.75, 0.5, "on");
 
     // Intro: auctioneer texts
-    doAuctioneerTextSequence(43);
+    doAuctioneerTextSequence(43); 
     doAuctioneerTextSequence(59);
     doAuctioneerTextSequence(75);
     doAuctioneerTextSequence(91);
