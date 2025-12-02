@@ -75,7 +75,7 @@ Material:
     - _CanvasStrength: 1
     - _Cutoff: 0.5
     - _Cutout: 0.5
-    - _DayNightCycle: 0
+    - _DayNightCycle: 1
     - _DetailNormalMapScale: 1
     - _DitherMaskScale: 40
     - _DstBlend: 0

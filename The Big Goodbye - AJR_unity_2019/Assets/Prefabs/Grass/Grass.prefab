@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2349009605683590709}
   m_Layer: 0
-  m_Name: GrassObjects
+  m_Name: Grass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -243,7 +243,7 @@ PrefabInstance:
     - target: {fileID: 8039637336215118212, guid: 4b7df31fd9cae3648a6228576abfe3d1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.0774498
+      value: -2.67
       objectReference: {fileID: 0}
     - target: {fileID: 8039637336215118212, guid: 4b7df31fd9cae3648a6228576abfe3d1,
         type: 3}
@@ -1313,7 +1313,7 @@ PrefabInstance:
     - target: {fileID: 8039637336215118212, guid: 4b7df31fd9cae3648a6228576abfe3d1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 19.52255
+      value: 19.24
       objectReference: {fileID: 0}
     - target: {fileID: 8039637336215118212, guid: 4b7df31fd9cae3648a6228576abfe3d1,
         type: 3}
@@ -1538,7 +1538,7 @@ PrefabInstance:
     - target: {fileID: 8039637336215118212, guid: 4b7df31fd9cae3648a6228576abfe3d1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 19.52255
+      value: 19.24
       objectReference: {fileID: 0}
     - target: {fileID: 8039637336215118212, guid: 4b7df31fd9cae3648a6228576abfe3d1,
         type: 3}
@@ -2683,7 +2683,7 @@ PrefabInstance:
     - target: {fileID: 8039637336215118212, guid: 4b7df31fd9cae3648a6228576abfe3d1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.0774498
+      value: -2.67
       objectReference: {fileID: 0}
     - target: {fileID: 8039637336215118212, guid: 4b7df31fd9cae3648a6228576abfe3d1,
         type: 3}

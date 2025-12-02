@@ -182,6 +182,57 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
         }
     }
 
+    function doActioneerTextSequenceBeforeFlood() {
+        let mat = materials.sideauctioneertext;
+        mat.set(map, {_CurrentTexture: 0}, 15.375); // 525
+        mat.set(map, {_CurrentTexture: 1}, 18.375); // will
+        mat.set(map, {_CurrentTexture: 2}, 18.625); // you
+        mat.set(map, {_CurrentTexture: 3}, 18.875); // give
+        mat.set(map, {_CurrentTexture: 4}, 19.25); // me
+        mat.set(map, {_CurrentTexture: 5}, 19.5); // 30
+        mat.set(map, {_CurrentTexture: 6}, 20.25); // make
+        mat.set(map, {_CurrentTexture: 7}, 20.625); // it
+        mat.set(map, {_CurrentTexture: 5}, 21); // 30
+        mat.set(map, {_CurrentTexture: 1}, 21.625); // will
+        mat.set(map, {_CurrentTexture: 2}, 22); // you
+        mat.set(map, {_CurrentTexture: 3}, 22.25); // give
+        mat.set(map, {_CurrentTexture: 4}, 22.625); // me
+        mat.set(map, {_CurrentTexture: 5}, 22.875); // 30
+        mat.set(map, {_CurrentTexture: 1}, 23.5); // will
+        mat.set(map, {_CurrentTexture: 2}, 23.875); // you
+        mat.set(map, {_CurrentTexture: 3}, 24.25); // give
+        mat.set(map, {_CurrentTexture: 4}, 24.5); // me
+        mat.set(map, {_CurrentTexture: 8}, 24.75); // 35
+        mat.set(map, {_CurrentTexture: 12}, 26.25); // 5
+        mat.set(map, {_CurrentTexture: 6}, 27); // make
+        mat.set(map, {_CurrentTexture: 7}, 27.375); // it
+        mat.set(map, {_CurrentTexture: 9}, 27.625); // 40
+        mat.set(map, {_CurrentTexture: 1}, 28.25); // will
+        mat.set(map, {_CurrentTexture: 2}, 28.625); // you
+        mat.set(map, {_CurrentTexture: 3}, 28.875); // give
+        mat.set(map, {_CurrentTexture: 4}, 29.125); // me
+        mat.set(map, {_CurrentTexture: 9}, 29.5); // 40
+        mat.set(map, {_CurrentTexture: 1}, 30.125); // will
+        mat.set(map, {_CurrentTexture: 2}, 30.5); // you
+        mat.set(map, {_CurrentTexture: 3}, 30.75); // give
+        mat.set(map, {_CurrentTexture: 4}, 31); // me
+        mat.set(map, {_CurrentTexture: 10}, 31.375); // 45
+        mat.set(map, {_CurrentTexture: 12}, 32.75); // 5
+        mat.set(map, {_CurrentTexture: 6}, 33.375); // make
+        mat.set(map, {_CurrentTexture: 7}, 33.625); // it
+        mat.set(map, {_CurrentTexture: 11}, 34); // 50
+        mat.set(map, {_CurrentTexture: 13}, 35); // -
+
+        mat.set(map, {_CurrentTexture: 12}, 39); // 5
+        mat.set(map, {_CurrentTexture: 13}, 39.5); // -
+        mat.set(map, {_CurrentTexture: 12}, 39.625); // 5
+        mat.set(map, {_CurrentTexture: 13}, 40.375); // -
+        mat.set(map, {_CurrentTexture: 12}, 40.5); // 5
+        mat.set(map, {_CurrentTexture: 13}, 41.125); // -
+        mat.set(map, {_CurrentTexture: 12}, 41.25); // 5
+        mat.set(map, {_CurrentTexture: 13}, 42); // -
+    }
+
     function doAuctioneerTextSequence(beat: number, cutoff: number = 0) {
         let mat = materials.sideauctioneertext;
         mat.set(map, {_CurrentTexture: 0}, beat); // 525
@@ -471,6 +522,12 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     prefabs.runway.instantiate(map, 0);
     prefabs.grassplane.instantiate(map, 0);
     prefabs.coverart1.instantiate(map, 0);
+    prefabs.coverart2.instantiate(map, 0);
+    prefabs.coverart3.instantiate(map, 0);
+    prefabs.coverart4.instantiate(map, 0);
+    prefabs.coverart5.instantiate(map, 0);
+    prefabs.coverart6.instantiate(map, 0);
+    prefabs.coverart7.instantiate(map, 0);
     prefabs.house.instantiate(map, 0);
     prefabs.lampleft1.instantiate(map, 0);
     prefabs.lampleft2.instantiate(map, 0);
@@ -768,9 +825,6 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     });
     ajrLogo.destroyObject(15);
 
-    transitionCoverArt(materials.coverart1material, 8, 1, "on");
-    // transitionCoverArt(materials.coverart1material, 22, 2, "off");
-
     // Intro: The Big Goodbye text
     const tbgText = prefabs.thebiggoodbyetext.instantiate(map, {
         beat: 7,
@@ -806,12 +860,24 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     placeTextObjects(0, 15, 7, 0.5, 0.5, -2.5, 0.02, 0.1, 30);
     toggleUiPanels(0, "off");
 
+    doActioneerTextSequenceBeforeFlood();
+
     randomizeAuctioneerTexts(32, 0);
     randomizeAuctioneerTexts(32.5, 1);
     randomizeAuctioneerTexts(33, 2);
     randomizeAuctioneerTexts(33.5, 3);
     randomizeAuctioneerTexts(34, 4);
 
+    // Intro: full beat comes in, turn on cover arts
+    transitionCoverArt(materials.coverart1material, 106, 0.5, "on");
+    transitionCoverArt(materials.coverart2material, 106.125, 0.5, "on");
+    transitionCoverArt(materials.coverart3material, 106.25, 0.5, "on");
+    transitionCoverArt(materials.coverart4material, 106.375, 0.5, "on");
+    transitionCoverArt(materials.coverart5material, 106.5, 0.5, "on");
+    transitionCoverArt(materials.coverart6material, 106.625, 0.5, "on");
+    transitionCoverArt(materials.coverart7material, 106.75, 0.5, "on");
+
+    // Intro: auctioneer texts
     doAuctioneerTextSequence(43);
     doAuctioneerTextSequence(59);
     doAuctioneerTextSequence(75);
@@ -820,15 +886,6 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     doAuctioneerTextSequence(123, 9);
     leftAuctioneerTextIntro.destroyObject(132);
     rightAuctioneerTextIntro.destroyObject(132);
-
-    setDayNightCycle(75, 17, 0, 0.125, 1/50);
-    setDayNightCycle(92, 10, 0.125, 0.4, 1/100);
-    setDayNightCycle(102, 4, 0.4, 0.8, 1/50);
-    setDayNightCycle(106.5, 0.5, 0.8, 1, 1/25);
-
-
-    // Pre-Chorus 1 into quiet Chorus 1 
-    setDayNightCycle(231, 4, 1, 0, 1/50);
 
     for(let i = 34; i < 38; i += 0.25) {
         randomizeAuctioneerTexts(i);
@@ -839,8 +896,38 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
 
     removeTextObjects(39.5, 2.5);
 
+    // Verse starts
     materials.sideauctioneertext.set(map, {_CurrentTexture: 13}, 139)
     toggleUiPanels(139, "on");
+
+    // Auctioneer text during verse1
+    toggleUiPanels(171, "off");
+    doAuctioneerTextSequence(171, 6);
+    let leftAuctioneerTextVerse = prefabs.sideauctioneertext.instantiate(map, 171)
+    leftAuctioneerTextVerse.localPosition = [-2.75, 1.5, 4.5]
+    leftAuctioneerTextVerse.localRotation = [-270, -20, 180]
+    let rightAuctioneerTextVerse = prefabs.sideauctioneertext.instantiate(map, 171)
+    rightAuctioneerTextVerse.localPosition = [2.75, 1.5, 4.5]
+    rightAuctioneerTextVerse.localRotation = [-270, 20, 180]
+    toggleUiPanels(177, "on");
+    leftAuctioneerTextVerse.destroyObject(177);
+    rightAuctioneerTextVerse.destroyObject(177);
+
+    // Day/Night Cycles for entire song
+    setDayNightCycle(75, 17, 0, 0.125, 1/50);       // Intro - full beat comes in
+    setDayNightCycle(92, 10, 0.125, 0.4, 1/100);    // ^
+    setDayNightCycle(102, 4, 0.4, 0.8, 1/50);       // ^
+    setDayNightCycle(106.5, 0.5, 0.8, 1, 1/25);     // ^ 
+    setDayNightCycle(231, 4, 1, 0, 1/50);           // Pre-Chorus 1 - song goes quieter, first chorus at night
+    setDayNightCycle(393, 2, 0, 1, 1/50);           // Post-Chorus - beat comes back in, also verse 2/chorus 2 at day
+    setDayNightCycle(475, 10, 1, 0.5, 1/50)         // Verse 2 - go slightly darker before chorus 2
+    setDayNightCycle(488, 3, 0.5, 1, 1/25)          // Chorus 2 - go to day again for chorus 2
+    setDayNightCycle(625, 2, 1, 0, 1/50)            // Bridge - quiet bridge
+    setDayNightCycle(707, 43, 0, 1, 1/250)          // Bridge - very slowly get lighter until it's suddenly dark
+    setDayNightCycle(750.5, 1, 1, -1, 1/25)         // Bridge/Drop - Suddenly turn pitch black
+    setDayNightCycle(756, 0.5, -1, 0, 1/25)         // Drop - go to normal night
+    setDayNightCycle(848, 5, 0, 1, 1/50)            // Drop/Outro - getting brighter at the end of the drop
+    setDayNightCycle(921, 3, 1, -0.5, 1/50)         // End - finish at night
     
     // For more help, read: https://github.com/Swifter1243/ReMapper/wiki
 }

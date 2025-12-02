@@ -15,7 +15,7 @@ Shader "Lekrkoekj/TransparentTextShader"
         _Forty ("40", 2D) = "white" {}
         _FortyFive ("45", 2D) = "white" {}
         _Fifty ("50", 2D) = "white" {}
-        _FiftyFive ("55", 2D) = "white" {}
+        _Five ("5", 2D) = "white" {}
         _Transparent ("Transparent", 2D) = "white" {}
     }
     SubShader
@@ -25,6 +25,7 @@ Shader "Lekrkoekj/TransparentTextShader"
             "RenderType"="Transparent" 
         }
         Blend One OneMinusSrcColor
+        ZWrite Off
 
         Pass
         {
@@ -68,7 +69,7 @@ Shader "Lekrkoekj/TransparentTextShader"
             sampler2D _Forty;
             sampler2D _FortyFive;
             sampler2D _Fifty;
-            sampler2D _FiftyFive;
+            sampler2D _Five;
             sampler2D _Transparent;
 
             v2f vert (appdata v)
@@ -99,7 +100,7 @@ Shader "Lekrkoekj/TransparentTextShader"
                 if(texIndex == 9) col = tex2D(_Forty, i.uv);
                 if(texIndex == 10) col = tex2D(_FortyFive, i.uv);
                 if(texIndex == 11) col = tex2D(_Fifty, i.uv);
-                if(texIndex == 12) col = tex2D(_FiftyFive, i.uv);
+                if(texIndex == 12) col = tex2D(_Five, i.uv);
                 if(texIndex == 13) col = tex2D(_Transparent, i.uv);
 
                 col.a = 0;

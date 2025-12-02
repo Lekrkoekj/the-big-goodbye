@@ -1,31 +1,39 @@
-Shader "Lekrkoekj/CoverArtShader"
+﻿Shader "Lekrkoekj/CoverArtShader"
 {
     Properties
     {
-        _Multiplier("Multiplier", Range(0,3)) = 1
-        _CurrentFrame("Current Frame", Range(1,15)) = 14
-        _Frame1 ("Frame 1", 2D) = "white" {}
-        _Frame2 ("Frame 2", 2D) = "white" {}
-        _Frame3 ("Frame 3", 2D) = "white" {}
-        _Frame4 ("Frame 4", 2D) = "white" {}
-        _Frame5 ("Frame 5", 2D) = "white" {}
-        _Frame6 ("Frame 6", 2D) = "white" {}
-        _Frame7 ("Frame 7", 2D) = "white" {}
-        _Frame8 ("Frame 8", 2D) = "white" {}
-        _Frame9 ("Frame 9", 2D) = "white" {}
-        _Frame10 ("Frame 10", 2D) = "white" {}
-        _Frame11 ("Frame 11", 2D) = "white" {}
-        _Frame12 ("Frame 12", 2D) = "white" {}
-        _Frame13 ("Frame 13", 2D) = "white" {}
-        _Frame14 ("Frame 14", 2D) = "white" {}
-        _Frame15 ("Frame 15", 2D) = "white" {}
+        _Multiplier("Color Multiplier", Range(0,3)) = 1
+        _CurrentFrame("Current Frame", Range(1,15)) = 1
+        _RotationStrength("Rotation Strength", float) = 0
+        _RotationSpeed("Rotation Speed", float) = 0
+
+        _Frame("Texture", 2D) = "white" {}
+
+        // Mask animation frames
+        _Mask1 ("Mask 1", 2D) = "white" {}
+        _Mask2 ("Mask 2", 2D) = "white" {}
+        _Mask3 ("Mask 3", 2D) = "white" {}
+        _Mask4 ("Mask 4", 2D) = "white" {}
+        _Mask5 ("Mask 5", 2D) = "white" {}
+        _Mask6 ("Mask 6", 2D) = "white" {}
+        _Mask7 ("Mask 7", 2D) = "white" {}
+        _Mask8 ("Mask 8", 2D) = "white" {}
+        _Mask9 ("Mask 9", 2D) = "white" {}
+        _Mask10("Mask 10", 2D) = "white" {}
+        _Mask11("Mask 11", 2D) = "white" {}
+        _Mask12("Mask 12", 2D) = "white" {}
+        _Mask13("Mask 13", 2D) = "white" {}
+        _Mask14("Mask 14", 2D) = "white" {}
+        _Mask15("Mask 15", 2D) = "white" {}
     }
+
     SubShader
     {
-        Tags { 
-            "Queue"="Transparent" 
-            "RenderType"="Transparent" 
+        Tags {
+            "Queue" = "Transparent"
+            "RenderType" = "Transparent"
         }
+
         Blend One OneMinusSrcColor
         ZWrite Off
 
@@ -37,82 +45,107 @@ Shader "Lekrkoekj/CoverArtShader"
 
             #include "UnityCG.cginc"
 
-            // VivifyTemplate Libraries
-            // #include "Assets/VivifyTemplate/Utilities/Shader Functions/Noise.cginc"
-            // #include "Assets/VivifyTemplate/Utilities/Shader Functions/Colors.cginc"
-            // #include "Assets/VivifyTemplate/Utilities/Shader Functions/Math.cginc"
-            // #include "Assets/VivifyTemplate/Utilities/Shader Functions/Easings.cginc"
-
-            struct appdata
-            {
+            struct appdata {
                 float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
+                float2 uv     : TEXCOORD0;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
-            struct v2f
-            {
-                float2 uv : TEXCOORD0;
+            struct v2f {
+                float2 uv     : TEXCOORD0;
                 float4 vertex : SV_POSITION;
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
-            sampler2D _Frame1;
-            float4 _Frame1_ST;
+            // Properties
+            sampler2D _Frame;
+            float4 _Frame_ST;
+
             float _Multiplier;
             float _CurrentFrame;
+            float _Rotation;
+            float _RotationStrength;
+            float _RotationSpeed;
 
-            sampler2D _Frame2;
-            sampler2D _Frame3;
-            sampler2D _Frame4;
-            sampler2D _Frame5;
-            sampler2D _Frame6;
-            sampler2D _Frame7;
-            sampler2D _Frame8;
-            sampler2D _Frame9;
-            sampler2D _Frame10;
-            sampler2D _Frame11;
-            sampler2D _Frame12;
-            sampler2D _Frame13;
-            sampler2D _Frame14;
-            sampler2D _Frame15;
+            // mask frames
+            sampler2D _Mask1;
+            sampler2D _Mask2;
+            sampler2D _Mask3;
+            sampler2D _Mask4;
+            sampler2D _Mask5;
+            sampler2D _Mask6;
+            sampler2D _Mask7;
+            sampler2D _Mask8;
+            sampler2D _Mask9;
+            sampler2D _Mask10;
+            sampler2D _Mask11;
+            sampler2D _Mask12;
+            sampler2D _Mask13;
+            sampler2D _Mask14;
+            sampler2D _Mask15;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
-                v2f o;
                 UNITY_SETUP_INSTANCE_ID(v);
+
+                _Rotation = sin(_Time.x * 100 * _RotationSpeed) * 25 * _RotationStrength;
+
+                v2f o;
                 UNITY_INITIALIZE_OUTPUT(v2f, o);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _Frame1);
+                float rad = radians(_Rotation);
+
+                float3x3 rotZ = float3x3(
+                    cos(rad),   0,  sin(rad),
+                    0,          1,  0,
+                    -sin(rad),  0,  cos(rad)
+                );
+
+                float3 offset = float3(
+                    sin(_Time.x * 100 * _RotationSpeed) * 1 * _RotationStrength,
+                    sin(_Time.x * 100 * _RotationSpeed) * 0.5 * _RotationStrength,
+                    cos(_Time.x * 100 * _RotationSpeed) * 3 * _RotationStrength
+                );
+
+                float3 pos = mul(rotZ, v.vertex.xyz + offset);
+
+                o.vertex = UnityObjectToClipPos(float4(pos, 1));
+                o.uv = TRANSFORM_TEX(v.uv, _Frame);
+
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
-                float texIndex = floor(_CurrentFrame);
-                fixed4 col = tex2D(_Frame1, i.uv);
+                fixed4 baseColor = tex2D(_Frame, i.uv);
 
-                if(texIndex == 2) col = tex2D(_Frame2, i.uv);
-                if(texIndex == 3) col = tex2D(_Frame3, i.uv);
-                if(texIndex == 4) col = tex2D(_Frame4, i.uv);
-                if(texIndex == 5) col = tex2D(_Frame5, i.uv);
-                if(texIndex == 6) col = tex2D(_Frame6, i.uv);
-                if(texIndex == 7) col = tex2D(_Frame7, i.uv);
-                if(texIndex == 8) col = tex2D(_Frame8, i.uv);
-                if(texIndex == 9) col = tex2D(_Frame9, i.uv);
-                if(texIndex == 10) col = tex2D(_Frame10, i.uv);
-                if(texIndex == 11) col = tex2D(_Frame11, i.uv);
-                if(texIndex == 12) col = tex2D(_Frame12, i.uv);
-                if(texIndex == 13) col = tex2D(_Frame13, i.uv);
-                if(texIndex == 14) col = tex2D(_Frame14, i.uv);
-                if(texIndex == 15) col = tex2D(_Frame15, i.uv);
+                float f = floor(_CurrentFrame);
 
-                col.rgb *= _Multiplier;
-                col.a = 0;
-                return col;
+                fixed mask = tex2D(_Mask1, i.uv).r;
+                if (f == 2) mask = tex2D(_Mask2, i.uv).r;
+                if (f == 3) mask = tex2D(_Mask3, i.uv).r;
+                if (f == 4) mask = tex2D(_Mask4, i.uv).r;
+                if (f == 5) mask = tex2D(_Mask5, i.uv).r;
+                if (f == 6) mask = tex2D(_Mask6, i.uv).r;
+                if (f == 7) mask = tex2D(_Mask7, i.uv).r;
+                if (f == 8) mask = tex2D(_Mask8, i.uv).r;
+                if (f == 9) mask = tex2D(_Mask9, i.uv).r;
+                if (f == 10) mask = tex2D(_Mask10, i.uv).r;
+                if (f == 11) mask = tex2D(_Mask11, i.uv).r;
+                if (f == 12) mask = tex2D(_Mask12, i.uv).r;
+                if (f == 13) mask = tex2D(_Mask13, i.uv).r;
+                if (f == 14) mask = tex2D(_Mask14, i.uv).r;
+                if (f == 15) mask = tex2D(_Mask15, i.uv).r;
+
+                // Apply mask by multiplying RGB
+                baseColor.rgb *= mask * _Multiplier;
+
+                baseColor.a = 0;
+
+                return baseColor;
             }
+
             ENDCG
         }
     }
