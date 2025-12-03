@@ -1,6 +1,5 @@
 import * as rm from "https://deno.land/x/remapper@4.2.0/src/mod.ts"
 import * as bundleInfo from '../bundleinfo.json' with { type: 'json' }
-import { Material } from "jsr:@3d/three";
 
 const pipeline = await rm.createPipeline({ bundleInfo })
 
@@ -312,6 +311,30 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
         mat.set(map, {_CurrentTexture: 10}, beat + 14); // 45
     }
 
+    const lightingMaterialsList = [
+        materials.skyboxmaterial,
+        materials.lampmaterial,
+        materials.grassplanematerial,
+        materials.grassmaterial3,
+        materials.treematerial1,
+        materials.treematerial2,
+        materials.treematerial3,
+        materials.rockmaterial1,
+        materials.rockmaterial2,
+        materials.rockmaterial3,
+        materials.rockmaterial4,
+        materials.treetrunkmaterial,
+        materials.bushbigmaterial,
+        materials.bushflowermaterial,
+        materials.bushmed2material,
+        materials.bushmedmaterial,
+        materials.runwaymaterial,
+        materials["housematerial awning"],
+        materials["housematerial floor"],
+        materials["housematerial main"],
+        materials["housematerial roofline"],
+        materials["housematerial windows"]
+    ]
     /**
      * Linearly changes the day/night cycle of the environment.
      * @param beat The beat on which this event should start.
@@ -323,41 +346,24 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     function setDayNightCycle(beat: number, duration: number, from: number, to: number, precision: number) {
         precision *= duration; // make the precision not per 1 beat, but scale over the entire length of the event
         const diff = to - from;
-
-        const materialsList = [
-            materials.skyboxmaterial,
-            materials.lampmaterial,
-            materials.grassplanematerial,
-            materials.grassmaterial3,
-            materials.treematerial1,
-            materials.treematerial2,
-            materials.treematerial3,
-            materials.rockmaterial1,
-            materials.rockmaterial2,
-            materials.rockmaterial3,
-            materials.rockmaterial4,
-            materials.treetrunkmaterial,
-            materials.bushbigmaterial,
-            materials.bushflowermaterial,
-            materials.bushmed2material,
-            materials.bushmedmaterial,
-            materials.runwaymaterial,
-            materials["housematerial awning"],
-            materials["housematerial floor"],
-            materials["housematerial main"],
-            materials["housematerial roofline"],
-            materials["housematerial windows"]
-        ]
         
-        for (let t = 0; t <= duration; t += precision) {
-            const progress = t / duration;
-            const value = from + diff * progress;
-    
-            materialsList.forEach(material => {
-                material.set(map, { _DayNightCycle: value }, beat + t);
-            })
+        const cycleObj = { _DayNightCycle: 0}
+        if(duration != 0) {
+            for (let t = 0; t <= duration; t += precision) {
+                const progress = t / duration;
+                const value = from + diff * progress;
+
+                cycleObj._DayNightCycle = value;
+            
+                lightingMaterialsList.forEach(material => {
+                    if(material == materials.runwaymaterial) {
+                        material.set(map, { _DayNightCycle: Math.max(value, 0.25) }, beat + t); // Runway should be lighter at night
+                    }
+                    else material.set(map, cycleObj, beat + t);
+                })
+            }
         }
-        materialsList.forEach(material => {
+        lightingMaterialsList.forEach(material => {
             material.set(map, { _DayNightCycle: to }, beat + duration);
         });
     }
@@ -995,28 +1001,74 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     leftAuctioneerTextVerse.destroyObject(178);
     rightAuctioneerTextVerse.destroyObject(178);
 
-    // Day/Night Cycles for entire song
-    setDayNightCycle(75, 17, 0, 0.125, 1/50);       // Intro - full beat comes in
-    setDayNightCycle(92, 10, 0.125, 0.4, 1/100);    // ^
-    setDayNightCycle(102, 4, 0.4, 0.8, 1/50);       // ^
-    setDayNightCycle(106.5, 0.5, 0.8, 1, 1/25);     // ^ 
-    setDayNightCycle(231, 4, 1, 0, 1/50);           // Pre-Chorus 1 - song goes quieter, first chorus at night
-    setDayNightCycle(393, 2, 0, 1, 1/50);           // Post-Chorus - beat comes back in, also verse 2/chorus 2 at day
-    setDayNightCycle(475, 10, 1, 0.5, 1/50)         // Verse 2 - go slightly darker before chorus 2
-    setDayNightCycle(488, 3, 0.5, 1, 1/25)          // Chorus 2 - go to day again for chorus 2
-    setDayNightCycle(625, 2, 1, 0, 1/50)            // Bridge - quiet bridge
-    setDayNightCycle(707, 43, 0, 1, 1/250)          // Bridge - very slowly get lighter until it's suddenly dark
-    setDayNightCycle(750.5, 1, 1, -1, 1/25)         // Bridge/Drop - Suddenly turn pitch black
-    setDayNightCycle(756, 0.5, -1, 0, 1/25)         // Drop - go to normal night
-    setDayNightCycle(848, 5, 0, 1, 1/50)            // Drop/Outro - getting brighter at the end of the drop
-    setDayNightCycle(921, 3, 1, -0.5, 1/50)         // End - finish at night
+    // Day/Night Cycles for entire song - overall song structure
+    setDayNightCycle(75, 17, 0, 0.125, 1/16);       // Intro - full beat comes in
+    setDayNightCycle(92, 10, 0.125, 0.4, 1/16);    // ^
+    setDayNightCycle(102, 4, 0.4, 0.8, 1/16);       // ^
+    setDayNightCycle(106.5, 0.5, 0.8, 1, 1/16);     // ^ 
+    setDayNightCycle(231, 4, 0.65, 0, 1/16);        // Pre-Chorus 1 - song goes quieter, first chorus at night
+    setDayNightCycle(393, 2, 0, 1, 1/16);           // Post-Chorus - beat comes back in, also verse 2/chorus 2 at day
+    setDayNightCycle(475, 10, 1, 0.5, 1/16)         // Verse 2 - go slightly darker before chorus 2
+    setDayNightCycle(488, 3, 0.5, 1, 1/16)          // Chorus 2 - go to day again for chorus 2
+    setDayNightCycle(707, 43, 0, 1, 1/16)          // Bridge - very slowly get lighter until it's suddenly dark
+    setDayNightCycle(750.5, 1, 1, -1, 1/16)         // Bridge/Drop - Suddenly turn pitch black
+    materials.runwaymaterial.set(map, {_DayNightCycle: -1}, 751);
+    setDayNightCycle(756, 0.5, -1, 0, 1/16)         // Drop - go to normal night
+    setDayNightCycle(848, 5, 0, 1, 1/16)            // Drop/Outro - getting brighter at the end of the drop
+    setDayNightCycle(921, 3, 1, -0.5, 1/16)         // End - finish at night
+
+    // Day/night cycles - other animations
+    setDayNightCycle(109, 3, 1.25, 1, 1/16);
+    setDayNightCycle(117, 3, 1.25, 1, 1/16);
+    setDayNightCycle(125, 3, 1.25, 1, 1/16);
+    setDayNightCycle(132, 6.5, 1, 0.75, 1/16);
+    setDayNightCycle(139, 0, 1, 1, 1/1);
+    setDayNightCycle(141, 3, 1.125, 1, 1/16);
+    setDayNightCycle(173, 3, 1.125, 1, 1/16);
+    setDayNightCycle(203, 3.5, 1.125, 0.65, 1/16);
+    setDayNightCycle(207, 3.5, 1.125, 0.65, 1/16);
+    setDayNightCycle(211, 8, 1.125, 0.5, 1/16);
+    setDayNightCycle(219, 3.5, 1.125, 0.65, 1/16);
+    setDayNightCycle(223, 3.5, 1.125, 0.65, 1/16);
+    setDayNightCycle(227, 4, 1.125, 0.65, 1/16);
+    setDayNightCycle(355, 2, 0.25, 0, 1/16);
+    setDayNightCycle(359, 2, 0.25, 0, 1/16);
+    setDayNightCycle(363, 3, 0.4, 0, 1/16);
+    setDayNightCycle(397, 3, 1.25, 1, 1/16);
+    setDayNightCycle(405, 3, 1.25, 1, 1/16);
+    setDayNightCycle(413, 3, 1.25, 1, 1/16);
+    setDayNightCycle(421, 3, 1.25, 1, 1/16);
+    setDayNightCycle(433, 3, 1.25, 1, 1/16);
+    setDayNightCycle(449, 3, 1.25, 1, 1/16);
+    setDayNightCycle(465, 3, 1.25, 1, 1/16);
+    setDayNightCycle(478, 3, 1, 0.49, 1/16);
+    setDayNightCycle(482, 3, 0.8, 0.5, 1/16);
+    setDayNightCycle(493, 3, 1.25, 1, 1/16);
+    setDayNightCycle(501, 3, 1.25, 1, 1/16);
+    setDayNightCycle(509, 3, 1.25, 1, 1/16);
+    setDayNightCycle(517, 3, 1.25, 1, 1/16);
+    setDayNightCycle(525, 3, 1.25, 1, 1/16);
+    setDayNightCycle(533, 3, 1.25, 1, 1/16);
+    setDayNightCycle(541, 3, 1.25, 1, 1/16);
+    setDayNightCycle(549, 3, 1.25, 1, 1/16);
+    setDayNightCycle(552, 3, 1, 0.75, 1/16);
+    setDayNightCycle(555, 1, 1.125, 1, 1/16);
+    setDayNightCycle(557, 3, 1.25, 1, 1/16);
+    setDayNightCycle(565, 3, 1.25, 1, 1/16);
+    setDayNightCycle(573, 3, 1.25, 1, 1/16);
+    setDayNightCycle(581, 3, 1.25, 1, 1/16);
+    setDayNightCycle(589, 3, 1.25, 1, 1/16);
+    setDayNightCycle(597, 3, 1.25, 1, 1/16);
+    setDayNightCycle(603, 2, 0.25, 0, 1/16);
+    setDayNightCycle(607, 2, 0.25, 0, 1/16);
+    setDayNightCycle(611, 3, 0.4, 0, 1/16);
     
     // Cover art brightness for entire song
-    setCoverArtBrightness(109, 3, 10, 3, 1/25)
-    setCoverArtBrightness(117, 3, 10, 3, 1/25)
-    setCoverArtBrightness(125, 3, 10, 3, 1/25)
-    setCoverArtBrightness(141, 3, 10, 3, 1/25)
-    setCoverArtBrightness(173, 3, 10, 3, 1/25)
+    setCoverArtBrightness(109, 3, 10, 3, 1/8)
+    setCoverArtBrightness(117, 3, 10, 3, 1/8)
+    setCoverArtBrightness(125, 3, 10, 3, 1/8)
+    setCoverArtBrightness(141, 3, 10, 3, 1/8)
+    setCoverArtBrightness(173, 3, 10, 3, 1/8)
 
     coverArtBrightnessOnBeat(379, 10, 3);
     coverArtBrightnessOnBeat(387, 10, 3);
