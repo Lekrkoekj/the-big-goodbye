@@ -13,9 +13,12 @@ const prefabs = bundle.prefabs
 async function doMap(file: rm.DIFFICULTY_NAME) {
     const map = await rm.readDifficultyV3(pipeline, file)
 
-    map.require("Vivify", true);
+    const chromaOnly = file.includes("Lawless") == true ? true : false;
+    console.log("Chroma only: " + chromaOnly);
+
+    if(!chromaOnly) map.require("Vivify", true);
     map.suggest("Chroma", true);
-    map.require("Noodle Extensions", true);
+    if(!chromaOnly) map.require("Noodle Extensions", true);
 
     /// ---- { FUNCTIONS } -----
 
@@ -40,6 +43,28 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
                     : frameAmount - i;
     
             material?.set(map, { _CurrentFrame: frame }, time);
+        }
+    }
+
+    /**
+     * An easy way to transition all cover arts with a specified delay between them.
+     * @param beat The beat this event should trigger on.
+     * @param offset The amount of delay (in beats) there should be between each cover art.
+     * @param duration The amount of time each cover art should take to transition.
+     * @param direction Transition on or off.
+     */
+    function transitionAllCoverArt(beat: number, offset: number, duration: number, direction: "on" | "off") {
+        const materialsList = [
+            materials.coverart5material,
+            materials.coverart1material,
+            materials.coverart2material,
+            materials.coverart3material,
+            materials.coverart6material,
+            materials.coverart7material,
+            materials.coverart4material,
+        ]
+        for(let i = 0; i < materialsList.length; i++) {
+            transitionCoverArt(materialsList[i], beat + offset * i, duration, direction);
         }
     }
 
@@ -170,6 +195,11 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
         }
     }
 
+    /**
+     * Remove the text objects of the text flooding sequence in the intro.
+     * @param beat When this event should happen.
+     * @param duration How long it should take for all text objects to be removed.
+     */
     function removeTextObjects(beat: number, duration: number) {
         const shuffledTextObjects = shuffle(floodingAuctioneerTextObjects);
 
@@ -182,6 +212,9 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
         }
     }
 
+    /**
+     * Set auctioneer texts for intro
+     */
     function doActioneerTextSequenceBeforeFlood() {
         let mat = materials.sideauctioneertext;
         mat.set(map, {_CurrentTexture: 0}, 15.375); // 525
@@ -233,6 +266,11 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
         mat.set(map, {_CurrentTexture: 13}, 42); // -
     }
 
+    /**
+     * Do the auctioneer text.
+     * @param beat When the event should start.
+     * @param cutoff After how many beats this event should stop. Optional, event will finish in its entirety if unspecified.
+     */
     function doAuctioneerTextSequence(beat: number, cutoff: number = 0) {
         let mat = materials.sideauctioneertext;
         mat.set(map, {_CurrentTexture: 0}, beat); // 525
@@ -286,7 +324,7 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
         precision *= duration; // make the precision not per 1 beat, but scale over the entire length of the event
         const diff = to - from;
 
-        let materialsList = [
+        const materialsList = [
             materials.skyboxmaterial,
             materials.lampmaterial,
             materials.grassplanematerial,
@@ -324,6 +362,62 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
         });
     }
 
+    /**
+     * Linearly changes the brightness of all the cover arts.
+     * @param beat The beat on which this event should start.
+     * @param duration How many beats this event should take.
+     * @param from The value of the brightness at the beginning of the event.
+     * @param to The value of the brightness at the end of the event.
+     * @param precision How smooth the event should look / how many custom events this should take.
+     */
+    function setCoverArtBrightness(beat: number, duration: number, from: number, to: number, precision: number) {
+        precision *= duration; // make the precision not per 1 beat, but scale over the entire length of the event
+        const diff = to - from;
+
+        const materialsList = [
+            materials.coverart1material,
+            materials.coverart2material,
+            materials.coverart3material,
+            materials.coverart4material,
+            materials.coverart5material,
+            materials.coverart6material,
+            materials.coverart7material
+        ]
+        
+        for (let t = 0; t <= duration; t += precision) {
+            const progress = t / duration;
+            const value = from + diff * progress;
+    
+            materialsList.forEach(material => {
+                material.set(map, { _Multiplier: value }, beat + t);
+            })
+        }
+        materialsList.forEach(material => {
+            material.set(map, { _Multiplier: to }, beat + duration);
+        });
+    }
+
+    /**
+     * An easy way to transition the brightness of all cover arts at once.
+     * @param beat When this event should start.
+     * @param from The brightness of all cover arts at the beginning of this event.
+     * @param to The brightness of all cover arts at the end of this event.
+     */
+    function coverArtBrightnessOnBeat(beat: number, from: number, to: number) {
+        setCoverArtBrightness(beat, 1, from, to, 1/8)
+        setCoverArtBrightness(beat + 1.5, 0.24, from, to, 1/4)
+        setCoverArtBrightness(beat + 2, 0.24, from, to, 1/4)
+        setCoverArtBrightness(beat + 3, 1, from, to, 1/8)
+        setCoverArtBrightness(beat + 4.5, 0.24, from, to, 1/4)
+        setCoverArtBrightness(beat + 5, 0.24, from, to, 1/4)
+        setCoverArtBrightness(beat + 6, 1, from, to, 1/8)
+    }
+
+    /**
+     * Show/hide Beat Saber's UI panels of the score, combo, song timer, etc.
+     * @param beat When this event should start.
+     * @param value Whether they should be toggled on or off.
+     */
     function toggleUiPanels(beat: number, value: "on" | "off") {
         rm.animateTrack(map,{
             track: "uiPanelLeft",
@@ -341,9 +435,13 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
         })
     }
 
-    function setLaserPositions(beat: number, side: "left" | "right") {
-        let sideOffset = 3;
-        let rotationOffset = 2;
+    /**
+     * Places the lasers in their correct positions.
+     * @param side Which side (left or right) to position.
+     */
+    function setLaserPositions(side: "left" | "right") {
+        const sideOffset = 3;
+        const rotationOffset = 2;
         if(side == "left") {
             rm.environment(map, {
                 id: "s.[0]PillarL",
@@ -634,8 +732,8 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     })
 
     // Laser positions
-    setLaserPositions(0, "left");
-    setLaserPositions(0, "right");
+    setLaserPositions("left");
+    setLaserPositions("right");
 
     // Top window light
     rm.geometry(map, {
@@ -859,16 +957,7 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     randomizeAuctioneerTexts(32.5, 1);
     randomizeAuctioneerTexts(33, 2);
     randomizeAuctioneerTexts(33.5, 3);
-    randomizeAuctioneerTexts(34, 4);
-
-    // Intro: full beat comes in, turn on cover arts
-    transitionCoverArt(materials.coverart1material, 106, 0.5, "on");
-    transitionCoverArt(materials.coverart2material, 106.125, 0.5, "on");
-    transitionCoverArt(materials.coverart3material, 106.25, 0.5, "on");
-    transitionCoverArt(materials.coverart4material, 106.375, 0.5, "on");
-    transitionCoverArt(materials.coverart5material, 106.5, 0.5, "on");
-    transitionCoverArt(materials.coverart6material, 106.625, 0.5, "on");
-    transitionCoverArt(materials.coverart7material, 106.75, 0.5, "on");
+    randomizeAuctioneerTexts(34, 4);    
 
     // Intro: auctioneer texts
     doAuctioneerTextSequence(43); 
@@ -895,16 +984,16 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
 
     // Auctioneer text during verse1
     toggleUiPanels(171, "off");
-    doAuctioneerTextSequence(171, 6);
+    doAuctioneerTextSequence(171, 7);
     let leftAuctioneerTextVerse = prefabs.sideauctioneertext.instantiate(map, 171)
     leftAuctioneerTextVerse.localPosition = [-2.75, 1.5, 4.5]
     leftAuctioneerTextVerse.localRotation = [-270, -20, 180]
     let rightAuctioneerTextVerse = prefabs.sideauctioneertext.instantiate(map, 171)
     rightAuctioneerTextVerse.localPosition = [2.75, 1.5, 4.5]
     rightAuctioneerTextVerse.localRotation = [-270, 20, 180]
-    toggleUiPanels(177, "on");
-    leftAuctioneerTextVerse.destroyObject(177);
-    rightAuctioneerTextVerse.destroyObject(177);
+    toggleUiPanels(178, "on");
+    leftAuctioneerTextVerse.destroyObject(178);
+    rightAuctioneerTextVerse.destroyObject(178);
 
     // Day/Night Cycles for entire song
     setDayNightCycle(75, 17, 0, 0.125, 1/50);       // Intro - full beat comes in
@@ -922,10 +1011,171 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     setDayNightCycle(848, 5, 0, 1, 1/50)            // Drop/Outro - getting brighter at the end of the drop
     setDayNightCycle(921, 3, 1, -0.5, 1/50)         // End - finish at night
     
-    // For more help, read: https://github.com/Swifter1243/ReMapper/wiki
+    // Cover art brightness for entire song
+    setCoverArtBrightness(109, 3, 10, 3, 1/25)
+    setCoverArtBrightness(117, 3, 10, 3, 1/25)
+    setCoverArtBrightness(125, 3, 10, 3, 1/25)
+    setCoverArtBrightness(141, 3, 10, 3, 1/25)
+    setCoverArtBrightness(173, 3, 10, 3, 1/25)
+
+    coverArtBrightnessOnBeat(379, 10, 3);
+    coverArtBrightnessOnBeat(387, 10, 3);
+    coverArtBrightnessOnBeat(395, 10, 3);
+    coverArtBrightnessOnBeat(403, 10, 3);
+    coverArtBrightnessOnBeat(411, 10, 3);
+    coverArtBrightnessOnBeat(419, 10, 3);
+    coverArtBrightnessOnBeat(427, 10, 3);
+    coverArtBrightnessOnBeat(435, 10, 3);
+    coverArtBrightnessOnBeat(443, 10, 3);
+    coverArtBrightnessOnBeat(451, 10, 3);
+    coverArtBrightnessOnBeat(459, 10, 3);
+    coverArtBrightnessOnBeat(467, 10, 3);
+    coverArtBrightnessOnBeat(491, 10, 3);
+    coverArtBrightnessOnBeat(499, 10, 3);
+    coverArtBrightnessOnBeat(507, 10, 3);
+    coverArtBrightnessOnBeat(515, 10, 3);
+    coverArtBrightnessOnBeat(523, 10, 3);
+    coverArtBrightnessOnBeat(531, 10, 3);
+    coverArtBrightnessOnBeat(539, 10, 3);
+    coverArtBrightnessOnBeat(547, 10, 3);
+    coverArtBrightnessOnBeat(555, 10, 3);
+    coverArtBrightnessOnBeat(563, 10, 3);
+    coverArtBrightnessOnBeat(571, 10, 3);
+    coverArtBrightnessOnBeat(579, 10, 3);
+    coverArtBrightnessOnBeat(587, 10, 3);
+    coverArtBrightnessOnBeat(595, 10, 3);
+
+    coverArtBrightnessOnBeat(788, 13, 5);
+    coverArtBrightnessOnBeat(796, 13, 5);
+    coverArtBrightnessOnBeat(804, 13, 5);
+    coverArtBrightnessOnBeat(812, 13, 5);
+    coverArtBrightnessOnBeat(820, 13, 5);
+    coverArtBrightnessOnBeat(828, 13, 5);
+    coverArtBrightnessOnBeat(836, 13, 5);
+    coverArtBrightnessOnBeat(844, 13, 5);
+
+    // Cover art transitions for entire song
+    transitionAllCoverArt(106.5, 0.125, 0.5, "on");     // Intro
+    transitionAllCoverArt(133, 0.25, 0.75, "off");      // Before Verse 1
+    transitionAllCoverArt(139, 1, 0.75, "on");          // Verse 1
+    transitionAllCoverArt(139, 1, 0.75, "on");          // ^
+    transitionAllCoverArt(147, 1, 0.75, "off");         // ^
+    transitionAllCoverArt(155, 1, 0.75, "on");          // ^
+    transitionAllCoverArt(163, 1, 0.75, "off");         // ^
+    transitionAllCoverArt(171, 1, 0.75, "on");          // ^
+    transitionAllCoverArt(179, 1, 0.75, "off");         // ^
+    transitionAllCoverArt(187, 1, 0.75, "on");          // ^
+    transitionAllCoverArt(195, 1, 0.75, "off");         // ^
+    transitionAllCoverArt(243, 1, 0.75, "on");          // Chorus 1 quiet
+    transitionAllCoverArt(244, 1, 0.75, "off");         // ^
+    transitionAllCoverArt(251, 1, 0.75, "on");          // ^
+    transitionAllCoverArt(252, 1, 0.75, "off");         // ^
+    transitionAllCoverArt(259, 1, 0.75, "on");          // ^
+    transitionAllCoverArt(260, 1, 0.75, "off");         // ^
+    transitionAllCoverArt(267, 1, 0.75, "on");          // ^
+    transitionAllCoverArt(268, 1, 0.75, "off");         // ^
+    transitionAllCoverArt(275, 1, 0.75, "on");          // ^
+    transitionAllCoverArt(276, 1, 0.75, "off");         // ^
+    transitionAllCoverArt(283, 1, 0.75, "on");          // ^
+    transitionAllCoverArt(284, 1, 0.75, "off");         // ^
+    transitionAllCoverArt(291, 1, 0.75, "on");          // ^
+    transitionAllCoverArt(292, 1, 0.75, "off");         // ^
+    transitionAllCoverArt(306, 0.125, 0.75, "on");      // Chorus 1 louder
+    transitionAllCoverArt(363, 0.25, 0.75, "off");      // Chorus 1 end
+    transitionAllCoverArt(379, 0, 0, "on");             // Post-Chorus
+    transitionAllCoverArt(475, 1, 1.25, "off");         // Verse 2 end
+    transitionAllCoverArt(489.5, 0.25, 0.25, "on");     // Chorus 2
+    transitionAllCoverArt(551, 0.25, 1.25, "off");      // ^
+    transitionAllCoverArt(554.5, 0.125, 0.25, "on");    // ^
+    transitionAllCoverArt(613, 0.25, 0.5, "off");       // Chorus 2 end
+
+    // Drop
+    transitionCoverArt(materials.coverart5material, 756, 0.75, "on");
+
+    transitionCoverArt(materials.coverart5material, 757.5, 0.25, "off");
+    transitionCoverArt(materials.coverart1material, 757.5, 0.25, "on");
+
+    transitionCoverArt(materials.coverart1material, 758, 0.75, "off");
+    transitionCoverArt(materials.coverart2material, 758, 0.75, "on");
+    
+    transitionCoverArt(materials.coverart2material, 759, 0.75, "off");
+    transitionCoverArt(materials.coverart3material, 759, 0.75, "on");
+
+    transitionCoverArt(materials.coverart3material, 760.5, 0.25, "off");
+    transitionCoverArt(materials.coverart5material, 760.5, 0.25, "on");
+
+    transitionCoverArt(materials.coverart5material, 761, 0.75, "off");
+    transitionCoverArt(materials.coverart1material, 761, 0.75, "on");
+    
+    transitionCoverArt(materials.coverart1material, 762, 0.75, "off");
+    transitionCoverArt(materials.coverart2material, 762, 0.75, "on");
+
+    transitionCoverArt(materials.coverart2material, 764, 0.75, "off");
+    transitionCoverArt(materials.coverart3material, 764, 0.75, "on");
+
+    transitionCoverArt(materials.coverart3material, 765.5, 0.25, "off");
+    transitionCoverArt(materials.coverart2material, 765.5, 0.25, "on");
+
+    transitionCoverArt(materials.coverart2material, 766, 0.75, "off");
+    transitionCoverArt(materials.coverart1material, 766, 0.75, "on");
+
+    transitionCoverArt(materials.coverart1material, 767, 0.75, "off");
+    transitionCoverArt(materials.coverart5material, 767, 0.75, "on");
+
+    transitionCoverArt(materials.coverart5material, 768.5, 0.25, "off");
+    transitionCoverArt(materials.coverart3material, 768.5, 0.25, "on");
+
+    transitionCoverArt(materials.coverart3material, 769, 0.75, "off");
+    transitionCoverArt(materials.coverart2material, 769, 0.75, "on");
+
+    transitionCoverArt(materials.coverart2material, 770, 0.75, "off");
+    transitionCoverArt(materials.coverart1material, 770, 0.75, "on");
+
+    transitionCoverArt(materials.coverart1material, 756 + 16, 0.75, "off");
+    transitionCoverArt(materials.coverart5material, 756 + 16, 0.75, "on");
+
+    transitionCoverArt(materials.coverart5material, 757.5 + 16, 0.25, "off");
+    transitionCoverArt(materials.coverart1material, 757.5 + 16, 0.25, "on");
+
+    transitionCoverArt(materials.coverart1material, 758 + 16, 0.75, "off");
+    transitionCoverArt(materials.coverart2material, 758 + 16, 0.75, "on");
+    
+    transitionCoverArt(materials.coverart2material, 759 + 16, 0.75, "off");
+    transitionCoverArt(materials.coverart3material, 759 + 16, 0.75, "on");
+
+    transitionCoverArt(materials.coverart3material, 760.5 + 16, 0.25, "off");
+    transitionCoverArt(materials.coverart5material, 760.5 + 16, 0.25, "on");
+
+    transitionCoverArt(materials.coverart5material, 761 + 16, 0.75, "off");
+    transitionCoverArt(materials.coverart1material, 761 + 16, 0.75, "on");
+    
+    transitionCoverArt(materials.coverart1material, 762 + 16, 0.75, "off");
+    transitionCoverArt(materials.coverart2material, 762 + 16, 0.75, "on");
+
+    transitionCoverArt(materials.coverart2material, 764 + 16, 0.75, "off");
+    transitionCoverArt(materials.coverart3material, 764 + 16, 0.75, "on");
+
+    transitionCoverArt(materials.coverart3material, 765.5 + 16, 0.25, "off");
+    transitionCoverArt(materials.coverart2material, 765.5 + 16, 0.25, "on");
+
+    transitionCoverArt(materials.coverart2material, 766 + 16, 0.75, "off");
+    transitionCoverArt(materials.coverart1material, 766 + 16, 0.75, "on");
+
+    transitionCoverArt(materials.coverart1material, 767 + 16, 0.75, "off");
+    transitionCoverArt(materials.coverart5material, 767 + 16, 0.75, "on");
+
+    transitionCoverArt(materials.coverart5material, 768.5 + 16, 0.25, "off");
+    transitionCoverArt(materials.coverart3material, 768.5 + 16, 0.25, "on");
+
+    transitionCoverArt(materials.coverart3material, 769 + 16, 0.75, "off");
+    transitionCoverArt(materials.coverart2material, 769, 0.75, "on");
+
+    transitionCoverArt(materials.coverart2material, 770 + 16, 0.75, "off");
+    transitionCoverArt(materials.coverart1material, 770 + 16, 0.75, "on");
+
+    transitionAllCoverArt(787, 0.125, 0.25, "on");
+    transitionAllCoverArt(921, 0.5, 1, "off"); // end
 }
-
-
 
 await Promise.all([
     doMap('ExpertPlusStandard')

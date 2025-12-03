@@ -2,7 +2,7 @@
 {
     Properties
     {
-        _Multiplier("Color Multiplier", Range(0,3)) = 1
+        _Multiplier("Color Multiplier", Range(0,10)) = 1
         _CurrentFrame("Current Frame", Range(1,15)) = 1
         _RotationStrength("Rotation Strength", float) = 0
         _RotationSpeed("Rotation Speed", float) = 0

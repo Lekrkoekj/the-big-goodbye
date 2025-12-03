@@ -44,7 +44,10 @@
             "_envColorRightBoost" : {"r":0.702,"g":0.867,"b":0.051}
           }
         }
-      ]
+      ],
+      "_customData" : {
+        "_characteristicLabel" : "Vivify"
+      }
     }
   ],
   "_customData" : {
