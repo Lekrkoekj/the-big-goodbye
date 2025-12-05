@@ -3,6 +3,7 @@ Shader "Lekrkoekj/TransparentTextureShader"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _Opacity ("Opacity", Range(0, 1)) = 1
     }
     SubShader
     {
@@ -44,6 +45,7 @@ Shader "Lekrkoekj/TransparentTextureShader"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            float _Opacity;
 
             v2f vert (appdata v)
             {
@@ -60,6 +62,7 @@ Shader "Lekrkoekj/TransparentTextureShader"
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
+                col *= _Opacity;
                 col.a = 0;
                 return col;
             }

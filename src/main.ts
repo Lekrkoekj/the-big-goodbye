@@ -356,10 +356,7 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
                 cycleObj._DayNightCycle = value;
             
                 lightingMaterialsList.forEach(material => {
-                    if(material == materials.runwaymaterial) {
-                        material.set(map, { _DayNightCycle: Math.max(value, 0.25) }, beat + t); // Runway should be lighter at night
-                    }
-                    else material.set(map, cycleObj, beat + t);
+                    material.set(map, cycleObj, beat + t);
                 })
             }
         }
@@ -891,68 +888,72 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
 
     /// ---- { EVENTS } -----
 
+    // Intro: Presents, AJR Logo, The Big Goodbye Text
+    const introAnimation = prefabs.introanimation.instantiate(map, 6);
+    introAnimation.destroyObject(26);
+
     // Intro: AJR logo
-    const ajrLogo = prefabs.ajrlogo.instantiate(map, {
-        beat: 6,
-        track: "AJRLogo",
-        scale: [0, 0, 0],
-    })
-    rm.animateTrack(map, {
-        beat: 6,
-        duration: 9,
-        track: "AJRLogo",
-        animation: {
-            position: [
-                [0, 1.5, 7, 0],
-                [0, 1.75, 7, 0.11, "easeOutBack"],
-                [0, 1.875, 5.75, 1]
-            ],
-            scale: [
-                [0, 0, 0, 0],
-                [0.1058433, 0.1058433, 0.1058433, 0.11],
-                [0.1058433, 0.1058433, 0.1058433, 0.75],
-                [0, 0, 0, 1]
-            ],
-            rotation: [
-                [-270, 0, 180, 0],
-                [-270, 0, 180, 0.8],
-                [-630, -180, 180, 0.95]
-            ]
-        }
-    });
-    ajrLogo.destroyObject(15);
+    // const ajrLogo = prefabs.ajrlogo.instantiate(map, {
+    //     beat: 6,
+    //     track: "AJRLogo",
+    //     scale: [0, 0, 0],
+    // })
+    // rm.animateTrack(map, {
+    //     beat: 6,
+    //     duration: 9,
+    //     track: "AJRLogo",
+    //     animation: {
+    //         position: [
+    //             [0, 1.5, 7, 0],
+    //             [0, 1.75, 7, 0.11, "easeOutBack"],
+    //             [0, 1.875, 5.75, 1]
+    //         ],
+    //         scale: [
+    //             [0, 0, 0, 0],
+    //             [0.1058433, 0.1058433, 0.1058433, 0.11],
+    //             [0.1058433, 0.1058433, 0.1058433, 0.75],
+    //             [0, 0, 0, 1]
+    //         ],
+    //         rotation: [
+    //             [-270, 0, 180, 0],
+    //             [-270, 0, 180, 0.8],
+    //             [-630, -180, 180, 0.95]
+    //         ]
+    //     }
+    // });
+    // ajrLogo.destroyObject(15);
 
-    // Intro: The Big Goodbye text
-    const tbgText = prefabs.thebiggoodbyetext.instantiate(map, {
-        beat: 7,
-        track: "TBGText",
-        scale: [0, 0, 0]
-    }) // AJR Logo
+    // // Intro: The Big Goodbye text
+    // const tbgText = prefabs.thebiggoodbyetext.instantiate(map, {
+    //     beat: 7,
+    //     track: "TBGText",
+    //     scale: [0, 0, 0]
+    // }) // AJR Logo
 
-    // AJR logo animation
-    rm.animateTrack(map, {
-        beat: 7,
-        duration: 8,
-        track: "TBGText",
-        animation: {
-            position: [
-                [0, 0.75, 7, 0],
-                [0, 1.032, 7, 0.11, "easeOutBack"],
-                [0, 1.25, 5.75, 1]
-            ],
-            scale: [
-                [0, 0, 0, 0],
-                [0.01, 0.01, 0.01, 0.11],
-                [0.01, 0.01, 0.01, 0.8],
-                [0, 0, 0, 1]
-            ],
-            rotation: [
-                [0, 0, 0, 0],
-                [0, 0, 0, 0.9],
-                [0, -180, 0, 0.95]
-            ]
-        }
-    });
+    // // AJR logo animation
+    // rm.animateTrack(map, {
+    //     beat: 7,
+    //     duration: 8,
+    //     track: "TBGText",
+    //     animation: {
+    //         position: [
+    //             [0, 0.75, 7, 0],
+    //             [0, 1.032, 7, 0.11, "easeOutBack"],
+    //             [0, 1.25, 5.75, 1]
+    //         ],
+    //         scale: [
+    //             [0, 0, 0, 0],
+    //             [0.01, 0.01, 0.01, 0.11],
+    //             [0.01, 0.01, 0.01, 0.8],
+    //             [0, 0, 0, 1]
+    //         ],
+    //         rotation: [
+    //             [0, 0, 0, 0],
+    //             [0, 0, 0, 0.9],
+    //             [0, -180, 0, 0.95]
+    //         ]
+    //     }
+    // });
     
     placeTextObjects(0, 15, 7, 0.5, 0.5, -2.5, 0.02, 0.1, 30);
     toggleUiPanels(0, "off");
@@ -972,8 +973,6 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     doAuctioneerTextSequence(91);
     doAuctioneerTextSequence(107);
     doAuctioneerTextSequence(123, 9);
-    leftAuctioneerTextIntro.destroyObject(132);
-    rightAuctioneerTextIntro.destroyObject(132);
 
     for(let i = 34; i < 38; i += 0.25) {
         randomizeAuctioneerTexts(i);
@@ -988,18 +987,19 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     materials.sideauctioneertext.set(map, {_CurrentTexture: 13}, 139)
     toggleUiPanels(139, "on");
 
-    // Auctioneer text during verse1
+    // Auctioneer text during verse 1
     toggleUiPanels(171, "off");
     doAuctioneerTextSequence(171, 7);
-    let leftAuctioneerTextVerse = prefabs.sideauctioneertext.instantiate(map, 171)
-    leftAuctioneerTextVerse.localPosition = [-2.75, 1.5, 4.5]
-    leftAuctioneerTextVerse.localRotation = [-270, -20, 180]
-    let rightAuctioneerTextVerse = prefabs.sideauctioneertext.instantiate(map, 171)
-    rightAuctioneerTextVerse.localPosition = [2.75, 1.5, 4.5]
-    rightAuctioneerTextVerse.localRotation = [-270, 20, 180]
     toggleUiPanels(178, "on");
-    leftAuctioneerTextVerse.destroyObject(178);
-    rightAuctioneerTextVerse.destroyObject(178);
+    materials.sideauctioneertext.set(map, {_CurrentTexture: 13}, 178)
+
+    // Auctioneer text during post-chorus
+    toggleUiPanels(379, "off");
+    doAuctioneerTextSequence(379);
+    doAuctioneerTextSequence(395);
+    doAuctioneerTextSequence(411);
+    toggleUiPanels(427, "on");
+    materials.sideauctioneertext.set(map, {_CurrentTexture: 13}, 427)
 
     // Day/Night Cycles for entire song - overall song structure
     setDayNightCycle(75, 17, 0, 0.125, 1/16);       // Intro - full beat comes in

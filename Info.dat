@@ -3,7 +3,7 @@
   "_songName" : "The Big Goodbye",
   "_songSubName" : "",
   "_songAuthorName" : "AJR",
-  "_levelAuthorName" : "Lekrkoekj",
+  "_levelAuthorName" : "Lekrkoekj, BanditByTheStreet",
   "_beatsPerMinute" : 184,
   "_songTimeOffset" : 0,
   "_shuffle" : 0,
@@ -51,6 +51,23 @@
     }
   ],
   "_customData" : {
+    "_contributors" : [
+      {
+        "_name" : "Lekr",
+        "_role" : "Vivify Environment, Mapping",
+        "_iconPath" : "lekr.png"
+      },
+      {
+        "_name" : "BanditByTheStreet",
+        "_role" : "Chroma+ lighting, One Saber Mapping",
+        "_iconPath" : "red.png"
+      },
+      {
+        "_name" : "Scorefam",
+        "_role" : "Expert mapping",
+        "_iconPath" : "scorefam.jpg"
+      }
+    ],
     "_editors" : {
       "_lastEditedBy" : "ChroMapper",
       "ChroMapper" : {
