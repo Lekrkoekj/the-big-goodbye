@@ -526,6 +526,22 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
         materials.glowparticlematerial.set(map, { _Opacity: to }, beat + duration);
     }
 
+    function setAuctioneerTextOpacity(beat: number, duration: number, from: number, to: number, precision: number) {
+        precision *= duration; // make the precision not per 1 beat, but scale over the entire length of the event
+        const diff = to - from;
+        
+        if(duration != 0) {
+            for (let t = 0; t <= duration; t += precision) {
+                const progress = t / duration;
+                const value = from + diff * progress;
+            
+                materials.sideauctioneertext.set(map, {_Opacity: value}, beat + t);
+                materials.outroauctioneertext.set(map, {_Opacity: value}, beat + t);
+            }
+        }
+        materials.outroauctioneertext.set(map, { _Opacity: to }, beat + duration);
+    }
+
     /// ---- { ENVIRONMENT } -----
 
     // Particles
@@ -540,7 +556,7 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
         lookupMethod: "EndsWith",
         "localPosition": [
             0,
-            20,
+            22,
             150
         ],
         "scale": [
@@ -1315,11 +1331,10 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
     doAuctioneerTextSequence(804);
     doAuctioneerTextSequence(820, 90, materials.outroauctioneertext);
     doAuctioneerTextSequence(820);
-    doAuctioneerTextSequence(836, 9, materials.outroauctioneertext);
-    doAuctioneerTextSequence(836, 9);
+    doAuctioneerTextSequence(836, 90, materials.outroauctioneertext);
+    doAuctioneerTextSequence(836);
+    setAuctioneerTextOpacity(844, 6, 1, 0, 1/16);
     toggleUiPanels(853, "on");
-    materials.sideauctioneertext.set(map, {_CurrentTexture: 13}, 853)
-    materials.outroauctioneertext.set(map, {_CurrentTexture: 13}, 853)
 }
 
 await Promise.all([

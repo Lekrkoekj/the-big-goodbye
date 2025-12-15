@@ -3,6 +3,7 @@ Shader "Lekrkoekj/TransparentTextShader"
     Properties
     {
         _CurrentTexture ("Current Texture", Range(0,13)) = 0
+        _Opacity("Opacity", Range(0, 1)) = 1
         _FiveHundredTwentyFive ("525", 2D) = "white" {}
         _Will ("Will", 2D) = "white" {}
         _You ("You", 2D) = "white" {}
@@ -56,6 +57,7 @@ Shader "Lekrkoekj/TransparentTextShader"
             };
 
             float _CurrentTexture;
+            float _Opacity;
             sampler2D _FiveHundredTwentyFive;
             float4 _FiveHundredTwentyFive_ST;
             sampler2D _Will;
@@ -104,6 +106,7 @@ Shader "Lekrkoekj/TransparentTextShader"
                 if(texIndex == 13) col = tex2D(_Transparent, i.uv);
 
                 col.a = 0;
+                col *= _Opacity;
                 return col;
             }
             ENDCG
