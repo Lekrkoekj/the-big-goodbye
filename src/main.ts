@@ -9,10 +9,9 @@ const prefabs = bundle.prefabs
 
 // ----------- { SCRIPT } -----------
 
-async function doMap(file: rm.DIFFICULTY_NAME) {
+async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
     const map = await rm.readDifficultyV3(pipeline, file)
 
-    const chromaOnly = file.includes("Lawless") == true ? true : false;
     console.log("Chroma only: " + chromaOnly);
 
     if(!chromaOnly) map.require("Vivify", true);
@@ -270,8 +269,8 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
      * @param beat When the event should start.
      * @param cutoff After how many beats this event should stop. Optional, event will finish in its entirety if unspecified.
      */
-    function doAuctioneerTextSequence(beat: number, cutoff: number = 0) {
-        let mat = materials.sideauctioneertext;
+    function doAuctioneerTextSequence(beat: number, cutoff: number = 0, material: rm.Material = materials.sideauctioneertext) {
+        let mat = material;
         mat.set(map, {_CurrentTexture: 0}, beat); // 525
         if(cutoff <= 4 && cutoff != 0) { mat.set(map, {_CurrentTexture: 13}, beat + cutoff); return; };
         mat.set(map, {_CurrentTexture: 1}, beat + 4); // will
@@ -511,7 +510,26 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
         }
     }
 
+
+    function setGlowParticleBrightness(beat: number, duration: number, from: number, to: number, precision: number) {
+        precision *= duration; // make the precision not per 1 beat, but scale over the entire length of the event
+        const diff = to - from;
+        
+        if(duration != 0) {
+            for (let t = 0; t <= duration; t += precision) {
+                const progress = t / duration;
+                const value = from + diff * progress;
+            
+                materials.glowparticlematerial.set(map, {_Opacity: value}, beat + t);
+            }
+        }
+        materials.glowparticlematerial.set(map, { _Opacity: to }, beat + duration);
+    }
+
     /// ---- { ENVIRONMENT } -----
+
+    // Particles
+    prefabs.mapparticles.instantiate(map, 0);
 
     // Skybox
     const skybox = prefabs.skybox.instantiate(map, 0);
@@ -640,6 +658,8 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     materials.auctioneertext4.set(map , {_CurrentTexture: 13}, 0);
     materials.auctioneertext5.set(map , {_CurrentTexture: 13}, 0);
     materials.sideauctioneertext.set(map, {_CurrentTexture: 13}, 0);
+    materials.outroauctioneertext.set(map, {_CurrentTexture: 13}, 0);
+    materials.glowparticlematerial.set(map, {_Opacity: 0}, 0);
 
     materials.skyboxmaterial.set(map, { _DayNightCycle: 0 }, 0); // day/night cycle
     materials.lampmaterial.set(map, { _DayNightCycle: 0 }, 0);
@@ -686,9 +706,9 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
             disableNoteGravity: true,
             spawnEffect: false,
             uninteractable: true,
-            animation: {
-                localRotation: [[0, 0, 0, 0]]
-            }
+            // animation: {
+            //     localRotation: [[0, 0, 0, 0]]
+            // }
         })
     });
     rm.assignObjectPrefab(map, {
@@ -955,7 +975,7 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     //     }
     // });
     
-    placeTextObjects(0, 15, 7, 0.5, 0.5, -2.5, 0.02, 0.1, 30);
+    placeTextObjects(0, 20, 7, 0.5, 0.5, -2.5, 0.02, 0.1, 30);
     toggleUiPanels(0, "off");
 
     doActioneerTextSequenceBeforeFlood();
@@ -1002,20 +1022,21 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     materials.sideauctioneertext.set(map, {_CurrentTexture: 13}, 427)
 
     // Day/Night Cycles for entire song - overall song structure
-    setDayNightCycle(75, 17, 0, 0.125, 1/16);       // Intro - full beat comes in
-    setDayNightCycle(92, 10, 0.125, 0.4, 1/16);    // ^
-    setDayNightCycle(102, 4, 0.4, 0.8, 1/16);       // ^
-    setDayNightCycle(106.5, 0.5, 0.8, 1, 1/16);     // ^ 
-    setDayNightCycle(231, 4, 0.65, 0, 1/16);        // Pre-Chorus 1 - song goes quieter, first chorus at night
-    setDayNightCycle(393, 2, 0, 1, 1/16);           // Post-Chorus - beat comes back in, also verse 2/chorus 2 at day
-    setDayNightCycle(475, 10, 1, 0.5, 1/16)         // Verse 2 - go slightly darker before chorus 2
-    setDayNightCycle(488, 3, 0.5, 1, 1/16)          // Chorus 2 - go to day again for chorus 2
-    setDayNightCycle(707, 43, 0, 1, 1/16)          // Bridge - very slowly get lighter until it's suddenly dark
-    setDayNightCycle(750.5, 1, 1, -1, 1/16)         // Bridge/Drop - Suddenly turn pitch black
+    setDayNightCycle(75, 17, 0, 0.125, 1/16);                       // Intro - full beat comes in
+    setDayNightCycle(92, 10, 0.125, 0.4, 1/16);                     // ^
+    setDayNightCycle(102, 4, 0.4, 0.8, 1/16);                       // ^
+    setDayNightCycle(106.5, 0.5, 0.8, 1, 1/16);                     // ^ 
+    setDayNightCycle(231, 4, 0.65, 0, 1/16);                        // Pre-Chorus 1 - song goes quieter, first chorus at night
+    setDayNightCycle(393, 2, 0, 1, 1/16);                           // Post-Chorus - beat comes back in, also verse 2/chorus 2 at day
+    setDayNightCycle(475, 10, 1, 0.5, 1/16)                         // Verse 2 - go slightly darker before chorus 2
+    setDayNightCycle(488, 3, 0.5, 1, 1/16)                          // Chorus 2 - go to day again for chorus 2
+    setDayNightCycle(626, 2, 0.5, 0, 1/16)                          // Bridge - go dark
+    setDayNightCycle(707, 43, 0, 1, 1/16)                           // Bridge - very slowly get lighter until it's suddenly dark
+    setDayNightCycle(750.5, 1, 1, -1, 1/16)                         // Bridge/Drop - Suddenly turn pitch black
     materials.runwaymaterial.set(map, {_DayNightCycle: -1}, 751);
-    setDayNightCycle(756, 0.5, -1, 0, 1/16)         // Drop - go to normal night
-    setDayNightCycle(848, 5, 0, 1, 1/16)            // Drop/Outro - getting brighter at the end of the drop
-    setDayNightCycle(921, 3, 1, -0.5, 1/16)         // End - finish at night
+    setDayNightCycle(756, 0.5, -1, 0, 1/16)                         // Drop - go to normal night
+    setDayNightCycle(848, 5, 0, 1, 1/16)                            // Drop/Outro - getting brighter at the end of the drop
+    setDayNightCycle(921, 3, 0.25, -0.5, 1/16)                      // End - finish at night
 
     // Day/night cycles - other animations
     setDayNightCycle(109, 3, 1.25, 1, 1/16);
@@ -1059,9 +1080,18 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     setDayNightCycle(581, 3, 1.25, 1, 1/16);
     setDayNightCycle(589, 3, 1.25, 1, 1/16);
     setDayNightCycle(597, 3, 1.25, 1, 1/16);
-    setDayNightCycle(603, 2, 0.25, 0, 1/16);
-    setDayNightCycle(607, 2, 0.25, 0, 1/16);
-    setDayNightCycle(611, 3, 0.4, 0, 1/16);
+    setDayNightCycle(603, 2, 1, 0.5, 1/16);
+    setDayNightCycle(607, 2, 1, 0.5, 1/16);
+    setDayNightCycle(611, 3, 1, 0.5, 1/16);
+    setDayNightCycle(817, 2, 0, 0.5, 1/16);
+    setDayNightCycle(820, 0.5, 0.5, 0, 1/8);
+    setDayNightCycle(885, 0.75, 1, 0.5, 1/8);
+    setDayNightCycle(886, 0.75, 1, 0.5, 1/8);
+    setDayNightCycle(887, 0.75, 1, 0.5, 1/8);
+    setDayNightCycle(888, 3, 1, 0.75, 1/16);
+    setDayNightCycle(901, 3, 1, 0.5, 1/16);
+    setDayNightCycle(905, 3, 1, 0.5, 1/16);
+    setDayNightCycle(909, 2, 1, 0.25, 1/16);
     
     // Cover art brightness for entire song
     setCoverArtBrightness(109, 3, 10, 3, 1/8)
@@ -1140,6 +1170,39 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
     transitionAllCoverArt(551, 0.25, 1.25, "off");      // ^
     transitionAllCoverArt(554.5, 0.125, 0.25, "on");    // ^
     transitionAllCoverArt(613, 0.25, 0.5, "off");       // Chorus 2 end
+
+    // Glow particles for entire song
+    setGlowParticleBrightness(109, 3, 0.5, 0, 1/16);
+    setGlowParticleBrightness(117, 3, 0.5, 0, 1/16);
+    setGlowParticleBrightness(125, 3, 0.5, 0, 1/16);
+    setGlowParticleBrightness(141, 3, 0.25, 0, 1/16);
+    setGlowParticleBrightness(173, 3, 0.25, 0, 1/16);
+    setGlowParticleBrightness(243, 1, 0.25, 0.25, 1/1);
+    setGlowParticleBrightness(355, 1, 0.25, 0, 1/8);
+    setGlowParticleBrightness(397, 3, 0.5, 0, 1/16);
+    setGlowParticleBrightness(405, 3, 0.5, 0, 1/16);
+    setGlowParticleBrightness(413, 3, 0.5, 0, 1/16);
+    setGlowParticleBrightness(421, 3, 0.5, 0, 1/16);
+    setGlowParticleBrightness(433, 3, 0.75, 0, 1/16);
+    setGlowParticleBrightness(449, 3, 0.75, 0, 1/16);
+    setGlowParticleBrightness(465, 3, 0.75, 0, 1/16);
+    setGlowParticleBrightness(493, 3, 1, 0, 1/16);
+    setGlowParticleBrightness(501, 3, 1, 0, 1/16);
+    setGlowParticleBrightness(509, 3, 1, 0, 1/16);
+    setGlowParticleBrightness(517, 3, 1, 0, 1/16);
+    setGlowParticleBrightness(525, 3, 1, 0, 1/16);
+    setGlowParticleBrightness(533, 3, 1, 0, 1/16);
+    setGlowParticleBrightness(541, 3, 1, 0, 1/16);
+    setGlowParticleBrightness(549, 3, 1, 0, 1/16);
+    setGlowParticleBrightness(557, 3, 1, 0, 1/16);
+    setGlowParticleBrightness(565, 3, 1, 0, 1/16);
+    setGlowParticleBrightness(573, 3, 1, 0, 1/16);
+    setGlowParticleBrightness(581, 3, 1, 0, 1/16);
+    setGlowParticleBrightness(589, 3, 1, 0, 1/16);
+    setGlowParticleBrightness(597, 3, 1, 0, 1/16);
+    setGlowParticleBrightness(788, 1, 1, 1, 1/1);
+    setGlowParticleBrightness(851, 2, 1, 0.5, 1/16);
+    setGlowParticleBrightness(898, 2, 0.5, 0, 1/16);
 
     // Drop
     transitionCoverArt(materials.coverart5material, 756, 0.75, "on");
@@ -1227,10 +1290,42 @@ async function doMap(file: rm.DIFFICULTY_NAME) {
 
     transitionAllCoverArt(787, 0.125, 0.25, "on");
     transitionAllCoverArt(921, 0.5, 1, "off"); // end
+
+    // Darker colors for bridge
+    map.colorNotes.forEach(note => {
+        if(note.beat >= 627 && note.beat <= 752 && !note.track.array.includes("noteShadowsFull") && !note.track.array.includes("noteShadowsHalf") && !note.track.array.includes("noteShadowsFaint")) {
+            note.noteJumpMovementSpeed = 14;
+            note.reactionTime = 700;
+            if(note.color == rm.NoteColor.RED) note.chromaColor = [0.351, 0.412, 0.114]
+            else if(note.color == rm.NoteColor.BLUE) note.chromaColor = [0.249, 0.498, 0.62]
+        }
+    })
+    map.allNotes.forEach(note => {
+        if(note.beat >= 627 && note.beat <= 752 && !note.track.array.includes("noteShadowsFull") && !note.track.array.includes("noteShadowsHalf") && !note.track.array.includes("noteShadowsFaint")) {
+            note.noteJumpMovementSpeed = 14;
+            note.reactionTime = 700;
+        }
+    })
+
+    // Outro auctioneer particles
+    toggleUiPanels(751.5, "off");
+    doAuctioneerTextSequence(788, 90, materials.outroauctioneertext);
+    doAuctioneerTextSequence(788);
+    doAuctioneerTextSequence(804, 90, materials.outroauctioneertext);
+    doAuctioneerTextSequence(804);
+    doAuctioneerTextSequence(820, 90, materials.outroauctioneertext);
+    doAuctioneerTextSequence(820);
+    doAuctioneerTextSequence(836, 9, materials.outroauctioneertext);
+    doAuctioneerTextSequence(836, 9);
+    toggleUiPanels(853, "on");
+    materials.sideauctioneertext.set(map, {_CurrentTexture: 13}, 853)
+    materials.outroauctioneertext.set(map, {_CurrentTexture: 13}, 853)
 }
 
 await Promise.all([
-    doMap('ExpertPlusStandard')
+    doMap("ExpertPlusStandard"),
+    doMap("ExpertStandard"),
+    doMap("ExpertPlusOneSaber"),
 ])
 
 // ----------- { OUTPUT } -----------
