@@ -2107,6 +2107,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 960336639495373107, guid: 5cf55c87816c04546998432b9be3a84f,
         type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 960336639495373107, guid: 5cf55c87816c04546998432b9be3a84f,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -270
       objectReference: {fileID: 0}
@@ -2208,6 +2213,61 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1982930400730972860, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982930400730972860, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982930400730972860, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982930400730972860, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.materialCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982930400730972860, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5221717552540443928, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5221717552540443928, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5221717552540443928, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5221717552540443928, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5221717552540443928, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.materialCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5221717552540443928, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 7295826736029920756, guid: 4ff514d019ac2fb4a94397647660516d,
         type: 3}
       propertyPath: m_Name
@@ -2217,6 +2277,81 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130370134644442560, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130370134644442560, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130370134644442560, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130370134644442560, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.materialCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130370134644442560, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 8967826024964770560, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8967826024964770560, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8967826024964770560, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8967826024964770560, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.materialCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8967826024964770560, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 9138491650763529524, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9138491650763529524, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9138491650763529524, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9138491650763529524, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.materialCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9138491650763529524, guid: 4ff514d019ac2fb4a94397647660516d,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ff514d019ac2fb4a94397647660516d, type: 3}

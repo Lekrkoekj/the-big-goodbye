@@ -545,10 +545,10 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
     /// ---- { ENVIRONMENT } -----
 
     // Particles
-    prefabs.mapparticles.instantiate(map, 0);
+    if(!chromaOnly) prefabs.mapparticles.instantiate(map, 0);
 
     // Skybox
-    const skybox = prefabs.skybox.instantiate(map, 0);
+    if(!chromaOnly) prefabs.skybox.instantiate(map, 0);
 
     // Moon
     rm.environment(map, {
@@ -590,7 +590,7 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
     clouds.scale = [3, 3, 3]
 
     // Left UI Panel
-    rm.environment(map, {
+    if(!chromaOnly) rm.environment(map, {
         id: "LeftPanel",
         lookupMethod: "EndsWith",
         localPosition: [-3, 1, 5],
@@ -599,7 +599,7 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
     })
 
     // Right UI Panel
-    rm.environment(map, {
+    if(!chromaOnly) rm.environment(map, {
         id: "RightPanel",
         lookupMethod: "EndsWith",
         localPosition: [3, 1, 5],
@@ -608,12 +608,12 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
     })
 
     // Assign all notes to a track
-    map.allNotes.forEach(note => {
+    if(!chromaOnly) map.allNotes.forEach(note => {
         note.track.add("allNotes")
     })
 
     // Apply custom note prefab to all notes
-    rm.assignObjectPrefab(map, {
+    if(!chromaOnly) rm.assignObjectPrefab(map, {
         colorNotes: {
             track: "allNotes",
             asset: prefabs.customnote.path,
@@ -633,149 +633,155 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
     })
 
     // Intro Auctioneer Side objects
-    let leftAuctioneerTextIntro = prefabs.sideauctioneertext.instantiate(map, 0)
-    leftAuctioneerTextIntro.localPosition = [-2.75, 1.5, 4.5]
-    leftAuctioneerTextIntro.localRotation = [-270, -20, 180]
-    let rightAuctioneerTextIntro = prefabs.sideauctioneertext.instantiate(map, 0)
-    rightAuctioneerTextIntro.localPosition = [2.75, 1.5, 4.5]
-    rightAuctioneerTextIntro.localRotation = [-270, 20, 180]
+    if(!chromaOnly) {
+        const leftAuctioneerTextIntro = prefabs.sideauctioneertext.instantiate(map, 0)
+        leftAuctioneerTextIntro.localPosition = [-2.75, 1.5, 4.5]
+        leftAuctioneerTextIntro.localRotation = [-270, -20, 180]
+        const rightAuctioneerTextIntro = prefabs.sideauctioneertext.instantiate(map, 0)
+        rightAuctioneerTextIntro.localPosition = [2.75, 1.5, 4.5]
+        rightAuctioneerTextIntro.localRotation = [-270, 20, 180]
+    }
 
     // Static Environment Prefabs/Materials
-    prefabs.runway.instantiate(map, 0);
-    prefabs.grassplane.instantiate(map, 0);
-    prefabs.coverart1.instantiate(map, 0);
-    prefabs.coverart2.instantiate(map, 0);
-    prefabs.coverart3.instantiate(map, 0);
-    prefabs.coverart4.instantiate(map, 0);
-    prefabs.coverart5.instantiate(map, 0);
-    prefabs.coverart6.instantiate(map, 0);
-    prefabs.coverart7.instantiate(map, 0);
-    prefabs.house.instantiate(map, 0);
-    prefabs.lampleft1.instantiate(map, 0);
-    prefabs.lampleft2.instantiate(map, 0);
-    prefabs.lampleft3.instantiate(map, 0);
-    prefabs.lampright1.instantiate(map, 0);
-    prefabs.lampright2.instantiate(map, 0);
-    prefabs.lampright3.instantiate(map, 0);
-    prefabs.trees.instantiate(map, 0);
-    prefabs.rocks.instantiate(map, 0);
-    prefabs.grass.instantiate(map, 0);
-    prefabs.bushes.instantiate(map, 0);
-    materials.coverart1material.set(map, {_CurrentFrame: 1}, 0); // reset cover art material to invisible first frame
-    materials.coverart2material.set(map, {_CurrentFrame: 1}, 0);
-    materials.coverart3material.set(map, {_CurrentFrame: 1}, 0);
-    materials.coverart4material.set(map, {_CurrentFrame: 1}, 0);
-    materials.coverart5material.set(map, {_CurrentFrame: 1}, 0);
-    materials.coverart6material.set(map, {_CurrentFrame: 1}, 0);
-    materials.coverart7material.set(map, {_CurrentFrame: 1}, 0);
-    materials.auctioneertext1.set(map , {_CurrentTexture: 13}, 0); 
-    materials.auctioneertext2.set(map , {_CurrentTexture: 13}, 0);
-    materials.auctioneertext3.set(map , {_CurrentTexture: 13}, 0);
-    materials.auctioneertext4.set(map , {_CurrentTexture: 13}, 0);
-    materials.auctioneertext5.set(map , {_CurrentTexture: 13}, 0);
-    materials.sideauctioneertext.set(map, {_CurrentTexture: 13}, 0);
-    materials.outroauctioneertext.set(map, {_CurrentTexture: 13}, 0);
-    materials.glowparticlematerial.set(map, {_Opacity: 0}, 0);
+    if(!chromaOnly) {
+        prefabs.runway.instantiate(map, 0);
+        prefabs.grassplane.instantiate(map, 0);
+        prefabs.coverart1.instantiate(map, 0);
+        prefabs.coverart2.instantiate(map, 0);
+        prefabs.coverart3.instantiate(map, 0);
+        prefabs.coverart4.instantiate(map, 0);
+        prefabs.coverart5.instantiate(map, 0);
+        prefabs.coverart6.instantiate(map, 0);
+        prefabs.coverart7.instantiate(map, 0);
+        prefabs.house.instantiate(map, 0);
+        prefabs.lampleft1.instantiate(map, 0);
+        prefabs.lampleft2.instantiate(map, 0);
+        prefabs.lampleft3.instantiate(map, 0);
+        prefabs.lampright1.instantiate(map, 0);
+        prefabs.lampright2.instantiate(map, 0);
+        prefabs.lampright3.instantiate(map, 0);
+        prefabs.trees.instantiate(map, 0);
+        prefabs.rocks.instantiate(map, 0);
+        prefabs.grass.instantiate(map, 0);
+        prefabs.bushes.instantiate(map, 0);
+        materials.coverart1material.set(map, {_CurrentFrame: 1}, 0); // reset cover art material to invisible first frame
+        materials.coverart2material.set(map, {_CurrentFrame: 1}, 0);
+        materials.coverart3material.set(map, {_CurrentFrame: 1}, 0);
+        materials.coverart4material.set(map, {_CurrentFrame: 1}, 0);
+        materials.coverart5material.set(map, {_CurrentFrame: 1}, 0);
+        materials.coverart6material.set(map, {_CurrentFrame: 1}, 0);
+        materials.coverart7material.set(map, {_CurrentFrame: 1}, 0);
+        materials.auctioneertext1.set(map , {_CurrentTexture: 13}, 0); 
+        materials.auctioneertext2.set(map , {_CurrentTexture: 13}, 0);
+        materials.auctioneertext3.set(map , {_CurrentTexture: 13}, 0);
+        materials.auctioneertext4.set(map , {_CurrentTexture: 13}, 0);
+        materials.auctioneertext5.set(map , {_CurrentTexture: 13}, 0);
+        materials.sideauctioneertext.set(map, {_CurrentTexture: 13}, 0);
+        materials.outroauctioneertext.set(map, {_CurrentTexture: 13}, 0);
+        materials.glowparticlematerial.set(map, {_Opacity: 0}, 0);
 
-    materials.skyboxmaterial.set(map, { _DayNightCycle: 0 }, 0); // day/night cycle
-    materials.lampmaterial.set(map, { _DayNightCycle: 0 }, 0);
-    materials.grassplanematerial.set(map, { _DayNightCycle: 0 }, 0);
-    materials.grassmaterial3.set(map, { _DayNightCycle: 0 }, 0);
-    materials.treematerial1.set(map, { _DayNightCycle: 0 }, 0);
-    materials.treematerial2.set(map, { _DayNightCycle: 0 }, 0);
-    materials.treematerial3.set(map, { _DayNightCycle: 0 }, 0);
-    materials.rockmaterial1.set(map, { _DayNightCycle: 0 }, 0);
-    materials.rockmaterial2.set(map, { _DayNightCycle: 0 }, 0);
-    materials.rockmaterial3.set(map, { _DayNightCycle: 0 }, 0);
-    materials.rockmaterial4.set(map, { _DayNightCycle: 0 }, 0);
-    materials.treetrunkmaterial.set(map, { _DayNightCycle: 0 }, 0);
-    materials.bushbigmaterial.set(map, { _DayNightCycle: 0 }, 0);
-    materials.bushflowermaterial.set(map, { _DayNightCycle: 0 }, 0);
-    materials.bushmed2material.set(map, { _DayNightCycle: 0 }, 0);
-    materials.bushmedmaterial.set(map, { _DayNightCycle: 0 }, 0);
-    materials.runwaymaterial.set(map, {_DayNightCycle: 0}, 0);
-    materials["housematerial awning"].set(map, { _DayNightCycle: 0 }, 0);
-    materials["housematerial floor"].set(map, { _DayNightCycle: 0 }, 0);
-    materials["housematerial main"].set(map, { _DayNightCycle: 0 }, 0);
-    materials["housematerial roofline"].set(map, { _DayNightCycle: 0 }, 0);
-    materials["housematerial windows"].set(map, { _DayNightCycle: 0 }, 0);
+        materials.skyboxmaterial.set(map, { _DayNightCycle: 0 }, 0); // day/night cycle
+        materials.lampmaterial.set(map, { _DayNightCycle: 0 }, 0);
+        materials.grassplanematerial.set(map, { _DayNightCycle: 0 }, 0);
+        materials.grassmaterial3.set(map, { _DayNightCycle: 0 }, 0);
+        materials.treematerial1.set(map, { _DayNightCycle: 0 }, 0);
+        materials.treematerial2.set(map, { _DayNightCycle: 0 }, 0);
+        materials.treematerial3.set(map, { _DayNightCycle: 0 }, 0);
+        materials.rockmaterial1.set(map, { _DayNightCycle: 0 }, 0);
+        materials.rockmaterial2.set(map, { _DayNightCycle: 0 }, 0);
+        materials.rockmaterial3.set(map, { _DayNightCycle: 0 }, 0);
+        materials.rockmaterial4.set(map, { _DayNightCycle: 0 }, 0);
+        materials.treetrunkmaterial.set(map, { _DayNightCycle: 0 }, 0);
+        materials.bushbigmaterial.set(map, { _DayNightCycle: 0 }, 0);
+        materials.bushflowermaterial.set(map, { _DayNightCycle: 0 }, 0);
+        materials.bushmed2material.set(map, { _DayNightCycle: 0 }, 0);
+        materials.bushmedmaterial.set(map, { _DayNightCycle: 0 }, 0);
+        materials.runwaymaterial.set(map, {_DayNightCycle: 0}, 0);
+        materials["housematerial awning"].set(map, { _DayNightCycle: 0 }, 0);
+        materials["housematerial floor"].set(map, { _DayNightCycle: 0 }, 0);
+        materials["housematerial main"].set(map, { _DayNightCycle: 0 }, 0);
+        materials["housematerial roofline"].set(map, { _DayNightCycle: 0 }, 0);
+        materials["housematerial windows"].set(map, { _DayNightCycle: 0 }, 0);
+    }
 
     // Note shadows 
-    const shadowPositions = new Set();
-    map.allNotes.forEach(note => {
-        // Create a unique key for this shadow position
-        const key = `${note.beat}-${note.x}`;
+    if(!chromaOnly) {
+        const shadowPositions = new Set();
+        map.allNotes.forEach(note => {
+            // Create a unique key for this shadow position
+            const key = `${note.beat}-${note.x}`;
 
-        // If a shadow for this column & beat was already spawned → skip
-        if (shadowPositions.has(key)) return;
-        shadowPositions.add(key);
-        let trackName = "noteShadowsFull";
-        if(note.y == 1) trackName = "noteShadowsHalf"
-        else if(note.y == 2) trackName = "noteShadowsFaint"
-        rm.colorNote(map, {
-            beat: note.beat,
-            x: note.x,
-            y: 0,
-            track: trackName,
-            fake: true,
-            disableNoteLook: true,
-            disableNoteGravity: true,
-            spawnEffect: false,
-            uninteractable: true,
-            // animation: {
-            //     localRotation: [[0, 0, 0, 0]]
-            // }
+            // If a shadow for this column & beat was already spawned → skip
+            if (shadowPositions.has(key)) return;
+            shadowPositions.add(key);
+            let trackName = "noteShadowsFull";
+            if(note.y == 1) trackName = "noteShadowsHalf"
+            else if(note.y == 2) trackName = "noteShadowsFaint"
+            rm.colorNote(map, {
+                beat: note.beat,
+                x: note.x,
+                y: 0,
+                track: trackName,
+                fake: true,
+                disableNoteLook: true,
+                disableNoteGravity: true,
+                spawnEffect: false,
+                uninteractable: true,
+                // animation: {
+                //     localRotation: [[0, 0, 0, 0]]
+                // }
+            })
+        });
+        rm.assignObjectPrefab(map, {
+            colorNotes: {
+                track: "noteShadowsFull",
+                asset: prefabs["custom note shadow full"].path,
+            },
+            chainHeads: {
+                track: "noteShadowsFull",
+                asset: prefabs["custom note shadow full"].path,
+            },
+            chainLinks: {
+                track: "noteShadowsFull",
+                asset: prefabs["custom note shadow full"].path,
+            },
         })
-    });
-    rm.assignObjectPrefab(map, {
-        colorNotes: {
-            track: "noteShadowsFull",
-            asset: prefabs["custom note shadow full"].path,
-        },
-        chainHeads: {
-            track: "noteShadowsFull",
-            asset: prefabs["custom note shadow full"].path,
-        },
-        chainLinks: {
-            track: "noteShadowsFull",
-            asset: prefabs["custom note shadow full"].path,
-        },
-    })
-    rm.assignObjectPrefab(map, {
-        colorNotes: {
-            track: "noteShadowsHalf",
-            asset: prefabs["custom note shadow half"].path,
-        },
-        chainHeads: {
-            track: "noteShadowsHalf",
-            asset: prefabs["custom note shadow half"].path,
-        },
-        chainLinks: {
-            track: "noteShadowsHalf",
-            asset: prefabs["custom note shadow half"].path,
-        },
-    })
-    rm.assignObjectPrefab(map, {
-        colorNotes: {
-            track: "noteShadowsFaint",
-            asset: prefabs["custom note shadow faint"].path,
-        },
-        chainHeads: {
-            track: "noteShadowsFaint",
-            asset: prefabs["custom note shadow faint"].path,
-        },
-        chainLinks: {
-            track: "noteShadowsFaint",
-            asset: prefabs["custom note shadow faint"].path,
-        },
-    })
+        rm.assignObjectPrefab(map, {
+            colorNotes: {
+                track: "noteShadowsHalf",
+                asset: prefabs["custom note shadow half"].path,
+            },
+            chainHeads: {
+                track: "noteShadowsHalf",
+                asset: prefabs["custom note shadow half"].path,
+            },
+            chainLinks: {
+                track: "noteShadowsHalf",
+                asset: prefabs["custom note shadow half"].path,
+            },
+        })
+        rm.assignObjectPrefab(map, {
+            colorNotes: {
+                track: "noteShadowsFaint",
+                asset: prefabs["custom note shadow faint"].path,
+            },
+            chainHeads: {
+                track: "noteShadowsFaint",
+                asset: prefabs["custom note shadow faint"].path,
+            },
+            chainLinks: {
+                track: "noteShadowsFaint",
+                asset: prefabs["custom note shadow faint"].path,
+            },
+        })
+    }
 
     // Laser positions
     setLaserPositions("left");
     setLaserPositions("right");
 
     // Top window light
-    rm.geometry(map, {
+    if(!chromaOnly) rm.geometry(map, {
         type: "Cube",
         material: {
             shader: "OpaqueLight"
@@ -791,7 +797,7 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
     })
 
     // Bottom window light
-    rm.geometry(map, {
+    if(!chromaOnly) rm.geometry(map, {
         type: "Cube",
         material: {
             shader: "OpaqueLight"
@@ -807,7 +813,7 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
     })
 
     // Left lantern light 1
-    rm.geometry(map, {
+    if(!chromaOnly) rm.geometry(map, {
         type: "Cylinder",
         material: {
             shader: "OpaqueLight"
@@ -824,7 +830,7 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
     })
 
     // Left lantern light 2
-    rm.geometry(map, {
+    if(!chromaOnly) rm.geometry(map, {
         type: "Cylinder",
         material: {
             shader: "OpaqueLight"
@@ -841,7 +847,7 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
     })
 
     // Left lantern light 3
-    rm.geometry(map, {
+    if(!chromaOnly)  rm.geometry(map, {
         type: "Cylinder",
         material: {
             shader: "OpaqueLight"
@@ -858,7 +864,7 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
     })
 
     // Right lantern light 1
-    rm.geometry(map, {
+    if(!chromaOnly) rm.geometry(map, {
         type: "Cylinder",
         material: {
             shader: "OpaqueLight"
@@ -875,7 +881,7 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
     })
 
     // Right lantern light 2
-    rm.geometry(map, {
+    if(!chromaOnly) rm.geometry(map, {
         type: "Cylinder",
         material: {
             shader: "OpaqueLight"
@@ -892,7 +898,7 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
     })
 
     // Right lantern light 3
-    rm.geometry(map, {
+    if(!chromaOnly)  rm.geometry(map, {
         type: "Cylinder",
         material: {
             shader: "OpaqueLight"
@@ -909,7 +915,7 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
     })
 
     // Environment Removals
-    rm.environmentRemoval(map, [
+    if(!chromaOnly) rm.environmentRemoval(map, [
         "Rain",
         "Water",
         "LeftRail",
@@ -924,423 +930,380 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
 
     /// ---- { EVENTS } -----
 
-    // Intro: Presents, AJR Logo, The Big Goodbye Text
-    const introAnimation = prefabs.introanimation.instantiate(map, 6);
-    introAnimation.destroyObject(26);
+    if(!chromaOnly) {
+        // Intro: Presents, AJR Logo, The Big Goodbye Text
+        const introAnimation = prefabs.introanimation.instantiate(map, 6);
+        introAnimation.destroyObject(26);
+        
+        placeTextObjects(0, 20, 7, 0.5, 0.5, -2.5, 0.02, 0.1, 30);
+        toggleUiPanels(0, "off");
 
-    // Intro: AJR logo
-    // const ajrLogo = prefabs.ajrlogo.instantiate(map, {
-    //     beat: 6,
-    //     track: "AJRLogo",
-    //     scale: [0, 0, 0],
-    // })
-    // rm.animateTrack(map, {
-    //     beat: 6,
-    //     duration: 9,
-    //     track: "AJRLogo",
-    //     animation: {
-    //         position: [
-    //             [0, 1.5, 7, 0],
-    //             [0, 1.75, 7, 0.11, "easeOutBack"],
-    //             [0, 1.875, 5.75, 1]
-    //         ],
-    //         scale: [
-    //             [0, 0, 0, 0],
-    //             [0.1058433, 0.1058433, 0.1058433, 0.11],
-    //             [0.1058433, 0.1058433, 0.1058433, 0.75],
-    //             [0, 0, 0, 1]
-    //         ],
-    //         rotation: [
-    //             [-270, 0, 180, 0],
-    //             [-270, 0, 180, 0.8],
-    //             [-630, -180, 180, 0.95]
-    //         ]
-    //     }
-    // });
-    // ajrLogo.destroyObject(15);
+        doActioneerTextSequenceBeforeFlood();
 
-    // // Intro: The Big Goodbye text
-    // const tbgText = prefabs.thebiggoodbyetext.instantiate(map, {
-    //     beat: 7,
-    //     track: "TBGText",
-    //     scale: [0, 0, 0]
-    // }) // AJR Logo
+        randomizeAuctioneerTexts(32, 0);
+        randomizeAuctioneerTexts(32.5, 1);
+        randomizeAuctioneerTexts(33, 2);
+        randomizeAuctioneerTexts(33.5, 3);
+        randomizeAuctioneerTexts(34, 4);    
 
-    // // AJR logo animation
-    // rm.animateTrack(map, {
-    //     beat: 7,
-    //     duration: 8,
-    //     track: "TBGText",
-    //     animation: {
-    //         position: [
-    //             [0, 0.75, 7, 0],
-    //             [0, 1.032, 7, 0.11, "easeOutBack"],
-    //             [0, 1.25, 5.75, 1]
-    //         ],
-    //         scale: [
-    //             [0, 0, 0, 0],
-    //             [0.01, 0.01, 0.01, 0.11],
-    //             [0.01, 0.01, 0.01, 0.8],
-    //             [0, 0, 0, 1]
-    //         ],
-    //         rotation: [
-    //             [0, 0, 0, 0],
-    //             [0, 0, 0, 0.9],
-    //             [0, -180, 0, 0.95]
-    //         ]
-    //     }
-    // });
-    
-    placeTextObjects(0, 20, 7, 0.5, 0.5, -2.5, 0.02, 0.1, 30);
-    toggleUiPanels(0, "off");
+        // Intro: auctioneer texts
+        doAuctioneerTextSequence(43); 
+        doAuctioneerTextSequence(59);
+        doAuctioneerTextSequence(75);
+        doAuctioneerTextSequence(91);
+        doAuctioneerTextSequence(107);
+        doAuctioneerTextSequence(123, 9);
 
-    doActioneerTextSequenceBeforeFlood();
+        for(let i = 34; i < 38; i += 0.25) {
+            randomizeAuctioneerTexts(i);
+        }
+        for(let i = 38; i < 42; i += 0.125) {
+            randomizeAuctioneerTexts(i);
+        }
 
-    randomizeAuctioneerTexts(32, 0);
-    randomizeAuctioneerTexts(32.5, 1);
-    randomizeAuctioneerTexts(33, 2);
-    randomizeAuctioneerTexts(33.5, 3);
-    randomizeAuctioneerTexts(34, 4);    
+        removeTextObjects(39.5, 2.5);
 
-    // Intro: auctioneer texts
-    doAuctioneerTextSequence(43); 
-    doAuctioneerTextSequence(59);
-    doAuctioneerTextSequence(75);
-    doAuctioneerTextSequence(91);
-    doAuctioneerTextSequence(107);
-    doAuctioneerTextSequence(123, 9);
+        // Verse starts
+        materials.sideauctioneertext.set(map, {_CurrentTexture: 13}, 139)
+        toggleUiPanels(139, "on");
 
-    for(let i = 34; i < 38; i += 0.25) {
-        randomizeAuctioneerTexts(i);
+        // Auctioneer text during verse 1
+        toggleUiPanels(171, "off");
+        doAuctioneerTextSequence(171, 7);
+        toggleUiPanels(178, "on");
+        materials.sideauctioneertext.set(map, {_CurrentTexture: 13}, 178)
+
+        // Auctioneer text during post-chorus
+        toggleUiPanels(379, "off");
+        doAuctioneerTextSequence(379);
+        doAuctioneerTextSequence(395);
+        doAuctioneerTextSequence(411);
+        toggleUiPanels(427, "on");
+        materials.sideauctioneertext.set(map, {_CurrentTexture: 13}, 427)
+
+        // Day/Night Cycles for entire song - overall song structure
+        setDayNightCycle(75, 17, 0, 0.125, 1/16);                       // Intro - full beat comes in
+        setDayNightCycle(92, 10, 0.125, 0.4, 1/16);                     // ^
+        setDayNightCycle(102, 4, 0.4, 0.8, 1/16);                       // ^
+        setDayNightCycle(106.5, 0.5, 0.8, 1, 1/16);                     // ^ 
+        setDayNightCycle(231, 4, 0.65, 0, 1/16);                        // Pre-Chorus 1 - song goes quieter, first chorus at night
+        setDayNightCycle(393, 2, 0, 1, 1/16);                           // Post-Chorus - beat comes back in, also verse 2/chorus 2 at day
+        setDayNightCycle(475, 10, 1, 0.5, 1/16)                         // Verse 2 - go slightly darker before chorus 2
+        setDayNightCycle(488, 3, 0.5, 1, 1/16)                          // Chorus 2 - go to day again for chorus 2
+        setDayNightCycle(626, 2, 0.5, 0, 1/16)                          // Bridge - go dark
+        setDayNightCycle(707, 43, 0, 1, 1/16)                           // Bridge - very slowly get lighter until it's suddenly dark
+        setDayNightCycle(750.5, 1, 1, -1, 1/16)                         // Bridge/Drop - Suddenly turn pitch black
+        materials.runwaymaterial.set(map, {_DayNightCycle: -1}, 751);
+        setDayNightCycle(756, 0.5, -1, 0, 1/16)                         // Drop - go to normal night
+        setDayNightCycle(848, 5, 0, 1, 1/16)                            // Drop/Outro - getting brighter at the end of the drop
+        setDayNightCycle(921, 3, 0.25, -0.5, 1/16)                      // End - finish at night
+
+        // Day/night cycles - other animations
+        setDayNightCycle(109, 3, 1.25, 1, 1/16);
+        setDayNightCycle(117, 3, 1.25, 1, 1/16);
+        setDayNightCycle(125, 3, 1.25, 1, 1/16);
+        setDayNightCycle(132, 6.5, 1, 0.75, 1/16);
+        setDayNightCycle(139, 0, 1, 1, 1/1);
+        setDayNightCycle(141, 3, 1.125, 1, 1/16);
+        setDayNightCycle(173, 3, 1.125, 1, 1/16);
+        setDayNightCycle(203, 3.5, 1.125, 0.65, 1/16);
+        setDayNightCycle(207, 3.5, 1.125, 0.65, 1/16);
+        setDayNightCycle(211, 8, 1.125, 0.5, 1/16);
+        setDayNightCycle(219, 3.5, 1.125, 0.65, 1/16);
+        setDayNightCycle(223, 3.5, 1.125, 0.65, 1/16);
+        setDayNightCycle(227, 4, 1.125, 0.65, 1/16);
+        setDayNightCycle(355, 2, 0.25, 0, 1/16);
+        setDayNightCycle(359, 2, 0.25, 0, 1/16);
+        setDayNightCycle(363, 3, 0.4, 0, 1/16);
+        setDayNightCycle(397, 3, 1.25, 1, 1/16);
+        setDayNightCycle(405, 3, 1.25, 1, 1/16);
+        setDayNightCycle(413, 3, 1.25, 1, 1/16);
+        setDayNightCycle(421, 3, 1.25, 1, 1/16);
+        setDayNightCycle(433, 3, 1.25, 1, 1/16);
+        setDayNightCycle(449, 3, 1.25, 1, 1/16);
+        setDayNightCycle(465, 3, 1.25, 1, 1/16);
+        setDayNightCycle(478, 3, 1, 0.49, 1/16);
+        setDayNightCycle(482, 3, 0.8, 0.5, 1/16);
+        setDayNightCycle(493, 3, 1.25, 1, 1/16);
+        setDayNightCycle(501, 3, 1.25, 1, 1/16);
+        setDayNightCycle(509, 3, 1.25, 1, 1/16);
+        setDayNightCycle(517, 3, 1.25, 1, 1/16);
+        setDayNightCycle(525, 3, 1.25, 1, 1/16);
+        setDayNightCycle(533, 3, 1.25, 1, 1/16);
+        setDayNightCycle(541, 3, 1.25, 1, 1/16);
+        setDayNightCycle(549, 3, 1.25, 1, 1/16);
+        setDayNightCycle(552, 3, 1, 0.75, 1/16);
+        setDayNightCycle(555, 1, 1.125, 1, 1/16);
+        setDayNightCycle(557, 3, 1.25, 1, 1/16);
+        setDayNightCycle(565, 3, 1.25, 1, 1/16);
+        setDayNightCycle(573, 3, 1.25, 1, 1/16);
+        setDayNightCycle(581, 3, 1.25, 1, 1/16);
+        setDayNightCycle(589, 3, 1.25, 1, 1/16);
+        setDayNightCycle(597, 3, 1.25, 1, 1/16);
+        setDayNightCycle(603, 2, 1, 0.5, 1/16);
+        setDayNightCycle(607, 2, 1, 0.5, 1/16);
+        setDayNightCycle(611, 3, 1, 0.5, 1/16);
+        setDayNightCycle(817, 2, 0, 0.5, 1/16);
+        setDayNightCycle(820, 0.5, 0.5, 0, 1/8);
+        setDayNightCycle(885, 0.75, 1, 0.5, 1/8);
+        setDayNightCycle(886, 0.75, 1, 0.5, 1/8);
+        setDayNightCycle(887, 0.75, 1, 0.5, 1/8);
+        setDayNightCycle(888, 3, 1, 0.75, 1/16);
+        setDayNightCycle(901, 3, 1, 0.5, 1/16);
+        setDayNightCycle(905, 3, 1, 0.5, 1/16);
+        setDayNightCycle(909, 2, 1, 0.25, 1/16);
+        
+        // Cover art brightness for entire song
+        setCoverArtBrightness(109, 3, 10, 3, 1/8)
+        setCoverArtBrightness(117, 3, 10, 3, 1/8)
+        setCoverArtBrightness(125, 3, 10, 3, 1/8)
+        setCoverArtBrightness(141, 3, 10, 3, 1/8)
+        setCoverArtBrightness(173, 3, 10, 3, 1/8)
+
+        coverArtBrightnessOnBeat(379, 10, 3);
+        coverArtBrightnessOnBeat(387, 10, 3);
+        coverArtBrightnessOnBeat(395, 10, 3);
+        coverArtBrightnessOnBeat(403, 10, 3);
+        coverArtBrightnessOnBeat(411, 10, 3);
+        coverArtBrightnessOnBeat(419, 10, 3);
+        coverArtBrightnessOnBeat(427, 10, 3);
+        coverArtBrightnessOnBeat(435, 10, 3);
+        coverArtBrightnessOnBeat(443, 10, 3);
+        coverArtBrightnessOnBeat(451, 10, 3);
+        coverArtBrightnessOnBeat(459, 10, 3);
+        coverArtBrightnessOnBeat(467, 10, 3);
+        coverArtBrightnessOnBeat(491, 10, 3);
+        coverArtBrightnessOnBeat(499, 10, 3);
+        coverArtBrightnessOnBeat(507, 10, 3);
+        coverArtBrightnessOnBeat(515, 10, 3);
+        coverArtBrightnessOnBeat(523, 10, 3);
+        coverArtBrightnessOnBeat(531, 10, 3);
+        coverArtBrightnessOnBeat(539, 10, 3);
+        coverArtBrightnessOnBeat(547, 10, 3);
+        coverArtBrightnessOnBeat(555, 10, 3);
+        coverArtBrightnessOnBeat(563, 10, 3);
+        coverArtBrightnessOnBeat(571, 10, 3);
+        coverArtBrightnessOnBeat(579, 10, 3);
+        coverArtBrightnessOnBeat(587, 10, 3);
+        coverArtBrightnessOnBeat(595, 10, 3);
+
+        coverArtBrightnessOnBeat(788, 13, 5);
+        coverArtBrightnessOnBeat(796, 13, 5);
+        coverArtBrightnessOnBeat(804, 13, 5);
+        coverArtBrightnessOnBeat(812, 13, 5);
+        coverArtBrightnessOnBeat(820, 13, 5);
+        coverArtBrightnessOnBeat(828, 13, 5);
+        coverArtBrightnessOnBeat(836, 13, 5);
+        coverArtBrightnessOnBeat(844, 13, 5);
+
+        // Cover art transitions for entire song
+        transitionAllCoverArt(106.5, 0.125, 0.5, "on");     // Intro
+        transitionAllCoverArt(133, 0.25, 0.75, "off");      // Before Verse 1
+        transitionAllCoverArt(139, 1, 0.75, "on");          // Verse 1
+        transitionAllCoverArt(139, 1, 0.75, "on");          // ^
+        transitionAllCoverArt(147, 1, 0.75, "off");         // ^
+        transitionAllCoverArt(155, 1, 0.75, "on");          // ^
+        transitionAllCoverArt(163, 1, 0.75, "off");         // ^
+        transitionAllCoverArt(171, 1, 0.75, "on");          // ^
+        transitionAllCoverArt(179, 1, 0.75, "off");         // ^
+        transitionAllCoverArt(187, 1, 0.75, "on");          // ^
+        transitionAllCoverArt(195, 1, 0.75, "off");         // ^
+        transitionAllCoverArt(243, 1, 0.75, "on");          // Chorus 1 quiet
+        transitionAllCoverArt(244, 1, 0.75, "off");         // ^
+        transitionAllCoverArt(251, 1, 0.75, "on");          // ^
+        transitionAllCoverArt(252, 1, 0.75, "off");         // ^
+        transitionAllCoverArt(259, 1, 0.75, "on");          // ^
+        transitionAllCoverArt(260, 1, 0.75, "off");         // ^
+        transitionAllCoverArt(267, 1, 0.75, "on");          // ^
+        transitionAllCoverArt(268, 1, 0.75, "off");         // ^
+        transitionAllCoverArt(275, 1, 0.75, "on");          // ^
+        transitionAllCoverArt(276, 1, 0.75, "off");         // ^
+        transitionAllCoverArt(283, 1, 0.75, "on");          // ^
+        transitionAllCoverArt(284, 1, 0.75, "off");         // ^
+        transitionAllCoverArt(291, 1, 0.75, "on");          // ^
+        transitionAllCoverArt(292, 1, 0.75, "off");         // ^
+        transitionAllCoverArt(306, 0.125, 0.75, "on");      // Chorus 1 louder
+        transitionAllCoverArt(363, 0.25, 0.75, "off");      // Chorus 1 end
+        transitionAllCoverArt(379, 0, 0, "on");             // Post-Chorus
+        transitionAllCoverArt(475, 1, 1.25, "off");         // Verse 2 end
+        transitionAllCoverArt(489.5, 0.25, 0.25, "on");     // Chorus 2
+        transitionAllCoverArt(551, 0.25, 1.25, "off");      // ^
+        transitionAllCoverArt(554.5, 0.125, 0.25, "on");    // ^
+        transitionAllCoverArt(613, 0.25, 0.5, "off");       // Chorus 2 end
+
+        // Glow particles for entire song
+        setGlowParticleBrightness(109, 3, 0.5, 0, 1/16);
+        setGlowParticleBrightness(117, 3, 0.5, 0, 1/16);
+        setGlowParticleBrightness(125, 3, 0.5, 0, 1/16);
+        setGlowParticleBrightness(141, 3, 0.25, 0, 1/16);
+        setGlowParticleBrightness(173, 3, 0.25, 0, 1/16);
+        setGlowParticleBrightness(243, 1, 0.25, 0.25, 1/1);
+        setGlowParticleBrightness(355, 1, 0.25, 0, 1/8);
+        setGlowParticleBrightness(397, 3, 0.5, 0, 1/16);
+        setGlowParticleBrightness(405, 3, 0.5, 0, 1/16);
+        setGlowParticleBrightness(413, 3, 0.5, 0, 1/16);
+        setGlowParticleBrightness(421, 3, 0.5, 0, 1/16);
+        setGlowParticleBrightness(433, 3, 0.75, 0, 1/16);
+        setGlowParticleBrightness(449, 3, 0.75, 0, 1/16);
+        setGlowParticleBrightness(465, 3, 0.75, 0, 1/16);
+        setGlowParticleBrightness(493, 3, 1, 0, 1/16);
+        setGlowParticleBrightness(501, 3, 1, 0, 1/16);
+        setGlowParticleBrightness(509, 3, 1, 0, 1/16);
+        setGlowParticleBrightness(517, 3, 1, 0, 1/16);
+        setGlowParticleBrightness(525, 3, 1, 0, 1/16);
+        setGlowParticleBrightness(533, 3, 1, 0, 1/16);
+        setGlowParticleBrightness(541, 3, 1, 0, 1/16);
+        setGlowParticleBrightness(549, 3, 1, 0, 1/16);
+        setGlowParticleBrightness(557, 3, 1, 0, 1/16);
+        setGlowParticleBrightness(565, 3, 1, 0, 1/16);
+        setGlowParticleBrightness(573, 3, 1, 0, 1/16);
+        setGlowParticleBrightness(581, 3, 1, 0, 1/16);
+        setGlowParticleBrightness(589, 3, 1, 0, 1/16);
+        setGlowParticleBrightness(597, 3, 1, 0, 1/16);
+        setGlowParticleBrightness(788, 1, 1, 1, 1/1);
+        setGlowParticleBrightness(851, 2, 1, 0.5, 1/16);
+        setGlowParticleBrightness(898, 2, 0.5, 0, 1/16);
+
+        // Drop
+        transitionCoverArt(materials.coverart5material, 756, 0.75, "on");
+
+        transitionCoverArt(materials.coverart5material, 757.5, 0.25, "off");
+        transitionCoverArt(materials.coverart1material, 757.5, 0.25, "on");
+
+        transitionCoverArt(materials.coverart1material, 758, 0.75, "off");
+        transitionCoverArt(materials.coverart2material, 758, 0.75, "on");
+        
+        transitionCoverArt(materials.coverart2material, 759, 0.75, "off");
+        transitionCoverArt(materials.coverart3material, 759, 0.75, "on");
+
+        transitionCoverArt(materials.coverart3material, 760.5, 0.25, "off");
+        transitionCoverArt(materials.coverart5material, 760.5, 0.25, "on");
+
+        transitionCoverArt(materials.coverart5material, 761, 0.75, "off");
+        transitionCoverArt(materials.coverart1material, 761, 0.75, "on");
+        
+        transitionCoverArt(materials.coverart1material, 762, 0.75, "off");
+        transitionCoverArt(materials.coverart2material, 762, 0.75, "on");
+
+        transitionCoverArt(materials.coverart2material, 764, 0.75, "off");
+        transitionCoverArt(materials.coverart3material, 764, 0.75, "on");
+
+        transitionCoverArt(materials.coverart3material, 765.5, 0.25, "off");
+        transitionCoverArt(materials.coverart2material, 765.5, 0.25, "on");
+
+        transitionCoverArt(materials.coverart2material, 766, 0.75, "off");
+        transitionCoverArt(materials.coverart1material, 766, 0.75, "on");
+
+        transitionCoverArt(materials.coverart1material, 767, 0.75, "off");
+        transitionCoverArt(materials.coverart5material, 767, 0.75, "on");
+
+        transitionCoverArt(materials.coverart5material, 768.5, 0.25, "off");
+        transitionCoverArt(materials.coverart3material, 768.5, 0.25, "on");
+
+        transitionCoverArt(materials.coverart3material, 769, 0.75, "off");
+        transitionCoverArt(materials.coverart2material, 769, 0.75, "on");
+
+        transitionCoverArt(materials.coverart2material, 770, 0.75, "off");
+        transitionCoverArt(materials.coverart1material, 770, 0.75, "on");
+
+        transitionCoverArt(materials.coverart1material, 756 + 16, 0.75, "off");
+        transitionCoverArt(materials.coverart5material, 756 + 16, 0.75, "on");
+
+        transitionCoverArt(materials.coverart5material, 757.5 + 16, 0.25, "off");
+        transitionCoverArt(materials.coverart1material, 757.5 + 16, 0.25, "on");
+
+        transitionCoverArt(materials.coverart1material, 758 + 16, 0.75, "off");
+        transitionCoverArt(materials.coverart2material, 758 + 16, 0.75, "on");
+        
+        transitionCoverArt(materials.coverart2material, 759 + 16, 0.75, "off");
+        transitionCoverArt(materials.coverart3material, 759 + 16, 0.75, "on");
+
+        transitionCoverArt(materials.coverart3material, 760.5 + 16, 0.25, "off");
+        transitionCoverArt(materials.coverart5material, 760.5 + 16, 0.25, "on");
+
+        transitionCoverArt(materials.coverart5material, 761 + 16, 0.75, "off");
+        transitionCoverArt(materials.coverart1material, 761 + 16, 0.75, "on");
+        
+        transitionCoverArt(materials.coverart1material, 762 + 16, 0.75, "off");
+        transitionCoverArt(materials.coverart2material, 762 + 16, 0.75, "on");
+
+        transitionCoverArt(materials.coverart2material, 764 + 16, 0.75, "off");
+        transitionCoverArt(materials.coverart3material, 764 + 16, 0.75, "on");
+
+        transitionCoverArt(materials.coverart3material, 765.5 + 16, 0.25, "off");
+        transitionCoverArt(materials.coverart2material, 765.5 + 16, 0.25, "on");
+
+        transitionCoverArt(materials.coverart2material, 766 + 16, 0.75, "off");
+        transitionCoverArt(materials.coverart1material, 766 + 16, 0.75, "on");
+
+        transitionCoverArt(materials.coverart1material, 767 + 16, 0.75, "off");
+        transitionCoverArt(materials.coverart5material, 767 + 16, 0.75, "on");
+
+        transitionCoverArt(materials.coverart5material, 768.5 + 16, 0.25, "off");
+        transitionCoverArt(materials.coverart3material, 768.5 + 16, 0.25, "on");
+
+        transitionCoverArt(materials.coverart3material, 769 + 16, 0.75, "off");
+        transitionCoverArt(materials.coverart2material, 769, 0.75, "on");
+
+        transitionCoverArt(materials.coverart2material, 770 + 16, 0.75, "off");
+        transitionCoverArt(materials.coverart1material, 770 + 16, 0.75, "on");
+
+        transitionAllCoverArt(787, 0.125, 0.25, "on");
+        transitionAllCoverArt(921, 0.5, 1, "off"); // end
+
+        // Outro auctioneer particles
+        toggleUiPanels(751.5, "off");
+        doAuctioneerTextSequence(788, 90, materials.outroauctioneertext);
+        doAuctioneerTextSequence(788);
+        doAuctioneerTextSequence(804, 90, materials.outroauctioneertext);
+        doAuctioneerTextSequence(804);
+        doAuctioneerTextSequence(820, 90, materials.outroauctioneertext);
+        doAuctioneerTextSequence(820);
+        doAuctioneerTextSequence(836, 90, materials.outroauctioneertext);
+        doAuctioneerTextSequence(836);
+        setAuctioneerTextOpacity(844, 6, 1, 0, 1/16);
+        toggleUiPanels(853, "on");
     }
-    for(let i = 38; i < 42; i += 0.125) {
-        randomizeAuctioneerTexts(i);
-    }
-
-    removeTextObjects(39.5, 2.5);
-
-    // Verse starts
-    materials.sideauctioneertext.set(map, {_CurrentTexture: 13}, 139)
-    toggleUiPanels(139, "on");
-
-    // Auctioneer text during verse 1
-    toggleUiPanels(171, "off");
-    doAuctioneerTextSequence(171, 7);
-    toggleUiPanels(178, "on");
-    materials.sideauctioneertext.set(map, {_CurrentTexture: 13}, 178)
-
-    // Auctioneer text during post-chorus
-    toggleUiPanels(379, "off");
-    doAuctioneerTextSequence(379);
-    doAuctioneerTextSequence(395);
-    doAuctioneerTextSequence(411);
-    toggleUiPanels(427, "on");
-    materials.sideauctioneertext.set(map, {_CurrentTexture: 13}, 427)
-
-    // Day/Night Cycles for entire song - overall song structure
-    setDayNightCycle(75, 17, 0, 0.125, 1/16);                       // Intro - full beat comes in
-    setDayNightCycle(92, 10, 0.125, 0.4, 1/16);                     // ^
-    setDayNightCycle(102, 4, 0.4, 0.8, 1/16);                       // ^
-    setDayNightCycle(106.5, 0.5, 0.8, 1, 1/16);                     // ^ 
-    setDayNightCycle(231, 4, 0.65, 0, 1/16);                        // Pre-Chorus 1 - song goes quieter, first chorus at night
-    setDayNightCycle(393, 2, 0, 1, 1/16);                           // Post-Chorus - beat comes back in, also verse 2/chorus 2 at day
-    setDayNightCycle(475, 10, 1, 0.5, 1/16)                         // Verse 2 - go slightly darker before chorus 2
-    setDayNightCycle(488, 3, 0.5, 1, 1/16)                          // Chorus 2 - go to day again for chorus 2
-    setDayNightCycle(626, 2, 0.5, 0, 1/16)                          // Bridge - go dark
-    setDayNightCycle(707, 43, 0, 1, 1/16)                           // Bridge - very slowly get lighter until it's suddenly dark
-    setDayNightCycle(750.5, 1, 1, -1, 1/16)                         // Bridge/Drop - Suddenly turn pitch black
-    materials.runwaymaterial.set(map, {_DayNightCycle: -1}, 751);
-    setDayNightCycle(756, 0.5, -1, 0, 1/16)                         // Drop - go to normal night
-    setDayNightCycle(848, 5, 0, 1, 1/16)                            // Drop/Outro - getting brighter at the end of the drop
-    setDayNightCycle(921, 3, 0.25, -0.5, 1/16)                      // End - finish at night
-
-    // Day/night cycles - other animations
-    setDayNightCycle(109, 3, 1.25, 1, 1/16);
-    setDayNightCycle(117, 3, 1.25, 1, 1/16);
-    setDayNightCycle(125, 3, 1.25, 1, 1/16);
-    setDayNightCycle(132, 6.5, 1, 0.75, 1/16);
-    setDayNightCycle(139, 0, 1, 1, 1/1);
-    setDayNightCycle(141, 3, 1.125, 1, 1/16);
-    setDayNightCycle(173, 3, 1.125, 1, 1/16);
-    setDayNightCycle(203, 3.5, 1.125, 0.65, 1/16);
-    setDayNightCycle(207, 3.5, 1.125, 0.65, 1/16);
-    setDayNightCycle(211, 8, 1.125, 0.5, 1/16);
-    setDayNightCycle(219, 3.5, 1.125, 0.65, 1/16);
-    setDayNightCycle(223, 3.5, 1.125, 0.65, 1/16);
-    setDayNightCycle(227, 4, 1.125, 0.65, 1/16);
-    setDayNightCycle(355, 2, 0.25, 0, 1/16);
-    setDayNightCycle(359, 2, 0.25, 0, 1/16);
-    setDayNightCycle(363, 3, 0.4, 0, 1/16);
-    setDayNightCycle(397, 3, 1.25, 1, 1/16);
-    setDayNightCycle(405, 3, 1.25, 1, 1/16);
-    setDayNightCycle(413, 3, 1.25, 1, 1/16);
-    setDayNightCycle(421, 3, 1.25, 1, 1/16);
-    setDayNightCycle(433, 3, 1.25, 1, 1/16);
-    setDayNightCycle(449, 3, 1.25, 1, 1/16);
-    setDayNightCycle(465, 3, 1.25, 1, 1/16);
-    setDayNightCycle(478, 3, 1, 0.49, 1/16);
-    setDayNightCycle(482, 3, 0.8, 0.5, 1/16);
-    setDayNightCycle(493, 3, 1.25, 1, 1/16);
-    setDayNightCycle(501, 3, 1.25, 1, 1/16);
-    setDayNightCycle(509, 3, 1.25, 1, 1/16);
-    setDayNightCycle(517, 3, 1.25, 1, 1/16);
-    setDayNightCycle(525, 3, 1.25, 1, 1/16);
-    setDayNightCycle(533, 3, 1.25, 1, 1/16);
-    setDayNightCycle(541, 3, 1.25, 1, 1/16);
-    setDayNightCycle(549, 3, 1.25, 1, 1/16);
-    setDayNightCycle(552, 3, 1, 0.75, 1/16);
-    setDayNightCycle(555, 1, 1.125, 1, 1/16);
-    setDayNightCycle(557, 3, 1.25, 1, 1/16);
-    setDayNightCycle(565, 3, 1.25, 1, 1/16);
-    setDayNightCycle(573, 3, 1.25, 1, 1/16);
-    setDayNightCycle(581, 3, 1.25, 1, 1/16);
-    setDayNightCycle(589, 3, 1.25, 1, 1/16);
-    setDayNightCycle(597, 3, 1.25, 1, 1/16);
-    setDayNightCycle(603, 2, 1, 0.5, 1/16);
-    setDayNightCycle(607, 2, 1, 0.5, 1/16);
-    setDayNightCycle(611, 3, 1, 0.5, 1/16);
-    setDayNightCycle(817, 2, 0, 0.5, 1/16);
-    setDayNightCycle(820, 0.5, 0.5, 0, 1/8);
-    setDayNightCycle(885, 0.75, 1, 0.5, 1/8);
-    setDayNightCycle(886, 0.75, 1, 0.5, 1/8);
-    setDayNightCycle(887, 0.75, 1, 0.5, 1/8);
-    setDayNightCycle(888, 3, 1, 0.75, 1/16);
-    setDayNightCycle(901, 3, 1, 0.5, 1/16);
-    setDayNightCycle(905, 3, 1, 0.5, 1/16);
-    setDayNightCycle(909, 2, 1, 0.25, 1/16);
-    
-    // Cover art brightness for entire song
-    setCoverArtBrightness(109, 3, 10, 3, 1/8)
-    setCoverArtBrightness(117, 3, 10, 3, 1/8)
-    setCoverArtBrightness(125, 3, 10, 3, 1/8)
-    setCoverArtBrightness(141, 3, 10, 3, 1/8)
-    setCoverArtBrightness(173, 3, 10, 3, 1/8)
-
-    coverArtBrightnessOnBeat(379, 10, 3);
-    coverArtBrightnessOnBeat(387, 10, 3);
-    coverArtBrightnessOnBeat(395, 10, 3);
-    coverArtBrightnessOnBeat(403, 10, 3);
-    coverArtBrightnessOnBeat(411, 10, 3);
-    coverArtBrightnessOnBeat(419, 10, 3);
-    coverArtBrightnessOnBeat(427, 10, 3);
-    coverArtBrightnessOnBeat(435, 10, 3);
-    coverArtBrightnessOnBeat(443, 10, 3);
-    coverArtBrightnessOnBeat(451, 10, 3);
-    coverArtBrightnessOnBeat(459, 10, 3);
-    coverArtBrightnessOnBeat(467, 10, 3);
-    coverArtBrightnessOnBeat(491, 10, 3);
-    coverArtBrightnessOnBeat(499, 10, 3);
-    coverArtBrightnessOnBeat(507, 10, 3);
-    coverArtBrightnessOnBeat(515, 10, 3);
-    coverArtBrightnessOnBeat(523, 10, 3);
-    coverArtBrightnessOnBeat(531, 10, 3);
-    coverArtBrightnessOnBeat(539, 10, 3);
-    coverArtBrightnessOnBeat(547, 10, 3);
-    coverArtBrightnessOnBeat(555, 10, 3);
-    coverArtBrightnessOnBeat(563, 10, 3);
-    coverArtBrightnessOnBeat(571, 10, 3);
-    coverArtBrightnessOnBeat(579, 10, 3);
-    coverArtBrightnessOnBeat(587, 10, 3);
-    coverArtBrightnessOnBeat(595, 10, 3);
-
-    coverArtBrightnessOnBeat(788, 13, 5);
-    coverArtBrightnessOnBeat(796, 13, 5);
-    coverArtBrightnessOnBeat(804, 13, 5);
-    coverArtBrightnessOnBeat(812, 13, 5);
-    coverArtBrightnessOnBeat(820, 13, 5);
-    coverArtBrightnessOnBeat(828, 13, 5);
-    coverArtBrightnessOnBeat(836, 13, 5);
-    coverArtBrightnessOnBeat(844, 13, 5);
-
-    // Cover art transitions for entire song
-    transitionAllCoverArt(106.5, 0.125, 0.5, "on");     // Intro
-    transitionAllCoverArt(133, 0.25, 0.75, "off");      // Before Verse 1
-    transitionAllCoverArt(139, 1, 0.75, "on");          // Verse 1
-    transitionAllCoverArt(139, 1, 0.75, "on");          // ^
-    transitionAllCoverArt(147, 1, 0.75, "off");         // ^
-    transitionAllCoverArt(155, 1, 0.75, "on");          // ^
-    transitionAllCoverArt(163, 1, 0.75, "off");         // ^
-    transitionAllCoverArt(171, 1, 0.75, "on");          // ^
-    transitionAllCoverArt(179, 1, 0.75, "off");         // ^
-    transitionAllCoverArt(187, 1, 0.75, "on");          // ^
-    transitionAllCoverArt(195, 1, 0.75, "off");         // ^
-    transitionAllCoverArt(243, 1, 0.75, "on");          // Chorus 1 quiet
-    transitionAllCoverArt(244, 1, 0.75, "off");         // ^
-    transitionAllCoverArt(251, 1, 0.75, "on");          // ^
-    transitionAllCoverArt(252, 1, 0.75, "off");         // ^
-    transitionAllCoverArt(259, 1, 0.75, "on");          // ^
-    transitionAllCoverArt(260, 1, 0.75, "off");         // ^
-    transitionAllCoverArt(267, 1, 0.75, "on");          // ^
-    transitionAllCoverArt(268, 1, 0.75, "off");         // ^
-    transitionAllCoverArt(275, 1, 0.75, "on");          // ^
-    transitionAllCoverArt(276, 1, 0.75, "off");         // ^
-    transitionAllCoverArt(283, 1, 0.75, "on");          // ^
-    transitionAllCoverArt(284, 1, 0.75, "off");         // ^
-    transitionAllCoverArt(291, 1, 0.75, "on");          // ^
-    transitionAllCoverArt(292, 1, 0.75, "off");         // ^
-    transitionAllCoverArt(306, 0.125, 0.75, "on");      // Chorus 1 louder
-    transitionAllCoverArt(363, 0.25, 0.75, "off");      // Chorus 1 end
-    transitionAllCoverArt(379, 0, 0, "on");             // Post-Chorus
-    transitionAllCoverArt(475, 1, 1.25, "off");         // Verse 2 end
-    transitionAllCoverArt(489.5, 0.25, 0.25, "on");     // Chorus 2
-    transitionAllCoverArt(551, 0.25, 1.25, "off");      // ^
-    transitionAllCoverArt(554.5, 0.125, 0.25, "on");    // ^
-    transitionAllCoverArt(613, 0.25, 0.5, "off");       // Chorus 2 end
-
-    // Glow particles for entire song
-    setGlowParticleBrightness(109, 3, 0.5, 0, 1/16);
-    setGlowParticleBrightness(117, 3, 0.5, 0, 1/16);
-    setGlowParticleBrightness(125, 3, 0.5, 0, 1/16);
-    setGlowParticleBrightness(141, 3, 0.25, 0, 1/16);
-    setGlowParticleBrightness(173, 3, 0.25, 0, 1/16);
-    setGlowParticleBrightness(243, 1, 0.25, 0.25, 1/1);
-    setGlowParticleBrightness(355, 1, 0.25, 0, 1/8);
-    setGlowParticleBrightness(397, 3, 0.5, 0, 1/16);
-    setGlowParticleBrightness(405, 3, 0.5, 0, 1/16);
-    setGlowParticleBrightness(413, 3, 0.5, 0, 1/16);
-    setGlowParticleBrightness(421, 3, 0.5, 0, 1/16);
-    setGlowParticleBrightness(433, 3, 0.75, 0, 1/16);
-    setGlowParticleBrightness(449, 3, 0.75, 0, 1/16);
-    setGlowParticleBrightness(465, 3, 0.75, 0, 1/16);
-    setGlowParticleBrightness(493, 3, 1, 0, 1/16);
-    setGlowParticleBrightness(501, 3, 1, 0, 1/16);
-    setGlowParticleBrightness(509, 3, 1, 0, 1/16);
-    setGlowParticleBrightness(517, 3, 1, 0, 1/16);
-    setGlowParticleBrightness(525, 3, 1, 0, 1/16);
-    setGlowParticleBrightness(533, 3, 1, 0, 1/16);
-    setGlowParticleBrightness(541, 3, 1, 0, 1/16);
-    setGlowParticleBrightness(549, 3, 1, 0, 1/16);
-    setGlowParticleBrightness(557, 3, 1, 0, 1/16);
-    setGlowParticleBrightness(565, 3, 1, 0, 1/16);
-    setGlowParticleBrightness(573, 3, 1, 0, 1/16);
-    setGlowParticleBrightness(581, 3, 1, 0, 1/16);
-    setGlowParticleBrightness(589, 3, 1, 0, 1/16);
-    setGlowParticleBrightness(597, 3, 1, 0, 1/16);
-    setGlowParticleBrightness(788, 1, 1, 1, 1/1);
-    setGlowParticleBrightness(851, 2, 1, 0.5, 1/16);
-    setGlowParticleBrightness(898, 2, 0.5, 0, 1/16);
-
-    // Drop
-    transitionCoverArt(materials.coverart5material, 756, 0.75, "on");
-
-    transitionCoverArt(materials.coverart5material, 757.5, 0.25, "off");
-    transitionCoverArt(materials.coverart1material, 757.5, 0.25, "on");
-
-    transitionCoverArt(materials.coverart1material, 758, 0.75, "off");
-    transitionCoverArt(materials.coverart2material, 758, 0.75, "on");
-    
-    transitionCoverArt(materials.coverart2material, 759, 0.75, "off");
-    transitionCoverArt(materials.coverart3material, 759, 0.75, "on");
-
-    transitionCoverArt(materials.coverart3material, 760.5, 0.25, "off");
-    transitionCoverArt(materials.coverart5material, 760.5, 0.25, "on");
-
-    transitionCoverArt(materials.coverart5material, 761, 0.75, "off");
-    transitionCoverArt(materials.coverart1material, 761, 0.75, "on");
-    
-    transitionCoverArt(materials.coverart1material, 762, 0.75, "off");
-    transitionCoverArt(materials.coverart2material, 762, 0.75, "on");
-
-    transitionCoverArt(materials.coverart2material, 764, 0.75, "off");
-    transitionCoverArt(materials.coverart3material, 764, 0.75, "on");
-
-    transitionCoverArt(materials.coverart3material, 765.5, 0.25, "off");
-    transitionCoverArt(materials.coverart2material, 765.5, 0.25, "on");
-
-    transitionCoverArt(materials.coverart2material, 766, 0.75, "off");
-    transitionCoverArt(materials.coverart1material, 766, 0.75, "on");
-
-    transitionCoverArt(materials.coverart1material, 767, 0.75, "off");
-    transitionCoverArt(materials.coverart5material, 767, 0.75, "on");
-
-    transitionCoverArt(materials.coverart5material, 768.5, 0.25, "off");
-    transitionCoverArt(materials.coverart3material, 768.5, 0.25, "on");
-
-    transitionCoverArt(materials.coverart3material, 769, 0.75, "off");
-    transitionCoverArt(materials.coverart2material, 769, 0.75, "on");
-
-    transitionCoverArt(materials.coverart2material, 770, 0.75, "off");
-    transitionCoverArt(materials.coverart1material, 770, 0.75, "on");
-
-    transitionCoverArt(materials.coverart1material, 756 + 16, 0.75, "off");
-    transitionCoverArt(materials.coverart5material, 756 + 16, 0.75, "on");
-
-    transitionCoverArt(materials.coverart5material, 757.5 + 16, 0.25, "off");
-    transitionCoverArt(materials.coverart1material, 757.5 + 16, 0.25, "on");
-
-    transitionCoverArt(materials.coverart1material, 758 + 16, 0.75, "off");
-    transitionCoverArt(materials.coverart2material, 758 + 16, 0.75, "on");
-    
-    transitionCoverArt(materials.coverart2material, 759 + 16, 0.75, "off");
-    transitionCoverArt(materials.coverart3material, 759 + 16, 0.75, "on");
-
-    transitionCoverArt(materials.coverart3material, 760.5 + 16, 0.25, "off");
-    transitionCoverArt(materials.coverart5material, 760.5 + 16, 0.25, "on");
-
-    transitionCoverArt(materials.coverart5material, 761 + 16, 0.75, "off");
-    transitionCoverArt(materials.coverart1material, 761 + 16, 0.75, "on");
-    
-    transitionCoverArt(materials.coverart1material, 762 + 16, 0.75, "off");
-    transitionCoverArt(materials.coverart2material, 762 + 16, 0.75, "on");
-
-    transitionCoverArt(materials.coverart2material, 764 + 16, 0.75, "off");
-    transitionCoverArt(materials.coverart3material, 764 + 16, 0.75, "on");
-
-    transitionCoverArt(materials.coverart3material, 765.5 + 16, 0.25, "off");
-    transitionCoverArt(materials.coverart2material, 765.5 + 16, 0.25, "on");
-
-    transitionCoverArt(materials.coverart2material, 766 + 16, 0.75, "off");
-    transitionCoverArt(materials.coverart1material, 766 + 16, 0.75, "on");
-
-    transitionCoverArt(materials.coverart1material, 767 + 16, 0.75, "off");
-    transitionCoverArt(materials.coverart5material, 767 + 16, 0.75, "on");
-
-    transitionCoverArt(materials.coverart5material, 768.5 + 16, 0.25, "off");
-    transitionCoverArt(materials.coverart3material, 768.5 + 16, 0.25, "on");
-
-    transitionCoverArt(materials.coverart3material, 769 + 16, 0.75, "off");
-    transitionCoverArt(materials.coverart2material, 769, 0.75, "on");
-
-    transitionCoverArt(materials.coverart2material, 770 + 16, 0.75, "off");
-    transitionCoverArt(materials.coverart1material, 770 + 16, 0.75, "on");
-
-    transitionAllCoverArt(787, 0.125, 0.25, "on");
-    transitionAllCoverArt(921, 0.5, 1, "off"); // end
 
     // Darker colors for bridge
     map.colorNotes.forEach(note => {
         if(note.beat >= 627 && note.beat <= 752 && !note.track.array.includes("noteShadowsFull") && !note.track.array.includes("noteShadowsHalf") && !note.track.array.includes("noteShadowsFaint")) {
-            note.noteJumpMovementSpeed = 14;
-            note.reactionTime = 700;
+            note.noteJumpMovementSpeed = map.difficultyInfo.noteJumpMovementSpeed * 0.823529412; // based on Expert+ 17 => 14
+            note.reactionTime = note.reactionTime * 1.14566285; // based on Expert+ 611 => 700
             if(note.color == rm.NoteColor.RED) note.chromaColor = [0.351, 0.412, 0.114]
             else if(note.color == rm.NoteColor.BLUE) note.chromaColor = [0.249, 0.498, 0.62]
         }
     })
     map.allNotes.forEach(note => {
         if(note.beat >= 627 && note.beat <= 752 && !note.track.array.includes("noteShadowsFull") && !note.track.array.includes("noteShadowsHalf") && !note.track.array.includes("noteShadowsFaint")) {
-            note.noteJumpMovementSpeed = 14;
-            note.reactionTime = 700;
+            note.noteJumpMovementSpeed = map.difficultyInfo.noteJumpMovementSpeed * 0.823529412; // based on Expert+ 17 => 14
+            note.reactionTime = note.reactionTime * 1.14566285; // based on Expert+ 611 => 700
         }
     })
 
-    // Outro auctioneer particles
-    toggleUiPanels(751.5, "off");
-    doAuctioneerTextSequence(788, 90, materials.outroauctioneertext);
-    doAuctioneerTextSequence(788);
-    doAuctioneerTextSequence(804, 90, materials.outroauctioneertext);
-    doAuctioneerTextSequence(804);
-    doAuctioneerTextSequence(820, 90, materials.outroauctioneertext);
-    doAuctioneerTextSequence(820);
-    doAuctioneerTextSequence(836, 90, materials.outroauctioneertext);
-    doAuctioneerTextSequence(836);
-    setAuctioneerTextOpacity(844, 6, 1, 0, 1/16);
-    toggleUiPanels(853, "on");
+    // Convert lighting of lanterns/window to alternative objects in the base Billie environment (for non-vivify diffs)
+    if(chromaOnly) map.lightEvents.forEach(event => {
+        if(event.type == 0 && event.lightID == 5) event.lightID = 1
+        if(event.type == 0 && event.lightID == 6) event.lightID = 2
+        if(event.type == 7 && event.lightID == 5) {
+            event.lightID = 1
+            event.copy().lightID = 2
+            
+        }
+        if(event.type == 6 && event.lightID == 5) {
+            event.lightID = 1
+            event.copy().lightID = 2
+        }
+        if(event.type == 1 && event.lightID == 5) event.lightID = 1
+        if(event.type == 1 && event.lightID == 6) event.lightID = 2
+    })
 }
 
 await Promise.all([
     doMap("ExpertPlusStandard"),
     doMap("ExpertStandard"),
     doMap("ExpertPlusOneSaber"),
+    doMap("ExpertOneSaber", true)
 ])
 
 // ----------- { OUTPUT } -----------

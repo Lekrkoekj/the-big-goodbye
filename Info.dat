@@ -100,6 +100,28 @@
       "_beatmapCharacteristicName" : "OneSaber",
       "_difficultyBeatmaps" : [
         {
+          "_difficulty" : "Expert",
+          "_difficultyRank" : 7,
+          "_beatmapFilename" : "ExpertOneSaber.dat",
+          "_noteJumpMovementSpeed" : 17,
+          "_noteJumpStartBeatOffset" : -0.125,
+          "_beatmapColorSchemeIdx" : 0,
+          "_environmentNameIdx" : 0,
+          "_customData" : {
+            "_difficultyLabel" : "Expert+ (No Vivify)",
+            "_suggestions" : [
+              "Chroma"
+            ],
+            "_colorLeft" : {"r":0.522,"g":0.612,"b":0.169},
+            "_colorRight" : {"r":0.333,"g":0.659,"b":0.82},
+            "_obstacleColor" : {"r":0.925,"g":0.792,"b":0.545},
+            "_envColorLeft" : {"r":0.243,"g":0.627,"b":0.82},
+            "_envColorRight" : {"r":0.957,"g":0.588,"b":0.855},
+            "_envColorLeftBoost" : {"r":0,"g":0.871,"b":1},
+            "_envColorRightBoost" : {"r":0.702,"g":0.867,"b":0.051}
+          }
+        },
+        {
           "_difficulty" : "ExpertPlus",
           "_difficultyRank" : 9,
           "_beatmapFilename" : "ExpertPlusOneSaber.dat",
