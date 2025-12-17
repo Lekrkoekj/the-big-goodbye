@@ -1094,7 +1094,7 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
         coverArtBrightnessOnBeat(820, 13, 5);
         coverArtBrightnessOnBeat(828, 13, 5);
         coverArtBrightnessOnBeat(836, 13, 5);
-        coverArtBrightnessOnBeat(844, 13, 5);
+        coverArtBrightnessOnBeat(844, 13, 3);
 
         // Cover art transitions for entire song
         transitionAllCoverArt(106.5, 0.125, 0.5, "on");     // Intro
