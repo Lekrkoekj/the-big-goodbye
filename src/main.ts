@@ -1268,18 +1268,26 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
     // Darker colors for bridge
     map.colorNotes.forEach(note => {
         if(note.beat >= 627 && note.beat <= 752 && !note.track.array.includes("noteShadowsFull") && !note.track.array.includes("noteShadowsHalf") && !note.track.array.includes("noteShadowsFaint")) {
-            note.noteJumpMovementSpeed = map.difficultyInfo.noteJumpMovementSpeed * 0.823529412; // based on Expert+ 17 => 14
-            note.reactionTime = note.reactionTime * 1.14566285; // based on Expert+ 611 => 700
             if(note.color == rm.NoteColor.RED) note.chromaColor = [0.351, 0.412, 0.114]
             else if(note.color == rm.NoteColor.BLUE) note.chromaColor = [0.249, 0.498, 0.62]
         }
     })
-    map.allNotes.forEach(note => {
-        if(note.beat >= 627 && note.beat <= 752 && !note.track.array.includes("noteShadowsFull") && !note.track.array.includes("noteShadowsHalf") && !note.track.array.includes("noteShadowsFaint")) {
-            note.noteJumpMovementSpeed = map.difficultyInfo.noteJumpMovementSpeed * 0.823529412; // based on Expert+ 17 => 14
-            note.reactionTime = note.reactionTime * 1.14566285; // based on Expert+ 611 => 700
-        }
-    })
+    // Slower NJS/RT for Expert+ ()
+    if(!chromaOnly) {
+        if(!file.includes("ExpertPlus")) return;
+        map.allNotes.forEach(note => {
+            if(note.beat >= 627 && note.beat <= 752 && !note.track.array.includes("noteShadowsFull") && !note.track.array.includes("noteShadowsHalf") && !note.track.array.includes("noteShadowsFaint")) {
+                note.noteJumpMovementSpeed = map.difficultyInfo.noteJumpMovementSpeed * 0.823529412; // based on Expert+ 17 => 14
+                note.reactionTime = note.reactionTime * 1.14566285; // based on Expert+ 611 => 700
+            }
+        })
+        map.arcs.forEach(arc => {
+            if(arc.beat >= 627 && arc.beat <= 752) {
+                arc.noteJumpMovementSpeed = map.difficultyInfo.noteJumpMovementSpeed * 0.823529412; // based on Expert+ 17 => 14
+                arc.reactionTime = arc.reactionTime * 1.14566285; // based on Expert+ 611 => 700
+            }
+        })
+    }
 
     // Convert lighting of lanterns/window to alternative objects in the base Billie environment (for non-vivify diffs)
     if(chromaOnly) map.lightEvents.forEach(event => {
@@ -1302,7 +1310,15 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
 await Promise.all([
     doMap("ExpertPlusStandard"),
     doMap("ExpertStandard"),
+    doMap("HardStandard"),
+    doMap("NormalStandard"),
+    doMap("EasyStandard"),
     doMap("ExpertPlusOneSaber"),
+    doMap("ExpertPlusLawless", true),
+    doMap("ExpertLawless", true),
+    doMap("HardLawless", true),
+    doMap("NormalLawless", true),
+    doMap("EasyLawless", true),
     doMap("ExpertOneSaber", true)
 ])
 
