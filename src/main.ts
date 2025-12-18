@@ -664,6 +664,7 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
         prefabs.rocks.instantiate(map, 0);
         prefabs.grass.instantiate(map, 0);
         prefabs.bushes.instantiate(map, 0);
+        prefabs.animatedlyrics.instantiate(map, 0);
         materials.coverart1material.set(map, {_CurrentFrame: 1}, 0); // reset cover art material to invisible first frame
         materials.coverart2material.set(map, {_CurrentFrame: 1}, 0);
         materials.coverart3material.set(map, {_CurrentFrame: 1}, 0);
