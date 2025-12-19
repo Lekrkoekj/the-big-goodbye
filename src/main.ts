@@ -1253,8 +1253,7 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
         transitionAllCoverArt(921, 0.5, 1, "off"); // end
 
         // Outro auctioneer particles
-        toggleUiPanels(751.5, "off");
-        doAuctioneerTextSequence(788, 90, materials.outroauctioneertext);
+        toggleUiPanels(627, "off");
         doAuctioneerTextSequence(788);
         doAuctioneerTextSequence(804, 90, materials.outroauctioneertext);
         doAuctioneerTextSequence(804);
@@ -1266,11 +1265,49 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
         toggleUiPanels(853, "on");
     }
 
+    /// Just make it sound like this animated text
+    // Post-Chorus
+    const JMISLT1left = prefabs.jmisltanimator.instantiate(map, 404);
+    JMISLT1left.position = [-5, 0, 7.65];
+    JMISLT1left.destroyObject(416);
+    const JMISLT1right = prefabs.jmisltanimator.instantiate(map, 404);
+    JMISLT1right.position = [5, 0, 7.65];
+    JMISLT1right.destroyObject(416);
+    // Bridge - right
+    const JMISLT2right = prefabs.jmisltanimator.instantiate(map, 716);
+    JMISLT2right.position = [5, 0, 7.65];
+    JMISLT2right.destroyObject(728);
+    // Drop 1
+    const JMISLT3left = prefabs.jmisltanimator.instantiate(map, 781);
+    JMISLT3left.position = [-5, 0, 7.65];
+    JMISLT3left.destroyObject(792);
+    const JMISLT3right = prefabs.jmisltanimator.instantiate(map, 781);
+    JMISLT3right.position = [5, 0, 7.65];
+    JMISLT3right.destroyObject(792);
+    // Drop 2
+    const JMISLT4left = prefabs.jmisltanimator.instantiate(map, 845);
+    JMISLT4left.position = [-5, 0, 7.65];
+    JMISLT4left.destroyObject(859);
+    const JMISLT4right = prefabs.jmisltanimator.instantiate(map, 845);
+    JMISLT4right.position = [5, 0, 7.65];
+    JMISLT4right.destroyObject(859);
+    // Outro - left
+    const JMISLT5left = prefabs.jmisltanimator.instantiate(map, 878);
+    JMISLT5left.position = [-5, 0, 7.65];
+    JMISLT5left.destroyObject(890);
+
     // Darker colors for bridge
     map.colorNotes.forEach(note => {
         if(note.beat >= 627 && note.beat <= 752 && !note.track.array.includes("noteShadowsFull") && !note.track.array.includes("noteShadowsHalf") && !note.track.array.includes("noteShadowsFaint")) {
             if(note.color == rm.NoteColor.RED) note.chromaColor = [0.351, 0.412, 0.114]
-            else if(note.color == rm.NoteColor.BLUE) note.chromaColor = [0.249, 0.498, 0.62]
+            else if(note.color == rm.NoteColor.BLUE) note.chromaColor = [0.249 * 0.9, 0.498 * 0.9, 0.62 * 0.9]
+        }
+    })
+
+    // Darker walls for bridge
+    map.walls.forEach(wall => {
+        if(wall.beat >= 627 && wall.beat <= 752) {
+            wall.chromaColor = [0.725, 0.725, 0.725]
         }
     })
     // Slower NJS/RT for Expert+ ()
