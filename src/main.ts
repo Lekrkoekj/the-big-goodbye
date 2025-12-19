@@ -983,6 +983,8 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
         materials.sideauctioneertext.set(map, {_CurrentTexture: 13}, 427)
 
         // Day/Night Cycles for entire song - overall song structure
+        setDayNightCycle(0, 1, -0.5, -0.5, 1/1);                        // Start very dark
+        setDayNightCycle(10, 4, -0.5, 0, 1/16);                         // Title text - go to normal night
         setDayNightCycle(75, 17, 0, 0.125, 1/16);                       // Intro - full beat comes in
         setDayNightCycle(92, 10, 0.125, 0.4, 1/16);                     // ^
         setDayNightCycle(102, 4, 0.4, 0.8, 1/16);                       // ^
@@ -1254,6 +1256,7 @@ async function doMap(file: rm.DIFFICULTY_NAME, chromaOnly: boolean = false) {
 
         // Outro auctioneer particles
         toggleUiPanels(627, "off");
+        doAuctioneerTextSequence(788, 90, materials.outroauctioneertext);
         doAuctioneerTextSequence(788);
         doAuctioneerTextSequence(804, 90, materials.outroauctioneertext);
         doAuctioneerTextSequence(804);
