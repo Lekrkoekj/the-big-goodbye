@@ -625,7 +625,11 @@ namespace UnityEditorInternal.Enemeteen {
 
 					m_ClipPlayable.SetSampleRate(playing ? -1 : state.activeAnimationClip.frameRate);
 
+					#if UNITY_2021
+					AnimationMode.SamplePlayableGraph(m_Graph, 0, time.time);
+					#else
 					AnimationMode.SamplePlayableGraph(state.activeRootGameObject, m_Graph, 0, time.time);
+					#endif
 
 					// This will cover euler/quaternion matching in basic playable graphs only (animation clip + candidate clip).
 					AnimationUtility.SampleEulerHint(state.activeRootGameObject, state.activeAnimationClip, time.time, WrapMode.Clamp);
